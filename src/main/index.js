@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
+import http from 'http'
 
 /**
  * Set `__static` path to static files in production
@@ -10,10 +11,25 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
-let mainWindow
+let mainWindow, server
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
+
+function initServer () {
+  server = http.createServer(function (req, res) {
+    // yay
+    console.log('hewwo')
+  })
+
+  // todo: set port
+  server.listen(5000)
+}
+
+function initApp () {
+  initServer()
+  createWindow()
+}
 
 function createWindow () {
   /**
@@ -36,7 +52,7 @@ function createWindow () {
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', initApp)
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
