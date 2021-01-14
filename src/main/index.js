@@ -2,28 +2,60 @@
 
 import { app, BrowserWindow } from 'electron'
 import http from 'http'
+import serveStatic from 'serve-static'
+import path from 'path'
+import fs from 'fs-extra'
+import express from 'express'
+import io from 'socket.io'
+// import { autoUpdater } from 'electron-updater'
 
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
 if (process.env.NODE_ENV !== 'development') {
-  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+  global.__static = path.join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
-let mainWindow, server
+let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
-function initServer () {
-  server = http.createServer(function (req, res) {
-    // yay
-    console.log('hewwo')
-  })
+// Core overlay folder location
+const soothsayerWebRootServer = serveStatic(path.join(__static, 'srv'))
 
-  // todo: set port
-  server.listen(5000)
+// this can actually change based on settings. I assume it will update itself on next request.
+// init to app data
+const localFiles = app.getPath('userData')
+
+// ensure folder exists (it's the default location)
+fs.ensureDirSync(path.join(localFiles, 'themes'))
+const defaultThemeFolder = path.join(localFiles, 'themes')
+
+console.log(`Serving from ${path.join(__static, 'srv')}`)
+console.log(`Serving theme from ${defaultThemeFolder}`)
+
+// todo: load saved theme folder location
+let soothsayerThemeRootServer = serveStatic(defaultThemeFolder)
+
+// socket stuff
+const expressApp = express()
+expressApp.use(soothsayerWebRootServer)
+expressApp.use(soothsayerThemeRootServer)
+
+const socketServer = http.Server(expressApp)
+const socketIo = io(socketServer)
+
+socketIo.on('connection', (socket) => {
+  // connection event handling
+  console.log('socket connected')
+})
+
+function initServer () {
+  socketServer.listen(3005, () => {
+    console.log('Socket server initialized on port 5001')
+  })
 }
 
 function initApp () {
@@ -74,9 +106,7 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-/*
-import { autoUpdater } from 'electron-updater'
-
+/**
 autoUpdater.on('update-downloaded', () => {
   autoUpdater.quitAndInstall()
 })
@@ -84,4 +114,4 @@ autoUpdater.on('update-downloaded', () => {
 app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
- */
+*/
