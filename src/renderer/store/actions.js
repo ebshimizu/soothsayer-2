@@ -1,6 +1,7 @@
 const MUTATION = {
   REGISTER_OVERLAY: 'Register Overlay',
-  UNREGISTER_OVERLAY: 'Unregister Overlay'
+  UNREGISTER_OVERLAY: 'Unregister Overlay',
+  SET_VERSION: 'Set Version'
 }
 
 const ACTION = {

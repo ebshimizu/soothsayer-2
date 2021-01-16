@@ -99,6 +99,10 @@ ipcMain.on('update-all-state', (event, data) => {
   socketIo.emit('update', data)
 })
 
+ipcMain.on('get-version', () => {
+  mainWindow.webContents.send('set-version', app.getVersion())
+})
+
 function initServer () {
   socketServer.listen(3005, () => {
     console.log('Socket server initialized on port 3005')
@@ -115,9 +119,9 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 720,
     useContentSize: true,
-    width: 1000,
+    width: 1080,
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true

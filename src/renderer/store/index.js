@@ -11,9 +11,23 @@ export default new Vuex.Store({
     app: {},
     overlays: {},
     show: {
-      theme: ''
+      theme: '',
+      casters: [{
+        name: '',
+        social: '',
+        textSize: 'medium'
+      }]
     },
-    log: []
+    log: [],
+    version: 'uh oh'
+  },
+  getters: {
+    casterCount (state) {
+      return state.casters.length
+    },
+    version (state) {
+      return state.version
+    }
   },
   mutations: {
     [MUTATION.REGISTER_OVERLAY] (state, { id, name }) {
@@ -21,6 +35,9 @@ export default new Vuex.Store({
     },
     [MUTATION.UNREGISTER_OVERLAY] (state, id) {
       Vue.delete(state.overlays, id)
+    },
+    [MUTATION.SET_VERSION] (state, version) {
+      state.version = version
     }
   },
   actions: {

@@ -8,12 +8,13 @@ module.exports = {
     browser: true,
     node: true
   },
-  extends: 'standard',
+  extends: ['prettier', 'standard'],
   globals: {
     __static: true
   },
   plugins: [
-    'html'
+    'html',
+    'prettier'
   ],
   'rules': {
     // allow paren-less arrow functions
@@ -21,6 +22,6 @@ module.exports = {
     // allow async-await
     'generator-star-spacing': 0,
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
   }
 }
