@@ -1,6 +1,6 @@
 # soothsayer-2
 
-> An electron-vue project
+> A re-write of soothsayer 1
 
 #### Build Setup
 
