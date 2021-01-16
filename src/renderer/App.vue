@@ -15,14 +15,22 @@
       <v-list nav dense>
         <v-list-item to="/">
           <v-list-item-icon><v-icon>mdi-information</v-icon></v-list-item-icon>
-          <v-list-item-title>General Info</v-list-item-title>
+          <v-list-item-title>Cast Info</v-list-item-title>
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list nav dense>
         <v-list-item to="/settings">
           <v-list-item-icon><v-icon>mdi-cog</v-icon></v-list-item-icon>
-          <v-list-item-title>Settings</v-list-item-title>
+          <v-list-item-title>General Settings</v-list-item-title>
+        </v-list-item>
+        <v-list-item to="/theme">
+          <v-list-item-icon><v-icon>mdi-palette</v-icon></v-list-item-icon>
+          <v-list-item-title>Theme</v-list-item-title>
+        </v-list-item>
+        <v-list-item to="/keybinds">
+          <v-list-item-icon><v-icon>mdi-keyboard</v-icon></v-list-item-icon>
+          <v-list-item-title>Keybinds</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>

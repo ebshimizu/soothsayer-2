@@ -12,11 +12,24 @@ export default new Vuex.Store({
     overlays: {},
     show: {
       theme: '',
-      casters: [{
-        name: '',
-        social: '',
-        textSize: 'medium'
-      }]
+      casters: {
+        one: {
+          name: '',
+          social: '',
+          textSize: 'medium'
+        },
+        two: {
+          name: '',
+          social: '',
+          textSize: 'medium'
+        },
+        three: {
+          name: '',
+          social: '',
+          textSize: 'medium'
+        }
+      },
+      casterCount: 1
     },
     log: [],
     version: 'uh oh'
@@ -38,6 +51,13 @@ export default new Vuex.Store({
     },
     [MUTATION.SET_VERSION] (state, version) {
       state.version = version
+    },
+    [MUTATION.SET_CASTER_COUNT] (state, count) {
+      state.show.casterCount = count
+    },
+    [MUTATION.SET_CASTER_DATA] (state, casterData) {
+      // this replaces the entire object
+      Vue.set(state.show, 'casters', casterData)
     }
   },
   actions: {
@@ -50,6 +70,7 @@ export default new Vuex.Store({
       commit(MUTATION.UNREGISTER_OVERLAY, socketId)
     },
     [ACTION.UPDATE] ({ state }) {
+      // this action triggers a show state snapshot in the persistence plugin
       ipcRenderer.send('update-all-state', state.show)
     }
   }

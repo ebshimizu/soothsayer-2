@@ -7,7 +7,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'General Info',
+      name: 'Cast Info',
       component: require('@/components/GeneralInfo').default
     },
     {
