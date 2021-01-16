@@ -5,6 +5,7 @@
   "author": "Falindrith <falindrith@gmail.com>",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
+    "release": "node .electron-vue/build.js && electron-builder build --publish always",
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
@@ -16,6 +17,7 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "postinstall": "npm run lint:fix"
   },
+  "repository": "https://github.com/ebshimizu/soothsayer-2",
   "main": "./dist/electron/main.js",
   "dependencies": {
     "bufferutil": "^4.0.3",
@@ -91,6 +93,9 @@
   "build": {
     "productName": "soothsayer-2",
     "appId": "com.falindrith.soothsayer-2",
+    "publish": [
+      "github"
+    ],
     "directories": {
       "output": "build"
     },
