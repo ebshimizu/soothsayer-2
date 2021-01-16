@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import http from 'http'
 import serveStatic from 'serve-static'
 import path from 'path'
@@ -40,6 +40,9 @@ console.log(`Serving theme from ${defaultThemeFolder}`)
 let soothsayerThemeRootServer = serveStatic(defaultThemeFolder)
 
 // socket stuff
+// socket cache
+const socketCache = {}
+
 const expressApp = express()
 expressApp.use(soothsayerWebRootServer)
 expressApp.use(soothsayerThemeRootServer)
@@ -49,12 +52,56 @@ const socketIo = io(socketServer)
 
 socketIo.on('connection', (socket) => {
   // connection event handling
-  console.log('socket connected')
+  console.log(`New connection from ${socket.id}. Requesting id.`)
+
+  // add to cache
+  socketCache[socket.id] = socket
+  socket.emit('requestID')
+
+  // overlayName is a string
+  socket.on('reportID', (overlayName) => {
+    // punt to front end to continue registration
+    mainWindow.webContents.send('register-overlay', { id: socket.id, name: overlayName })
+  })
+
+  socket.on('disconnect', (reason) => {
+    mainWindow.webContents.send('unregister-overlay', socket.id)
+  })
+})
+
+// commands from front end
+ipcMain.on('change-one-theme', (event, { id, theme }) => {
+  console.log(`Updating theme for socket ${id}`)
+
+  // check that socket exists
+  if (id in socketCache) {
+    socketCache[id].emit('changeTheme', theme)
+  }
+})
+
+ipcMain.on('change-all-theme', (event, theme) => {
+  console.log('Updating all themes')
+
+  socketIo.emit('changeTheme', theme)
+})
+
+ipcMain.on('update-one-state', (event, { id, data }) => {
+  console.log(`Updating state for ${id}`)
+
+  if (id in socketCache) {
+    socketCache[id].emit('update', data)
+  }
+})
+
+ipcMain.on('update-all-state', (event, data) => {
+  console.log('Broadcasting update')
+
+  socketIo.emit('update', data)
 })
 
 function initServer () {
   socketServer.listen(3005, () => {
-    console.log('Socket server initialized on port 5001')
+    console.log('Socket server initialized on port 3005')
   })
 }
 
