@@ -6,7 +6,46 @@
         <v-card-text>
           <v-row dense>
             <v-col cols="3">
-              <v-select v-model="casterCount" :items="casterConfigs"></v-select>
+              <v-select
+                label="Caster Count"
+                v-model="casterCount"
+                :items="casterConfigs"
+                item-text="name"
+                item-value="value"
+              ></v-select>
+            </v-col>
+            <v-col cols="3">
+              <v-select
+                label="Frame Variant"
+                v-model="frameVariant"
+                :items="frameVariants"
+              >
+              </v-select>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                label="Event Logo"
+                clearable
+                append-outer-icon="mdi-folder-open"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row v-for="(caster, index) in casters" :key="index">
+            <v-col cols="7">
+              <v-text-field
+                v-model="caster.name"
+                :label="`Caster ${index + 1} Name`"
+                @input="update"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="3">
+              <v-text-field
+                v-model="caster.social"
+                :label="`Caster ${index + 1} Social`"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="2">
+              <v-select label="Text Size" v-model="caster.textSize"></v-select>
             </v-col>
           </v-row>
         </v-card-text>
@@ -16,27 +55,58 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import { MUTATION } from '../store/actions';
+import { CASTER_CONFIGS, FRAME_VARIANTS } from '../data/appDefaults';
+
 export default {
   name: 'general-info',
+  created() {
+    this.update = _.debounce(this.debouncedUpdate, 100);
+  },
   data() {
     return {
-      casters: this.$store.getters.casters,
-      casterConfigs: [
-        { name: '1', value: 1 },
-        { name: '2', value: 2 },
-        { name: '3', value: 3 },
-      ],
+      casters: this.$store.state.show.casters.map((c) => {
+        return { name: c.name, social: c.social, textSize: c.textSize };
+      }),
+      casterConfigs: CASTER_CONFIGS,
+      frameVariants: FRAME_VARIANTS,
     };
+  },
+  watch: {
+    // kinda hate this but array size is variable, and just copying the state variable for the local
+    // update has a bunch of baggage.
+    casterCount: function () {
+      this.casters = this.$store.state.show.casters.map((c) => {
+        return { name: c.name, social: c.social, textSize: c.textSize };
+      });
+    },
   },
   computed: {
     casterCount: {
       get() {
-        return this.$store.state.show.casterCount;
+        return this.$store.state.show.casters.length;
       },
       set(value) {
-        this.$store.commit(MUTATION.SET_CASTER_COUNT, value);
+        this.$store.commit(MUTATION.CHANGE_CASTER_LENGTH, value);
       },
+    },
+    frameVariant: {
+      get() {
+        return this.$store.state.show.frameVariant;
+      },
+      set(value) {
+        this.$store.commit(MUTATION.SET_SHOW_PROP, {
+          key: 'frameVariant',
+          value,
+        });
+      },
+    },
+  },
+  methods: {
+    debouncedUpdate() {
+      // send local to store
+      this.$store.commit(MUTATION.SET_CASTER_DATA, this.casters);
     },
   },
 };
