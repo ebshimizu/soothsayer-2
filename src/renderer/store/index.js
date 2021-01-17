@@ -7,7 +7,7 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { LOG_LEVEL } from '../data/appDefaults';
 import { Persistence } from './persistence';
-import _ from 'lodash';
+import _, { uniq } from 'lodash';
 
 // log helper for mutations
 function stateLog(log, message, severity) {
@@ -27,10 +27,7 @@ const defaultShowData = {
   ],
   casterCount: 1,
   frameVariant: 1,
-  eventLogo: {
-    src: '',
-    resolved: '',
-  },
+  eventLogo: '',
 };
 
 export default new Vuex.Store({
@@ -40,6 +37,7 @@ export default new Vuex.Store({
     app: {},
     overlays: {},
     show: defaultShowData,
+    imageCache: {},
     log: [],
     version: 'uh oh',
     localFiles: '',
@@ -99,7 +97,10 @@ export default new Vuex.Store({
         const dest = path.join(state.localFiles, 'img', uniqueFileName);
         fs.copyFileSync(src, dest);
 
-        Vue.set(state.show, key, { src, resolved: `/${uniqueFileName}` });
+        Vue.set(state.show, key, `/${uniqueFileName}`);
+
+        // update the cache for this element
+        Vue.set(state.imageCache, key, { src, dest });
       } catch (e) {
         stateLog(
           state.log,
@@ -108,9 +109,6 @@ export default new Vuex.Store({
         );
         console.error(e);
       }
-    },
-    [MUTATION.SET_RESOLVED_IMG_PROP](state, { key, value }) {
-      Vue.set(state.show[key], 'resolved', value);
     },
     [MUTATION.LOG](state, { message, severity }) {
       state.log.push({ message, severity, date: new Date() });

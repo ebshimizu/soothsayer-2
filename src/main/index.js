@@ -146,6 +146,21 @@ ipcMain.handle('load-state', async () => {
     delete data.log;
 
     // check for image cache here.
+    // load everything in the image cache
+    for (const key in data.imageCache) {
+      fs.copyFile(data.imageCache[key].src, data.imageCache[key].dest)
+        .then(() => {
+          console.log(
+            `Loaded image for key ${key} from ${data.imageCache[key].src}.`
+          );
+        })
+        .catch((e) => {
+          console.log(
+            `Failed to load image for key ${key} from ${data.imageCache[key].src}`
+          );
+          console.log(e);
+        });
+    }
 
     console.log(data);
 

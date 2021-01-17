@@ -97,10 +97,10 @@ export default {
     },
     eventLogo: {
       get() {
-        return this.$store.state.show.eventLogo.resolved;
+        return this.$store.state.show.eventLogo;
       },
       set(value) {
-        this.$store.commit(MUTATION.SET_RESOLVED_IMG_PROP, {
+        this.$store.commit(MUTATION.SET_SHOW_PROP, {
           key: 'eventLogo',
           value,
         });
