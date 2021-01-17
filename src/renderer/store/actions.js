@@ -4,7 +4,11 @@ const MUTATION = {
   SET_VERSION: 'Set Version',
   CHANGE_CASTER_LENGTH: 'Change Number of Casters',
   SET_CASTER_DATA: 'Set Caster Data',
-  SET_SHOW_PROP: 'Set Show Property'
+  SET_SHOW_PROP: 'Set Show Property',
+  SET_RESOLVED_IMG_PROP: 'Set Show Image Resolved Property',
+  SET_LOCAL_FILES: 'Set Local File Path',
+  SET_LOCAL_IMG: 'Set and Cache Local Image Property',
+  LOG: 'Log Message'
 };
 
 const ACTION = {

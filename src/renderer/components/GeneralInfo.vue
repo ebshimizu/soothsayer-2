@@ -27,6 +27,9 @@
                 label="Event Logo"
                 clearable
                 append-outer-icon="mdi-folder-open"
+                hint="Paste remote file URL or Load from Local File"
+                @click:append-outer="loadEventLogo"
+                v-model="eventLogo"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -58,6 +61,7 @@
 import _ from 'lodash';
 import { MUTATION } from '../store/actions';
 import { CASTER_CONFIGS, FRAME_VARIANTS } from '../data/appDefaults';
+import { browseAndLoadLocalFile } from './util';
 
 export default {
   name: 'general-info',
@@ -102,12 +106,23 @@ export default {
         });
       },
     },
+    eventLogo: {
+      get() {
+        return this.$store.state.show.eventLogo.resolved;
+      },
+      set(value) {
+        this.$store.commit(MUTATION.SET_RESOLVED_IMG_PROP, { key: 'eventLogo', value });
+      }
+    }
   },
   methods: {
     debouncedUpdate() {
       // send local to store
       this.$store.commit(MUTATION.SET_CASTER_DATA, this.casters);
     },
+    loadEventLogo() {
+      browseAndLoadLocalFile('eventLogo', this.$store);
+    }
   },
 };
 </script>

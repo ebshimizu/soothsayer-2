@@ -7,7 +7,9 @@
             <img src="~@/assets/soothsayer-logo.png" />
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title>Soothsayer v{{ $store.getters.version }}</v-list-item-title>
+            <v-list-item-title
+              >Soothsayer v{{ $store.getters.version }}</v-list-item-title
+            >
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -50,36 +52,37 @@
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
-import { MUTATION, ACTION } from './store/actions'
+import { ipcRenderer } from 'electron';
+import { MUTATION, ACTION } from './store/actions';
 
 export default {
   name: 'soothsayer-2',
-  beforeCreate () {
+  beforeCreate() {
     // add ipc hooks from main
     ipcRenderer.on('register-overlay', (event, data) => {
-      this.$store.dispatch(ACTION.INIT_OVERLAY, data)
-    })
+      this.$store.dispatch(ACTION.INIT_OVERLAY, data);
+    });
 
     ipcRenderer.on('unregister-overlay', (event, id) => {
-      this.$store.dispatch(ACTION.DISCONNECT_OVERLAY, id)
-    })
+      this.$store.dispatch(ACTION.DISCONNECT_OVERLAY, id);
+    });
 
-    ipcRenderer.on('set-version', (event, version) => {
-      this.$store.commit(MUTATION.SET_VERSION, version)
-    })
+    ipcRenderer.on('set-version', (event, { version, localFiles }) => {
+      this.$store.commit(MUTATION.SET_VERSION, version);
+      this.$store.commit(MUTATION.SET_LOCAL_FILES, localFiles);
+    });
 
-    ipcRenderer.send('get-version')
+    ipcRenderer.send('get-version');
   },
-  data () {
-    return {}
+  data() {
+    return {};
   },
   methods: {
-    update () {
-      this.$store.dispatch(ACTION.UPDATE)
-    }
-  }
-}
+    update() {
+      this.$store.dispatch(ACTION.UPDATE);
+    },
+  },
+};
 </script>
 
 <style>

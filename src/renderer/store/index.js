@@ -2,6 +2,15 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import { ipcRenderer } from 'electron';
 import { MUTATION, ACTION } from './actions';
+import fs from 'fs-extra';
+import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
+import { LOG_LEVEL } from '../data/appDefaults';
+
+// log helper for mutations
+function stateLog(log, message, severity) {
+  log.push({ message, severity, date: new Date() });
+}
 
 Vue.use(Vuex);
 
@@ -15,7 +24,10 @@ const defaultShowData = {
     },
   ],
   frameVariant: 1,
-  eventLogo: '',
+  eventLogo: {
+    src: '',
+    resolved: '',
+  },
 };
 
 export default new Vuex.Store({
@@ -26,6 +38,7 @@ export default new Vuex.Store({
     show: defaultShowData,
     log: [],
     version: 'uh oh',
+    localFiles: '',
   },
   getters: {
     version(state) {
@@ -41,6 +54,9 @@ export default new Vuex.Store({
     },
     [MUTATION.SET_VERSION](state, version) {
       state.version = version;
+    },
+    [MUTATION.SET_LOCAL_FILES](state, files) {
+      state.localFiles = files;
     },
     [MUTATION.CHANGE_CASTER_LENGTH](state, count) {
       if (count > state.show.casters.length) {
@@ -63,6 +79,36 @@ export default new Vuex.Store({
     },
     [MUTATION.SET_SHOW_PROP](state, { key, value }) {
       Vue.set(state.show, key, value);
+    },
+    // images need a src prop (the original image) and a resolved prop (the local file, if applicable)
+    // Image fields should react to @input by just writing the resolved mutation, while local files should
+    // use this one so we can properly cache the image.
+    [MUTATION.SET_LOCAL_IMG](state, { key, src }) {
+      // first, load the src
+      try {
+        const fileName = path.basename(src);
+
+        // to avoid conflicts, a guid will be pre-pended to the filename
+        const uniqueFileName = `${uuidv4()}-${fileName}`;
+
+        const dest = path.join(state.localFiles, 'img', uniqueFileName);
+        fs.copyFileSync(src, dest);
+
+        Vue.set(state.show, key, { src, resolved: `/${uniqueFileName}` });
+      } catch (e) {
+        stateLog(
+          state.log,
+          `Unable to load local image ${src}.`,
+          LOG_LEVEL.ERROR
+        );
+        console.error(e);
+      }
+    },
+    [MUTATION.SET_RESOLVED_IMG_PROP](state, { key, value }) {
+      Vue.set(state.show[key], 'resolved', value);
+    },
+    [MUTATION.LOG](state, { message, severity }) {
+      state.log.push({ message, severity, date: new Date() });
     },
   },
   actions: {
