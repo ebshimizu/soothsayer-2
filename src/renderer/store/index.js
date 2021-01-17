@@ -6,6 +6,8 @@ import fs from 'fs-extra';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { LOG_LEVEL } from '../data/appDefaults';
+import { Persistence } from './persistence';
+import _ from 'lodash';
 
 // log helper for mutations
 function stateLog(log, message, severity) {
@@ -32,6 +34,7 @@ const defaultShowData = {
 
 export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
+  plugins: [Persistence],
   state: {
     app: {},
     overlays: {},
@@ -110,6 +113,11 @@ export default new Vuex.Store({
     [MUTATION.LOG](state, { message, severity }) {
       state.log.push({ message, severity, date: new Date() });
     },
+    [MUTATION.LOAD_STATE](state, data) {
+      // does a merge into the current state
+      // object is cleaned up by the action before giving it to the state here
+      state = _.merge(state, data);
+    }
   },
   actions: {
     [ACTION.INIT_OVERLAY]({ commit, state }, socketData) {
@@ -130,5 +138,9 @@ export default new Vuex.Store({
       // this action triggers a show state snapshot in the persistence plugin
       ipcRenderer.send('update-all-state', state.show);
     },
+    [ACTION.LOAD_STATE]({ commit }, data) {
+      // data should be pre-processed in main.
+      commit(MUTATION.LOAD_STATE, data);
+    }
   },
 });

@@ -7,6 +7,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import express from 'express';
 import io from 'socket.io';
+import settings from 'electron-settings';
 // import { autoUpdater } from 'electron-updater'
 
 /**
@@ -91,12 +92,14 @@ ipcMain.on('change-one-theme', (event, { id, theme }) => {
   }
 });
 
+// change the theme for all overlays
 ipcMain.on('change-all-theme', (event, theme) => {
   console.log('Updating all themes');
 
   socketIo.emit('changeTheme', theme);
 });
 
+// update one overlay (usually used on overlay connection)
 ipcMain.on('update-one-state', (event, { id, data }) => {
   console.log(`Updating state for ${id}`);
 
@@ -105,19 +108,21 @@ ipcMain.on('update-one-state', (event, { id, data }) => {
   }
 });
 
+// update all the overlays
 ipcMain.on('update-all-state', (event, data) => {
   console.log('Broadcasting update');
 
   socketIo.emit('update', data);
 });
 
-ipcMain.on('get-version', () => {
-  mainWindow.webContents.send('set-version', {
-    version: app.getVersion(),
-    localFiles,
-  });
+// snapshot the entire application store for loading later
+// happens on update or on specific actions/mutations
+ipcMain.on('snapshot', (event, data) => {
+  console.log('Snapshotting state');
+  settings.set('state', data);
 });
 
+// open a file for the renderer
 ipcMain.handle('open-file', async () => {
   try {
     console.log('opening file...');
@@ -128,6 +133,24 @@ ipcMain.handle('open-file', async () => {
     return file;
   } catch (e) {
     return undefined;
+  }
+});
+
+ipcMain.handle('load-state', async () => {
+  try {
+    const data = await settings.get('state');
+
+    // update main process fields
+    data.version = app.getVersion();
+    data.localFiles = localFiles;
+    delete data.log;
+
+    console.log(data);
+
+    return data;
+  } catch (e) {
+    console.log(e);
+    return {};
   }
 });
 

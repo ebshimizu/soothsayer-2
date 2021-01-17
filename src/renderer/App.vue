@@ -72,7 +72,13 @@ export default {
       this.$store.commit(MUTATION.SET_LOCAL_FILES, localFiles);
     });
 
-    ipcRenderer.send('get-version');
+    ipcRenderer.invoke('load-state').then((state) => {
+      // action just in case some async stuff needs to happen later
+      // images might need to be formatted, etc.
+      this.$store.dispatch(ACTION.LOAD_STATE, state);
+    });
+
+    // ipcRenderer.send('get-version');
   },
   data() {
     return {};
