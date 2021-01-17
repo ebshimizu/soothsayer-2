@@ -78,7 +78,7 @@ export default {
   computed: {
     casterCount: {
       get() {
-        return this.$store.state.show.casters.length;
+        return this.$store.state.show.casterCount;
       },
       set(value) {
         this.$store.commit(MUTATION.CHANGE_CASTER_LENGTH, value);

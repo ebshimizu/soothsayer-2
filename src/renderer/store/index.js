@@ -25,6 +25,7 @@ const defaultShowData = {
       textSize: 'medium',
     },
   ],
+  casterCount: 1,
   frameVariant: 1,
   eventLogo: {
     src: '',
@@ -75,6 +76,8 @@ export default new Vuex.Store({
         // truncate
         state.show.casters.splice(count);
       }
+
+      state.show.casterCount = count;
     },
     [MUTATION.SET_CASTER_DATA](state, { index, key, value }) {
       Vue.set(state.show.casters[index], key, value);
