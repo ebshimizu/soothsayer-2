@@ -145,6 +145,8 @@ ipcMain.handle('load-state', async () => {
     data.localFiles = localFiles;
     delete data.log;
 
+    // check for image cache here.
+
     console.log(data);
 
     return data;

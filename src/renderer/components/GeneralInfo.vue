@@ -33,12 +33,12 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <v-row v-for="(caster, index) in casters" :key="index">
+          <v-row v-for="(caster, index) in castersReadOnly" :key="index">
             <v-col cols="7">
               <v-text-field
                 v-model="caster.name"
                 :label="`Caster ${index + 1} Name`"
-                @input="update"
+                @input="(v) => update(index, 'name', v)"
               ></v-text-field>
             </v-col>
             <v-col cols="3">
@@ -70,21 +70,10 @@ export default {
   },
   data() {
     return {
-      casters: this.$store.state.show.casters.map((c) => {
-        return { name: c.name, social: c.social, textSize: c.textSize };
-      }),
+      casters: this.$store.state.show.casters,
       casterConfigs: CASTER_CONFIGS,
       frameVariants: FRAME_VARIANTS,
     };
-  },
-  watch: {
-    // kinda hate this but array size is variable, and just copying the state variable for the local
-    // update has a bunch of baggage.
-    casterCount: function () {
-      this.casters = this.$store.state.show.casters.map((c) => {
-        return { name: c.name, social: c.social, textSize: c.textSize };
-      });
-    },
   },
   computed: {
     casterCount: {
@@ -111,18 +100,26 @@ export default {
         return this.$store.state.show.eventLogo.resolved;
       },
       set(value) {
-        this.$store.commit(MUTATION.SET_RESOLVED_IMG_PROP, { key: 'eventLogo', value });
-      }
-    }
+        this.$store.commit(MUTATION.SET_RESOLVED_IMG_PROP, {
+          key: 'eventLogo',
+          value,
+        });
+      },
+    },
+    castersReadOnly() {
+      return this.$store.state.show.casters.map((c) => {
+        return { name: c.name, social: c.social, textSize: c.textSize };
+      });
+    },
   },
   methods: {
-    debouncedUpdate() {
+    debouncedUpdate(index, key, value) {
       // send local to store
-      this.$store.commit(MUTATION.SET_CASTER_DATA, this.casters);
+      this.$store.commit(MUTATION.SET_CASTER_DATA, { index, key, value });
     },
     loadEventLogo() {
       browseAndLoadLocalFile('eventLogo', this.$store);
-    }
+    },
   },
 };
 </script>

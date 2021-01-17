@@ -76,9 +76,8 @@ export default new Vuex.Store({
         state.show.casters.splice(count);
       }
     },
-    [MUTATION.SET_CASTER_DATA](state, casterData) {
-      // this replaces the entire object
-      Vue.set(state.show, 'casters', casterData);
+    [MUTATION.SET_CASTER_DATA](state, { index, key, value }) {
+      Vue.set(state.show.casters[index], key, value);
     },
     [MUTATION.SET_SHOW_PROP](state, { key, value }) {
       Vue.set(state.show, key, value);
