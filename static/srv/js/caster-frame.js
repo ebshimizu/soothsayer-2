@@ -10,9 +10,6 @@ const app = new Vue({
     socket.on('update', (state) => {
       this.state = state;
     });
-    socket.on('changeTheme', (themeDir) => {
-      changeTheme(themeDir, 'caster-frame.css');
-    });
   },
   data() {
     return {
@@ -22,6 +19,10 @@ const app = new Vue({
     };
   },
   computed: {
+    theme() {
+      // check overrides at some point
+      return getTheme(this.state);
+    },
     casterOneName() {
       return this.getCaster(0)?.name;
     },

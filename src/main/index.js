@@ -9,6 +9,7 @@ import express from 'express';
 import io from 'socket.io';
 import settings from 'electron-settings';
 import { scanForThemes } from './themes';
+import store from '../renderer/store';
 // import { autoUpdater } from 'electron-updater'
 
 /**
@@ -60,7 +61,9 @@ console.log(`Serving local images from ${imgFolder}`);
 console.log(`Serving theme from ${defaultThemeFolder}`);
 
 // todo: load saved theme folder location
-let soothsayerThemeRootServer = serveStatic(defaultThemeFolder);
+const storedThemeFolder = settings.getSync('state.app.themeFolder');
+console.log(storedThemeFolder);
+let soothsayerThemeRootServer = storedThemeFolder ? serveStatic(storedThemeFolder) : serveStatic(defaultThemeFolder);
 
 // socket variables
 let socketCache = {};

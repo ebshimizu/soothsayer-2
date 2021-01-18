@@ -10,7 +10,7 @@ const MUTATION = {
   LOG: 'Log Message',
   LOAD_STATE: 'Load Local State',
   SET_APP_PROP: 'Set Application Property',
-  UPDATE_THEME_DATA: 'Update Theme Data'
+  UPDATE_THEME_DATA: 'Update Theme Data',
 };
 
 const ACTION = {
@@ -18,6 +18,7 @@ const ACTION = {
   DISCONNECT_OVERLAY: 'Overlay Disconnected',
   UPDATE: 'Update All Overlays',
   LOAD_STATE: 'Load Local State',
+  SET_THEME: 'Set Overlay Theme',
 };
 
 export { MUTATION, ACTION };

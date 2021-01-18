@@ -168,5 +168,9 @@ export default new Vuex.Store({
       // data should be pre-processed in main.
       commit(MUTATION.LOAD_STATE, data);
     },
+    [ACTION.SET_THEME]({ commit, state }, data) {
+      commit(MUTATION.SET_SHOW_PROP, data);
+      ipcRenderer.send('update-all-state', state.show);
+    },
   },
 });

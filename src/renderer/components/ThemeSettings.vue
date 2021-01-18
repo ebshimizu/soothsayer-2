@@ -56,7 +56,7 @@
 
 <script>
 import { ipcRenderer } from 'electron';
-import { MUTATION } from '../store/actions';
+import { MUTATION, ACTION } from '../store/actions';
 
 export default {
   name: 'theme-settings',
@@ -80,7 +80,7 @@ export default {
         return this.$store.state.show.theme;
       },
       set(value) {
-        this.$store.commit(MUTATION.SET_SHOW_PROP, { key: 'theme', value });
+        this.$store.dispatch(ACTION.SET_THEME, { key: 'theme', value });
       },
     },
   },
