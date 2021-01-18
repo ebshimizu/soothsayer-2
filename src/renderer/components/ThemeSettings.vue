@@ -1,0 +1,76 @@
+<template>
+  <v-row dense>
+    <v-col cols="12">
+      <v-card outlined>
+        <v-card-title>Set Theme</v-card-title>
+        <v-card-subtitle>Set the theme used by all overlays</v-card-subtitle>
+        <v-card-text>
+          <v-row dense>
+            <v-col cols="12">
+              <v-select label="Available Themes">
+                <template v-slot:append-outer>
+                  <v-btn class="mx-1" color="primary">Change Theme </v-btn>
+                  <v-btn class="mx-1" color="secondary">Scan</v-btn>
+                  <v-btn class="mx-1" color="secondary">Add</v-btn>
+                </template>
+              </v-select>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-col>
+    <v-col cols="12">
+      <v-card outlined>
+        <v-card-title>Manage Themes</v-card-title>
+        <v-card-text>
+          <v-row dense>
+            <v-col cols="12">
+              <v-text-field
+                label="Theme Folder Location"
+                v-model="themeFolder"
+                readonly
+              >
+                <template v-slot:append-outer>
+                  <v-btn color="primary" @click="setThemeFolder">
+                    <v-icon left>mdi-folder-open</v-icon>
+                    Set Theme Folder
+                  </v-btn>
+                </template>
+              </v-text-field>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-col>
+    <v-col cols="12">
+      <v-card outlined>
+        <v-card-title>Manage Overrides</v-card-title>
+        <v-card-subtitle>Assign themes to individual overlays</v-card-subtitle>
+      </v-card>
+    </v-col>
+  </v-row>
+</template>
+
+<script>
+export default {
+  name: 'theme-settings',
+  computed: {
+    themeFolder: {
+      get() {
+        return this.$store.state.app.themeFolder;
+      },
+      set(value) {
+        this.$store.commit(MUTATION.SET_APP_PROP, {
+          key: 'themeFolder',
+          value,
+        });
+      },
+    },
+  },
+  methods: {
+    setThemeFolder() {
+      console.log('aaaa');
+    },
+  },
+};
+</script>

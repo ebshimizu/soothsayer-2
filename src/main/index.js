@@ -157,6 +157,7 @@ ipcMain.handle('load-state', async () => {
     data.version = app.getVersion();
     data.localFiles = localFiles;
     delete data.log;
+    delete data.overlays;
 
     // check for image cache here.
     // load everything in the image cache

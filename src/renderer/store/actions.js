@@ -9,6 +9,7 @@ const MUTATION = {
   SET_LOCAL_IMG: 'Set and Cache Local Image Property',
   LOG: 'Log Message',
   LOAD_STATE: 'Load Local State',
+  SET_APP_PROP: 'Set Application Property'
 };
 
 const ACTION = {

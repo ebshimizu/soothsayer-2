@@ -18,6 +18,7 @@ Vue.use(Vuex);
 
 const defaultShowData = {
   theme: '',
+  themeOverrides: {},
   casters: [
     {
       name: '',
@@ -34,7 +35,10 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   plugins: [Persistence],
   state: {
-    app: {},
+    app: {
+      themeFolder: '',
+      availableThemes: {},
+    },
     overlays: {},
     show: defaultShowData,
     imageCache: {},
@@ -83,6 +87,9 @@ export default new Vuex.Store({
     [MUTATION.SET_SHOW_PROP](state, { key, value }) {
       Vue.set(state.show, key, value);
     },
+    [MUTATION.SET_APP_PROP](state, { key, value }) {
+      Vue.set(state.app, key, value);
+    },
     // images need a src prop (the original image) and a resolved prop (the local file, if applicable)
     // Image fields should react to @input by just writing the resolved mutation, while local files should
     // use this one so we can properly cache the image.
@@ -117,7 +124,12 @@ export default new Vuex.Store({
       // does a merge into the current state
       // object is cleaned up by the action before giving it to the state here
       state = _.merge(state, data);
-    }
+
+      // ensure defaults
+      if (!state.app.themeFolder || state.app.themeFolder === '') {
+        state.app.themeFolder = path.join(state.localFiles, 'themes');
+      }
+    },
   },
   actions: {
     [ACTION.INIT_OVERLAY]({ commit, state }, socketData) {
@@ -141,6 +153,6 @@ export default new Vuex.Store({
     [ACTION.LOAD_STATE]({ commit }, data) {
       // data should be pre-processed in main.
       commit(MUTATION.LOAD_STATE, data);
-    }
+    },
   },
 });
