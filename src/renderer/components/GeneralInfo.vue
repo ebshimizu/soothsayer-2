@@ -45,10 +45,15 @@
               <v-text-field
                 v-model="caster.social"
                 :label="`Caster ${index + 1} Social`"
+                @input="(v) => update(index, 'social', v)"
               ></v-text-field>
             </v-col>
             <v-col cols="2">
-              <v-select label="Text Size" v-model="caster.textSize"></v-select>
+              <v-select
+                label="Text Size"
+                v-model="caster.textSize"
+                @input="(v) => update(index, 'textSize', v)"
+              ></v-select>
             </v-col>
           </v-row>
         </v-card-text>

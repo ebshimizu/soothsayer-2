@@ -24,6 +24,19 @@ const winURL =
     ? `http://localhost:9080`
     : `file://${__dirname}/index.html`;
 
+// automatic dev library switching for overlays
+if (process.env.NODE_ENV === 'development') {
+  fs.copyFile(
+    path.join(__static, 'srv', 'js', 'vue@2.dev.js'),
+    path.join(__static, 'srv', 'js', 'vue@2.js')
+  );
+} else {
+  fs.copyFile(
+    path.join(__static, 'srv', 'js', 'vue@2.prod.js'),
+    path.join(__static, 'srv', 'js', 'vue@2.js')
+  );
+}
+
 // Core overlay folder location
 const soothsayerWebRootServer = serveStatic(path.join(__static, 'srv'));
 
