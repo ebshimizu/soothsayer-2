@@ -7,9 +7,12 @@
         <v-card-text>
           <v-row dense>
             <v-col cols="12">
-              <v-select label="Available Themes">
+              <v-select
+                label="Available Themes"
+                :items="availableThemes"
+                v-model="theme"
+              >
                 <template v-slot:append-outer>
-                  <v-btn class="mx-1" color="primary">Change Theme </v-btn>
                   <v-btn class="mx-1" color="secondary">Scan</v-btn>
                   <v-btn class="mx-1" color="secondary">Add</v-btn>
                 </template>
@@ -52,6 +55,9 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron';
+import { MUTATION } from '../store/actions';
+
 export default {
   name: 'theme-settings',
   computed: {
@@ -66,10 +72,25 @@ export default {
         });
       },
     },
+    availableThemes() {
+      return this.$store.getters.availableThemes;
+    },
+    theme: {
+      get() {
+        return this.$store.state.show.theme;
+      },
+      set(value) {
+        this.$store.commit(MUTATION.SET_SHOW_PROP, { key: 'theme', value });
+      },
+    },
   },
   methods: {
     setThemeFolder() {
-      console.log('aaaa');
+      ipcRenderer.invoke('set-theme-folder').then((themes) => {
+        if (themes) {
+          this.$store.commit(MUTATION.UPDATE_THEME_DATA, themes);
+        }
+      });
     },
   },
 };

@@ -16,19 +16,21 @@ function stateLog(log, message, severity) {
 
 Vue.use(Vuex);
 
-const defaultShowData = {
-  theme: '',
-  themeOverrides: {},
-  casters: [
-    {
-      name: '',
-      social: '',
-      textSize: 'medium',
-    },
-  ],
-  casterCount: 1,
-  frameVariant: 1,
-  eventLogo: '',
+const defaultShowData = () => {
+  return {
+    theme: '',
+    themeOverrides: {},
+    casters: [
+      {
+        name: '',
+        social: '',
+        textSize: 'medium',
+      },
+    ],
+    casterCount: 1,
+    frameVariant: 1,
+    eventLogo: '',
+  };
 };
 
 export default new Vuex.Store({
@@ -40,7 +42,7 @@ export default new Vuex.Store({
       availableThemes: {},
     },
     overlays: {},
-    show: defaultShowData,
+    show: defaultShowData(),
     imageCache: {},
     log: [],
     version: 'uh oh',
@@ -49,6 +51,13 @@ export default new Vuex.Store({
   getters: {
     version(state) {
       return state.version;
+    },
+    availableThemes(state) {
+      // format for vuetify
+      return Object.keys(state.app.availableThemes).map((k) => {
+        const theme = state.app.availableThemes[k];
+        return { value: k, text: `${theme.name} v${theme.version}` };
+      });
     },
   },
   mutations: {
@@ -123,12 +132,17 @@ export default new Vuex.Store({
     [MUTATION.LOAD_STATE](state, data) {
       // does a merge into the current state
       // object is cleaned up by the action before giving it to the state here
-      state = _.merge(state, data);
+      const newState = _.merge(state, data);
+      Object.assign(state, newState);
 
       // ensure defaults
       if (!state.app.themeFolder || state.app.themeFolder === '') {
         state.app.themeFolder = path.join(state.localFiles, 'themes');
       }
+    },
+    [MUTATION.UPDATE_THEME_DATA](state, { availableThemes, folder }) {
+      state.app.themeFolder = folder;
+      Vue.set(state.app, 'availableThemes', availableThemes);
     },
   },
   actions: {

@@ -8,6 +8,7 @@ import fs from 'fs-extra';
 import express from 'express';
 import io from 'socket.io';
 import settings from 'electron-settings';
+import { scanForThemes } from './themes';
 // import { autoUpdater } from 'electron-updater'
 
 /**
@@ -61,39 +62,9 @@ console.log(`Serving theme from ${defaultThemeFolder}`);
 // todo: load saved theme folder location
 let soothsayerThemeRootServer = serveStatic(defaultThemeFolder);
 
-// socket stuff
-// socket cache
-const socketCache = {};
-
-const expressApp = express();
-expressApp.use(soothsayerWebRootServer);
-expressApp.use(soothsayerThemeRootServer);
-expressApp.use(soothsayerLocalImageServer);
-
-const socketServer = http.Server(expressApp);
-const socketIo = io(socketServer);
-
-socketIo.on('connection', (socket) => {
-  // connection event handling
-  console.log(`New connection from ${socket.id}. Requesting id.`);
-
-  // add to cache
-  socketCache[socket.id] = socket;
-  socket.emit('requestID');
-
-  // overlayName is a string
-  socket.on('reportID', (overlayName) => {
-    // punt to front end to continue registration
-    mainWindow.webContents.send('register-overlay', {
-      id: socket.id,
-      name: overlayName,
-    });
-  });
-
-  socket.on('disconnect', (reason) => {
-    mainWindow.webContents.send('unregister-overlay', socket.id);
-  });
-});
+// socket variables
+let socketCache = {};
+let socketIo, socketServer;
 
 // commands from front end
 ipcMain.on('change-one-theme', (event, { id, theme }) => {
@@ -149,15 +120,60 @@ ipcMain.handle('open-file', async () => {
   }
 });
 
+ipcMain.handle('set-theme-folder', async (event, reset = false) => {
+  try {
+    console.log('Beginning theme folder selection');
+
+    // match sig for open dialog
+    let file = { filePaths: [defaultThemeFolder] };
+
+    // if we're not resetting, then pop up the dialog
+    if (!reset) {
+      file = await dialog.showOpenDialog({
+        title: 'Select Theme Folder',
+        properties: ['openDirectory'],
+      });
+    }
+
+    // ok if we have a file path
+    if (file) {
+      const newFolderLocation = file.filePaths[0];
+      
+      // scan the folder
+      const availableThemes = scanForThemes(newFolderLocation);
+
+      // ok re-serve
+      soothsayerThemeRootServer = serveStatic(newFolderLocation);
+      bootServer();
+
+      return { availableThemes, folder: newFolderLocation };
+    }
+  } catch (e) {
+    return undefined;
+  }
+});
+
 ipcMain.handle('load-state', async () => {
   try {
-    const data = await settings.get('state');
+    let data = await settings.get('state');
+
+    if (!data) {
+      data = {};
+    }
 
     // update main process fields
     data.version = app.getVersion();
     data.localFiles = localFiles;
     delete data.log;
     delete data.overlays;
+
+    // theme scan (does not affect active theme)
+    if (!('themeFolder' in data.app) || data.app.themeFolder === '') {
+      // set default
+      data.app.themeFolder = defaultThemeFolder;
+    }
+
+    data.app.availableThemes = scanForThemes(data.app.themeFolder);
 
     // check for image cache here.
     // load everything in the image cache
@@ -185,14 +201,52 @@ ipcMain.handle('load-state', async () => {
   }
 });
 
-function initServer() {
+function bootServer() {
+  if (socketServer) {
+    console.log('Shutting down server for reboot.');
+    socketIo.close();
+    socketServer.close();
+  }
+
+  console.log('Booting server.');
+
+  const expressApp = express();
+  expressApp.use(soothsayerWebRootServer);
+  expressApp.use(soothsayerThemeRootServer);
+  expressApp.use(soothsayerLocalImageServer);
+
+  socketServer = http.Server(expressApp);
+  socketIo = io(socketServer);
+
+  socketIo.on('connection', (socket) => {
+    // connection event handling
+    console.log(`New connection from ${socket.id}. Requesting id.`);
+
+    // add to cache
+    socketCache[socket.id] = socket;
+    socket.emit('requestID');
+
+    // overlayName is a string
+    socket.on('reportID', (overlayName) => {
+      // punt to front end to continue registration
+      mainWindow.webContents.send('register-overlay', {
+        id: socket.id,
+        name: overlayName,
+      });
+    });
+
+    socket.on('disconnect', (reason) => {
+      mainWindow.webContents.send('unregister-overlay', socket.id);
+    });
+  });
+
   socketServer.listen(3005, () => {
     console.log('Socket server initialized on port 3005');
   });
 }
 
 function initApp() {
-  initServer();
+  bootServer();
   createWindow();
 }
 
