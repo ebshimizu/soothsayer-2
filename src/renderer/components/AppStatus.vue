@@ -19,6 +19,14 @@
           </template>
           <span>Copy URL</span>
         </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" icon>
+              <v-icon color="primary" @click="preview(item)">mdi-info</v-icon>
+            </v-btn>
+          </template>
+          <span>Preview in Soothsayer</span>
+        </v-tooltip>
       </template>
     </v-data-table>
     <h2 class="mb-2">Connected Overlays</h2>
@@ -63,7 +71,7 @@ export default {
         { text: 'Page', value: 'page' },
         { text: 'Recommended Resolution', value: 'resolution' },
         { text: 'Actions', value: 'actions', sortable: 'false' },
-      ]
+      ],
     };
   },
   computed: {
@@ -77,6 +85,9 @@ export default {
   methods: {
     copyUrl(item) {
       clipboard.writeText(`http://localhost:3005/${item.page}`);
+    },
+    preview(item) {
+      ipcRenderer.invoke('preview', item.page);
     },
     identify(item) {
       // send an identify command to the overlay, which displays a full-screen overlay for a few seconds

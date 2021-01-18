@@ -22,6 +22,8 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 let mainWindow;
+const previewWindows = {};
+
 const winURL =
   process.env.NODE_ENV === 'development'
     ? `http://localhost:9080`
@@ -232,6 +234,30 @@ ipcMain.handle('load-state', async () => {
   }
 });
 
+ipcMain.handle('preview', (event, page) => {
+  if (page in previewWindows) {
+    // already open
+    return;
+  }
+
+  previewWindows[page] = new BrowserWindow({
+    width: 1920,
+    height: 1080,
+    useContentSize: true,
+    resizable: false,
+    parent: mainWindow,
+  });
+
+  previewWindows[page].setMenuBarVisibility(false);
+  previewWindows[page].loadURL(`http://localhost:3005/${page}`);
+
+  previewWindows[page].on('closed', () => {
+    if (page in previewWindows) {
+      delete previewWindows[page];
+    }
+  });
+});
+
 function bootServer() {
   if (socketServer) {
     console.log('Shutting down server for reboot.');
@@ -316,6 +342,7 @@ app.on('ready', initApp);
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
+    socketServer.close();
   }
 });
 
