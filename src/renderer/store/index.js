@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { LOG_LEVEL } from '../data/appDefaults';
 import { Persistence } from './persistence';
 import _, { uniq } from 'lodash';
+import { OVERLAY_MANIFEST } from '../data/overlayManifest';
 
 // log helper for mutations
 function stateLog(log, message, severity) {
@@ -41,6 +42,7 @@ export default new Vuex.Store({
       themeFolder: '',
       availableThemes: {},
     },
+    availableOverlays: [],
     overlays: {},
     show: defaultShowData(),
     imageCache: {},
@@ -63,6 +65,19 @@ export default new Vuex.Store({
       return Object.keys(state.overlays).map((socketId) => {
         const overlay = state.overlays[socketId];
         return { socketId, name: overlay.name, page: overlay.page };
+      });
+    },
+    availableOverlays(state) {
+      // only return overlays that are in the manifest
+      // todo: and have support for the current game
+      const overlays = state.availableOverlays.filter(
+        (o) => o in OVERLAY_MANIFEST
+      );
+      return overlays.map((o) => {
+        return {
+          ...OVERLAY_MANIFEST[o],
+          page: o,
+        };
       });
     },
   },

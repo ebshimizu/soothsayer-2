@@ -10,6 +10,7 @@ import io from 'socket.io';
 import settings from 'electron-settings';
 import { scanForThemes } from './themes';
 import store from '../renderer/store';
+import e from 'express';
 // import { autoUpdater } from 'electron-updater'
 
 /**
@@ -40,9 +41,22 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Core overlay folder location
-const soothsayerWebRootServer = serveStatic(path.join(__static, 'srv'));
+const webRoot = path.join(__static, 'srv');
+const soothsayerWebRootServer = serveStatic(webRoot);
 
-// this can actually change based on settings. I assume it will update itself on next request.
+// check what's in there
+let availableOverlays = [];
+try {
+  availableOverlays = fs.readdirSync(webRoot).filter((f) => {
+    return f.endsWith('.html');
+  });
+} catch (e) {
+  console.log('Failed to fetch available overlays.');
+  console.log(e);
+}
+
+console.log(availableOverlays);
+
 // init to app data
 const localFiles = app.getPath('userData');
 
@@ -180,6 +194,7 @@ ipcMain.handle('load-state', async () => {
     data.version = app.getVersion();
     data.localFiles = localFiles;
     data.overlays = socketStateCache;
+    data.availableOverlays = availableOverlays;
 
     delete data.log;
 
