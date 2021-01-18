@@ -63,10 +63,16 @@ console.log(`Serving theme from ${defaultThemeFolder}`);
 // todo: load saved theme folder location
 const storedThemeFolder = settings.getSync('state.app.themeFolder');
 console.log(storedThemeFolder);
-let soothsayerThemeRootServer = storedThemeFolder ? serveStatic(storedThemeFolder) : serveStatic(defaultThemeFolder);
+let soothsayerThemeRootServer = storedThemeFolder
+  ? serveStatic(storedThemeFolder)
+  : serveStatic(defaultThemeFolder);
 
 // socket variables
 let socketCache = {};
+
+// for when the UI reconnects (if that happens in prod)
+let socketStateCache = {};
+
 let socketIo, socketServer;
 
 // commands from front end
@@ -100,6 +106,12 @@ ipcMain.on('update-all-state', (event, data) => {
   console.log('Broadcasting update');
 
   socketIo.emit('update', data);
+});
+
+ipcMain.on('identify', (event, id) => {
+  if (id in socketCache) {
+    socketCache[id].emit('identify');
+  }
 });
 
 // snapshot the entire application store for loading later
@@ -141,7 +153,7 @@ ipcMain.handle('set-theme-folder', async (event, reset = false) => {
     // ok if we have a file path
     if (file) {
       const newFolderLocation = file.filePaths[0];
-      
+
       // scan the folder
       const availableThemes = scanForThemes(newFolderLocation);
 
@@ -167,8 +179,9 @@ ipcMain.handle('load-state', async () => {
     // update main process fields
     data.version = app.getVersion();
     data.localFiles = localFiles;
+    data.overlays = socketStateCache;
+
     delete data.log;
-    delete data.overlays;
 
     // theme scan (does not affect active theme)
     if (!('themeFolder' in data.app) || data.app.themeFolder === '') {
@@ -230,15 +243,24 @@ function bootServer() {
     socket.emit('requestID');
 
     // overlayName is a string
-    socket.on('reportID', (overlayName) => {
+    socket.on('reportID', ({ id, page }) => {
       // punt to front end to continue registration
-      mainWindow.webContents.send('register-overlay', {
+      socketStateCache[socket.id] = {
         id: socket.id,
-        name: overlayName,
-      });
+        name: id,
+        page,
+      };
+
+      mainWindow.webContents.send(
+        'register-overlay',
+        socketStateCache[socket.id]
+      );
     });
 
     socket.on('disconnect', (reason) => {
+      delete socketCache[socket.id];
+      delete socketStateCache[socket.id];
+
       mainWindow.webContents.send('unregister-overlay', socket.id);
     });
   });

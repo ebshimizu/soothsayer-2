@@ -20,5 +20,10 @@ export default new Router({
       name: 'Theme',
       component: require('@/components/ThemeSettings').default,
     },
+    {
+      path: '/status',
+      name: 'Status',
+      component: require('@/components/AppStatus').default,
+    },
   ],
 });

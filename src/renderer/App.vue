@@ -34,6 +34,10 @@
           <v-list-item-icon><v-icon>mdi-keyboard</v-icon></v-list-item-icon>
           <v-list-item-title>Keybinds</v-list-item-title>
         </v-list-item>
+        <v-list-item to="/status">
+          <v-list-item-icon><v-icon>mdi-information</v-icon></v-list-item-icon>
+          <v-list-item-title>Status</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 

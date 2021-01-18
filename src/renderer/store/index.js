@@ -59,10 +59,16 @@ export default new Vuex.Store({
         return { value: k, text: `${theme.name} v${theme.version}` };
       });
     },
+    connectedOverlays(state) {
+      return Object.keys(state.overlays).map((socketId) => {
+        const overlay = state.overlays[socketId];
+        return { socketId, name: overlay.name, page: overlay.page };
+      });
+    },
   },
   mutations: {
-    [MUTATION.REGISTER_OVERLAY](state, { id, name }) {
-      Vue.set(state.overlays, id, name);
+    [MUTATION.REGISTER_OVERLAY](state, { id, name, page }) {
+      Vue.set(state.overlays, id, { name, page });
     },
     [MUTATION.UNREGISTER_OVERLAY](state, id) {
       Vue.delete(state.overlays, id);

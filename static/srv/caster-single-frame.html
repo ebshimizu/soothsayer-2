@@ -7,11 +7,14 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/lib/jquery-3.3.1.min.js"></script>
     <script src="/js/util.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/caster-frame.css" />
+    <script src="/js/overlay.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/overlay.css" />
   </head>
   <body id="single-caster-frame">
     <div id="app">
-      {{ theme }}
+      <div id="identifier" v-bind:class="{ active: identify }">
+        This is a {{ overlayName }} overlay
+      </div>
       <div class="caster-name-flex one" v-bind:class="casterOneTextSize">
         <div id="caster-1-name">{{ casterOneName }}</div>
       </div>

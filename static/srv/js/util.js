@@ -1,6 +1,4 @@
 // manual override
-let themeLocked = false;
-
 function getTheme(state) {
   if (state && state.theme && state.themeOverrides) {
     // get page name
