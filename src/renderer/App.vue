@@ -15,7 +15,7 @@
       </v-list>
       <v-divider></v-divider>
       <v-list nav dense>
-        <v-list-item to="/">
+        <v-list-item to="/" v-show="$store.getters.menuVisible('general')">
           <v-list-item-icon><v-icon>mdi-information</v-icon></v-list-item-icon>
           <v-list-item-title>Cast Info</v-list-item-title>
         </v-list-item>

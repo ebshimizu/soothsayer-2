@@ -22,7 +22,9 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" icon>
-              <v-icon color="primary" @click="preview(item)">mdi-info</v-icon>
+              <v-icon color="primary" @click="preview(item)"
+                >mdi-file-find</v-icon
+              >
             </v-btn>
           </template>
           <span>Preview in Soothsayer</span>

@@ -9,6 +9,7 @@ import { LOG_LEVEL } from '../data/appDefaults'
 import { Persistence } from './persistence'
 import _ from 'lodash'
 import { OVERLAY_MANIFEST } from '../data/overlayManifest'
+import { GAME, GAME_SETTINGS, GAME_STRING } from '../data/supportedGames'
 
 // log helper for mutations
 function stateLog(log, message, severity) {
@@ -41,6 +42,7 @@ export default new Vuex.Store({
     app: {
       themeFolder: '',
       availableThemes: {},
+      game: GAME.ERBS,
     },
     availableOverlays: [],
     overlays: {},
@@ -78,6 +80,20 @@ export default new Vuex.Store({
           ...OVERLAY_MANIFEST[o],
           page: o,
         }
+      })
+    },
+    componentVisible: (state) => (name) => {
+      return GAME_SETTINGS[state.app.game].COMPONENT_VISIBLE[name]
+    },
+    menuVisible: (state) => (name) => {
+      return GAME_SETTINGS[state.app.game].MENU_VISIBLE[name]
+    },
+    overlaySupported: (state) => (name) => {
+      return GAME_SETTINGS[state.app.game].OVERLAY_SUPPORT[name]
+    },
+    supportedGames: () => {
+      return Object.keys(GAME).map((k) => {
+        return { value: k, text: GAME_STRING[k] }
       })
     },
   },
