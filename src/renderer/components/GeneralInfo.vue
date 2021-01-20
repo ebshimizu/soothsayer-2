@@ -63,68 +63,68 @@
 </template>
 
 <script>
-import _ from 'lodash';
-import { MUTATION } from '../store/actions';
-import { CASTER_CONFIGS, FRAME_VARIANTS } from '../data/appDefaults';
-import { browseAndLoadLocalFile } from './util';
+import _ from 'lodash'
+import { MUTATION } from '../store/actions'
+import { CASTER_CONFIGS, FRAME_VARIANTS } from '../data/appDefaults'
+import { browseAndLoadLocalFile } from './util'
 
 export default {
   name: 'general-info',
   created() {
-    this.update = _.debounce(this.debouncedUpdate, 100);
+    this.update = _.debounce(this.debouncedUpdate, 100)
   },
   data() {
     return {
       casters: this.$store.state.show.casters,
       casterConfigs: CASTER_CONFIGS,
       frameVariants: FRAME_VARIANTS,
-    };
+    }
   },
   computed: {
     casterCount: {
       get() {
-        return this.$store.state.show.casterCount;
+        return this.$store.state.show.casterCount
       },
       set(value) {
-        this.$store.commit(MUTATION.CHANGE_CASTER_LENGTH, value);
+        this.$store.commit(MUTATION.CHANGE_CASTER_LENGTH, value)
       },
     },
     frameVariant: {
       get() {
-        return this.$store.state.show.frameVariant;
+        return this.$store.state.show.frameVariant
       },
       set(value) {
         this.$store.commit(MUTATION.SET_SHOW_PROP, {
           key: 'frameVariant',
           value,
-        });
+        })
       },
     },
     eventLogo: {
       get() {
-        return this.$store.state.show.eventLogo;
+        return this.$store.state.show.eventLogo
       },
       set(value) {
         this.$store.commit(MUTATION.SET_SHOW_PROP, {
           key: 'eventLogo',
           value,
-        });
+        })
       },
     },
     castersReadOnly() {
       return this.$store.state.show.casters.map((c) => {
-        return { name: c.name, social: c.social, textSize: c.textSize };
-      });
+        return { name: c.name, social: c.social, textSize: c.textSize }
+      })
     },
   },
   methods: {
     debouncedUpdate(index, key, value) {
       // send local to store
-      this.$store.commit(MUTATION.SET_CASTER_DATA, { index, key, value });
+      this.$store.commit(MUTATION.SET_CASTER_DATA, { index, key, value })
     },
     loadEventLogo() {
-      browseAndLoadLocalFile('eventLogo', this.$store);
+      browseAndLoadLocalFile('eventLogo', this.$store)
     },
   },
-};
+}
 </script>

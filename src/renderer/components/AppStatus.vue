@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { ipcRenderer, clipboard } from 'electron';
+import { ipcRenderer, clipboard } from 'electron'
 
 export default {
   name: 'app-status',
@@ -72,27 +72,27 @@ export default {
         { text: 'Recommended Resolution', value: 'resolution' },
         { text: 'Actions', value: 'actions', sortable: 'false' },
       ],
-    };
+    }
   },
   computed: {
     overlays() {
-      return this.$store.getters.connectedOverlays;
+      return this.$store.getters.connectedOverlays
     },
     availableOverlays() {
-      return this.$store.getters.availableOverlays;
+      return this.$store.getters.availableOverlays
     },
   },
   methods: {
     copyUrl(item) {
-      clipboard.writeText(`http://localhost:3005/${item.page}`);
+      clipboard.writeText(`http://localhost:3005/${item.page}`)
     },
     preview(item) {
-      ipcRenderer.invoke('preview', item.page);
+      ipcRenderer.invoke('preview', item.page)
     },
     identify(item) {
       // send an identify command to the overlay, which displays a full-screen overlay for a few seconds
-      ipcRenderer.send('identify', item.socketId);
+      ipcRenderer.send('identify', item.socketId)
     },
   },
-};
+}
 </script>

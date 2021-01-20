@@ -56,43 +56,43 @@
 </template>
 
 <script>
-import { ipcRenderer } from 'electron';
-import { MUTATION, ACTION } from './store/actions';
+import { ipcRenderer } from 'electron'
+import { MUTATION, ACTION } from './store/actions'
 
 export default {
   name: 'soothsayer-2',
   beforeCreate() {
     // add ipc hooks from main
     ipcRenderer.on('register-overlay', (event, data) => {
-      this.$store.dispatch(ACTION.INIT_OVERLAY, data);
-    });
+      this.$store.dispatch(ACTION.INIT_OVERLAY, data)
+    })
 
     ipcRenderer.on('unregister-overlay', (event, id) => {
-      this.$store.dispatch(ACTION.DISCONNECT_OVERLAY, id);
-    });
+      this.$store.dispatch(ACTION.DISCONNECT_OVERLAY, id)
+    })
 
     ipcRenderer.on('set-version', (event, { version, localFiles }) => {
-      this.$store.commit(MUTATION.SET_VERSION, version);
-      this.$store.commit(MUTATION.SET_LOCAL_FILES, localFiles);
-    });
+      this.$store.commit(MUTATION.SET_VERSION, version)
+      this.$store.commit(MUTATION.SET_LOCAL_FILES, localFiles)
+    })
 
     ipcRenderer.invoke('load-state').then((state) => {
       // action just in case some async stuff needs to happen later
       // images might need to be formatted, etc.
-      this.$store.dispatch(ACTION.LOAD_STATE, state);
-    });
+      this.$store.dispatch(ACTION.LOAD_STATE, state)
+    })
 
     // ipcRenderer.send('get-version');
   },
   data() {
-    return {};
+    return {}
   },
   methods: {
     update() {
-      this.$store.dispatch(ACTION.UPDATE);
+      this.$store.dispatch(ACTION.UPDATE)
     },
   },
-};
+}
 </script>
 
 <style>

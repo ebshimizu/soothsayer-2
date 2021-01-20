@@ -55,32 +55,32 @@
 </template>
 
 <script>
-import { ipcRenderer } from 'electron';
-import { MUTATION, ACTION } from '../store/actions';
+import { ipcRenderer } from 'electron'
+import { MUTATION, ACTION } from '../store/actions'
 
 export default {
   name: 'theme-settings',
   computed: {
     themeFolder: {
       get() {
-        return this.$store.state.app.themeFolder;
+        return this.$store.state.app.themeFolder
       },
       set(value) {
         this.$store.commit(MUTATION.SET_APP_PROP, {
           key: 'themeFolder',
           value,
-        });
+        })
       },
     },
     availableThemes() {
-      return this.$store.getters.availableThemes;
+      return this.$store.getters.availableThemes
     },
     theme: {
       get() {
-        return this.$store.state.show.theme;
+        return this.$store.state.show.theme
       },
       set(value) {
-        this.$store.dispatch(ACTION.SET_THEME, { key: 'theme', value });
+        this.$store.dispatch(ACTION.SET_THEME, { key: 'theme', value })
       },
     },
   },
@@ -88,10 +88,10 @@ export default {
     setThemeFolder() {
       ipcRenderer.invoke('set-theme-folder').then((themes) => {
         if (themes) {
-          this.$store.commit(MUTATION.UPDATE_THEME_DATA, themes);
+          this.$store.commit(MUTATION.UPDATE_THEME_DATA, themes)
         }
-      });
+      })
     },
   },
-};
+}
 </script>

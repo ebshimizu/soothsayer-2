@@ -1,16 +1,14 @@
-'use strict';
+'use strict'
 
-import { app, BrowserWindow, dialog, ipcMain } from 'electron';
-import http from 'http';
-import serveStatic from 'serve-static';
-import path from 'path';
-import fs from 'fs-extra';
-import express from 'express';
-import io from 'socket.io';
-import settings from 'electron-settings';
-import { scanForThemes } from './themes';
-import store from '../renderer/store';
-import e from 'express';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron'
+import http from 'http'
+import serveStatic from 'serve-static'
+import path from 'path'
+import fs from 'fs-extra'
+import express from 'express'
+import io from 'socket.io'
+import settings from 'electron-settings'
+import { scanForThemes } from './themes'
 // import { autoUpdater } from 'electron-updater'
 
 /**
@@ -18,195 +16,195 @@ import e from 'express';
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
 if (process.env.NODE_ENV !== 'development') {
-  global.__static = path.join(__dirname, '/static').replace(/\\/g, '\\\\');
+  global.__static = path.join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
-let mainWindow;
-const previewWindows = {};
+let mainWindow
+const previewWindows = {}
 
 const winURL =
   process.env.NODE_ENV === 'development'
     ? `http://localhost:9080`
-    : `file://${__dirname}/index.html`;
+    : `file://${__dirname}/index.html`
 
 // automatic dev library switching for overlays
 if (process.env.NODE_ENV === 'development') {
   fs.copyFile(
     path.join(__static, 'srv', 'js', 'vue@2.dev.js'),
     path.join(__static, 'srv', 'js', 'vue@2.js')
-  );
+  )
 } else {
   fs.copyFile(
     path.join(__static, 'srv', 'js', 'vue@2.prod.js'),
     path.join(__static, 'srv', 'js', 'vue@2.js')
-  );
+  )
 }
 
 // Core overlay folder location
-const webRoot = path.join(__static, 'srv');
-const soothsayerWebRootServer = serveStatic(webRoot);
+const webRoot = path.join(__static, 'srv')
+const soothsayerWebRootServer = serveStatic(webRoot)
 
 // check what's in there
-let availableOverlays = [];
+let availableOverlays = []
 try {
   availableOverlays = fs.readdirSync(webRoot).filter((f) => {
-    return f.endsWith('.html');
-  });
+    return f.endsWith('.html')
+  })
 } catch (e) {
-  console.log('Failed to fetch available overlays.');
-  console.log(e);
+  console.log('Failed to fetch available overlays.')
+  console.log(e)
 }
 
-console.log(availableOverlays);
+console.log(availableOverlays)
 
 // init to app data
-const localFiles = app.getPath('userData');
+const localFiles = app.getPath('userData')
 
 // ensure folder exists (it's the default location)
-fs.ensureDirSync(path.join(localFiles, 'themes'));
-const defaultThemeFolder = path.join(localFiles, 'themes');
+fs.ensureDirSync(path.join(localFiles, 'themes'))
+const defaultThemeFolder = path.join(localFiles, 'themes')
 
 // temp image file folder
-const imgFolder = path.join(localFiles, 'img');
-fs.ensureDirSync(imgFolder);
-fs.emptyDirSync(imgFolder);
-const soothsayerLocalImageServer = serveStatic(imgFolder);
+const imgFolder = path.join(localFiles, 'img')
+fs.ensureDirSync(imgFolder)
+fs.emptyDirSync(imgFolder)
+const soothsayerLocalImageServer = serveStatic(imgFolder)
 
-console.log(`Serving from ${path.join(__static, 'srv')}`);
-console.log(`Serving local images from ${imgFolder}`);
-console.log(`Serving theme from ${defaultThemeFolder}`);
+console.log(`Serving from ${path.join(__static, 'srv')}`)
+console.log(`Serving local images from ${imgFolder}`)
+console.log(`Serving theme from ${defaultThemeFolder}`)
 
 // todo: load saved theme folder location
-const storedThemeFolder = settings.getSync('state.app.themeFolder');
-console.log(storedThemeFolder);
+const storedThemeFolder = settings.getSync('state.app.themeFolder')
+console.log(storedThemeFolder)
 let soothsayerThemeRootServer = storedThemeFolder
   ? serveStatic(storedThemeFolder)
-  : serveStatic(defaultThemeFolder);
+  : serveStatic(defaultThemeFolder)
 
 // socket variables
-let socketCache = {};
+let socketCache = {}
 
 // for when the UI reconnects (if that happens in prod)
-let socketStateCache = {};
+let socketStateCache = {}
 
-let socketIo, socketServer;
+let socketIo, socketServer
 
 // commands from front end
 ipcMain.on('change-one-theme', (event, { id, theme }) => {
-  console.log(`Updating theme for socket ${id}`);
+  console.log(`Updating theme for socket ${id}`)
 
   // check that socket exists
   if (id in socketCache) {
-    socketCache[id].emit('changeTheme', theme);
+    socketCache[id].emit('changeTheme', theme)
   }
-});
+})
 
 // change the theme for all overlays
 ipcMain.on('change-all-theme', (event, theme) => {
-  console.log('Updating all themes');
+  console.log('Updating all themes')
 
-  socketIo.emit('changeTheme', theme);
-});
+  socketIo.emit('changeTheme', theme)
+})
 
 // update one overlay (usually used on overlay connection)
 ipcMain.on('update-one-state', (event, { id, data }) => {
-  console.log(`Updating state for ${id}`);
+  console.log(`Updating state for ${id}`)
 
   if (id in socketCache) {
-    socketCache[id].emit('update', data);
+    socketCache[id].emit('update', data)
   }
-});
+})
 
 // update all the overlays
 ipcMain.on('update-all-state', (event, data) => {
-  console.log('Broadcasting update');
+  console.log('Broadcasting update')
 
-  socketIo.emit('update', data);
-});
+  socketIo.emit('update', data)
+})
 
 ipcMain.on('identify', (event, id) => {
   if (id in socketCache) {
-    socketCache[id].emit('identify');
+    socketCache[id].emit('identify')
   }
-});
+})
 
 // snapshot the entire application store for loading later
 // happens on update or on specific actions/mutations
 ipcMain.on('snapshot', (event, data) => {
-  console.log('Snapshotting state');
-  settings.set('state', data);
-});
+  console.log('Snapshotting state')
+  settings.set('state', data)
+})
 
 // open a file for the renderer
-ipcMain.handle('open-file', async () => {
+ipcMain.handle('open-file', async() => {
   try {
-    console.log('opening file...');
+    console.log('opening file...')
     const file = await dialog.showOpenDialog({
       title: 'Select Local File',
       properties: ['openFile'],
-    });
-    return file;
+    })
+    return file
   } catch (e) {
-    return undefined;
+    return undefined
   }
-});
+})
 
-ipcMain.handle('set-theme-folder', async (event, reset = false) => {
+ipcMain.handle('set-theme-folder', async(event, reset = false) => {
   try {
-    console.log('Beginning theme folder selection');
+    console.log('Beginning theme folder selection')
 
     // match sig for open dialog
-    let file = { filePaths: [defaultThemeFolder] };
+    let file = { filePaths: [defaultThemeFolder] }
 
     // if we're not resetting, then pop up the dialog
     if (!reset) {
       file = await dialog.showOpenDialog({
         title: 'Select Theme Folder',
         properties: ['openDirectory'],
-      });
+      })
     }
 
     // ok if we have a file path
     if (file) {
-      const newFolderLocation = file.filePaths[0];
+      const newFolderLocation = file.filePaths[0]
 
       // scan the folder
-      const availableThemes = scanForThemes(newFolderLocation);
+      const availableThemes = scanForThemes(newFolderLocation)
 
       // ok re-serve
-      soothsayerThemeRootServer = serveStatic(newFolderLocation);
-      bootServer();
+      soothsayerThemeRootServer = serveStatic(newFolderLocation)
+      bootServer()
 
-      return { availableThemes, folder: newFolderLocation };
+      return { availableThemes, folder: newFolderLocation }
     }
   } catch (e) {
-    return undefined;
+    return undefined
   }
-});
+})
 
-ipcMain.handle('load-state', async () => {
+ipcMain.handle('load-state', async() => {
   try {
-    let data = await settings.get('state');
+    let data = await settings.get('state')
 
     if (!data) {
-      data = {};
+      data = {}
     }
 
     // update main process fields
-    data.version = app.getVersion();
-    data.localFiles = localFiles;
-    data.overlays = socketStateCache;
-    data.availableOverlays = availableOverlays;
+    data.version = app.getVersion()
+    data.localFiles = localFiles
+    data.overlays = socketStateCache
+    data.availableOverlays = availableOverlays
 
-    delete data.log;
+    delete data.log
 
     // theme scan (does not affect active theme)
     if (!('themeFolder' in data.app) || data.app.themeFolder === '') {
       // set default
-      data.app.themeFolder = defaultThemeFolder;
+      data.app.themeFolder = defaultThemeFolder
     }
 
-    data.app.availableThemes = scanForThemes(data.app.themeFolder);
+    data.app.availableThemes = scanForThemes(data.app.themeFolder)
 
     // check for image cache here.
     // load everything in the image cache
@@ -215,29 +213,29 @@ ipcMain.handle('load-state', async () => {
         .then(() => {
           console.log(
             `Loaded image for key ${key} from ${data.imageCache[key].src}.`
-          );
+          )
         })
         .catch((e) => {
           console.log(
             `Failed to load image for key ${key} from ${data.imageCache[key].src}`
-          );
-          console.log(e);
-        });
+          )
+          console.log(e)
+        })
     }
 
-    console.log(data);
+    console.log(data)
 
-    return data;
+    return data
   } catch (e) {
-    console.log(e);
-    return {};
+    console.log(e)
+    return {}
   }
-});
+})
 
 ipcMain.handle('preview', (event, page) => {
   if (page in previewWindows) {
     // already open
-    return;
+    return
   }
 
   previewWindows[page] = new BrowserWindow({
@@ -246,42 +244,42 @@ ipcMain.handle('preview', (event, page) => {
     useContentSize: true,
     resizable: false,
     parent: mainWindow,
-  });
+  })
 
-  previewWindows[page].setMenuBarVisibility(false);
-  previewWindows[page].loadURL(`http://localhost:3005/${page}`);
+  previewWindows[page].setMenuBarVisibility(false)
+  previewWindows[page].loadURL(`http://localhost:3005/${page}`)
 
   previewWindows[page].on('closed', () => {
     if (page in previewWindows) {
-      delete previewWindows[page];
+      delete previewWindows[page]
     }
-  });
-});
+  })
+})
 
 function bootServer() {
   if (socketServer) {
-    console.log('Shutting down server for reboot.');
-    socketIo.close();
-    socketServer.close();
+    console.log('Shutting down server for reboot.')
+    socketIo.close()
+    socketServer.close()
   }
 
-  console.log('Booting server.');
+  console.log('Booting server.')
 
-  const expressApp = express();
-  expressApp.use(soothsayerWebRootServer);
-  expressApp.use(soothsayerThemeRootServer);
-  expressApp.use(soothsayerLocalImageServer);
+  const expressApp = express()
+  expressApp.use(soothsayerWebRootServer)
+  expressApp.use(soothsayerThemeRootServer)
+  expressApp.use(soothsayerLocalImageServer)
 
-  socketServer = http.Server(expressApp);
-  socketIo = io(socketServer);
+  socketServer = http.Server(expressApp)
+  socketIo = io(socketServer)
 
   socketIo.on('connection', (socket) => {
     // connection event handling
-    console.log(`New connection from ${socket.id}. Requesting id.`);
+    console.log(`New connection from ${socket.id}. Requesting id.`)
 
     // add to cache
-    socketCache[socket.id] = socket;
-    socket.emit('requestID');
+    socketCache[socket.id] = socket
+    socket.emit('requestID')
 
     // overlayName is a string
     socket.on('reportID', ({ id, page }) => {
@@ -290,30 +288,30 @@ function bootServer() {
         id: socket.id,
         name: id,
         page,
-      };
+      }
 
       mainWindow.webContents.send(
         'register-overlay',
         socketStateCache[socket.id]
-      );
-    });
+      )
+    })
 
     socket.on('disconnect', (reason) => {
-      delete socketCache[socket.id];
-      delete socketStateCache[socket.id];
+      delete socketCache[socket.id]
+      delete socketStateCache[socket.id]
 
-      mainWindow.webContents.send('unregister-overlay', socket.id);
-    });
-  });
+      mainWindow.webContents.send('unregister-overlay', socket.id)
+    })
+  })
 
   socketServer.listen(3005, () => {
-    console.log('Socket server initialized on port 3005');
-  });
+    console.log('Socket server initialized on port 3005')
+  })
 }
 
 function initApp() {
-  bootServer();
-  createWindow();
+  bootServer()
+  createWindow()
 }
 
 function createWindow() {
@@ -328,29 +326,29 @@ function createWindow() {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
     },
-  });
+  })
 
-  mainWindow.loadURL(winURL);
+  mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
+    mainWindow = null
+  })
 }
 
-app.on('ready', initApp);
+app.on('ready', initApp)
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit();
-    socketServer.close();
+    app.quit()
+    socketServer.close()
   }
-});
+})
 
 app.on('activate', () => {
   if (mainWindow === null) {
-    createWindow();
+    createWindow()
   }
-});
+})
 
 /**
  * Auto Updater

@@ -14,5 +14,5 @@ new Vue({
   router,
   store,
   vuetify,
-  template: '<App/>'
+  template: '<App/>',
 }).$mount('#app')
