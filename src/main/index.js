@@ -31,12 +31,12 @@ const winURL =
 if (process.env.NODE_ENV === 'development') {
   fs.copyFile(
     path.join(__static, 'srv', 'js', 'vue@2.dev.js'),
-    path.join(__static, 'srv', 'js', 'vue@2.js')
+    path.join(__static, 'srv', 'js', 'vue@2.js'),
   )
 } else {
   fs.copyFile(
     path.join(__static, 'srv', 'js', 'vue@2.prod.js'),
-    path.join(__static, 'srv', 'js', 'vue@2.js')
+    path.join(__static, 'srv', 'js', 'vue@2.js'),
   )
 }
 
@@ -136,7 +136,7 @@ ipcMain.on('snapshot', (event, data) => {
 })
 
 // open a file for the renderer
-ipcMain.handle('open-file', async() => {
+ipcMain.handle('open-file', async () => {
   try {
     console.log('opening file...')
     const file = await dialog.showOpenDialog({
@@ -149,7 +149,7 @@ ipcMain.handle('open-file', async() => {
   }
 })
 
-ipcMain.handle('set-theme-folder', async(event, reset = false) => {
+ipcMain.handle('set-theme-folder', async (event, reset = false) => {
   try {
     console.log('Beginning theme folder selection')
 
@@ -182,7 +182,7 @@ ipcMain.handle('set-theme-folder', async(event, reset = false) => {
   }
 })
 
-ipcMain.handle('load-state', async() => {
+ipcMain.handle('load-state', async () => {
   try {
     let data = await settings.get('state')
 
@@ -212,12 +212,12 @@ ipcMain.handle('load-state', async() => {
       fs.copyFile(data.imageCache[key].src, data.imageCache[key].dest)
         .then(() => {
           console.log(
-            `Loaded image for key ${key} from ${data.imageCache[key].src}.`
+            `Loaded image for key ${key} from ${data.imageCache[key].src}.`,
           )
         })
         .catch((e) => {
           console.log(
-            `Failed to load image for key ${key} from ${data.imageCache[key].src}`
+            `Failed to load image for key ${key} from ${data.imageCache[key].src}`,
           )
           console.log(e)
         })
@@ -290,17 +290,21 @@ function bootServer() {
         page,
       }
 
-      mainWindow.webContents.send(
-        'register-overlay',
-        socketStateCache[socket.id]
-      )
+      if (mainWindow) {
+        mainWindow.webContents.send(
+          'register-overlay',
+          socketStateCache[socket.id],
+        )
+      }
     })
 
     socket.on('disconnect', (reason) => {
       delete socketCache[socket.id]
       delete socketStateCache[socket.id]
 
-      mainWindow.webContents.send('unregister-overlay', socket.id)
+      if (mainWindow) {
+        mainWindow.webContents.send('unregister-overlay', socket.id)
+      }
     })
   })
 
@@ -331,6 +335,12 @@ function createWindow() {
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {
+    for (const window in previewWindows) {
+      if (previewWindows[window]) {
+        previewWindows.close()
+      }
+    }
+
     mainWindow = null
   })
 }
