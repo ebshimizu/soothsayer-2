@@ -11,6 +11,7 @@ const MUTATION = {
   LOAD_STATE: 'Load Local State',
   SET_APP_PROP: 'Set Application Property',
   UPDATE_THEME_DATA: 'Update Theme Data',
+  UPDATE_KEYBINDS: 'Update Keybinds',
 }
 
 const ACTION = {

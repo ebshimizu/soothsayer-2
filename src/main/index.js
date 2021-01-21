@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, dialog, ipcMain } from 'electron'
+import { app, BrowserWindow, dialog, globalShortcut, ipcMain } from 'electron'
 import http from 'http'
 import serveStatic from 'serve-static'
 import path from 'path'
@@ -9,6 +9,8 @@ import express from 'express'
 import io from 'socket.io'
 import settings from 'electron-settings'
 import { scanForThemes } from './themes'
+import { DEFAULT_SHORTCUTS } from './defaultKeyboardShortcuts'
+import _ from 'lodash'
 // import { autoUpdater } from 'electron-updater'
 
 /**
@@ -182,6 +184,34 @@ ipcMain.handle('set-theme-folder', async (event, reset = false) => {
   }
 })
 
+ipcMain.handle('rebind', (event, keybinds) => {
+  return bindShortcuts(keybinds)
+})
+
+function bindShortcuts(keybinds) {
+  // keybind object consists of key id and the shortcut.
+  // clean
+  globalShortcut.unregisterAll()
+
+  // track which things got registered successfully
+  const result = {}
+
+  // keybinds will always send a 'keyboard' event to the renderer with the payload being the key id
+  for (const id in keybinds) {
+    try {
+      result[id] = globalShortcut.register(keybinds[id], () => {
+        mainWindow.webContents.send('keyboard', { key: id })
+      })
+    } catch (e) {
+      // failed to bind
+      result[id] = false
+    }
+  }
+
+  return result
+}
+
+// this happens when the front end signals that it's up and running.
 ipcMain.handle('load-state', async () => {
   try {
     let data = await settings.get('state')
@@ -195,6 +225,12 @@ ipcMain.handle('load-state', async () => {
     data.localFiles = localFiles
     data.overlays = socketStateCache
     data.availableOverlays = availableOverlays
+
+    // load keybinds, merge into default in case new ones have been added
+    data.keybinds = _.merge(DEFAULT_SHORTCUTS, data.keybinds)
+
+    // bind
+    bindShortcuts(data.keybinds)
 
     delete data.log
 

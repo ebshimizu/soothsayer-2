@@ -30,10 +30,6 @@
           <v-list-item-icon><v-icon>mdi-palette</v-icon></v-list-item-icon>
           <v-list-item-title>Theme</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/keybinds">
-          <v-list-item-icon><v-icon>mdi-keyboard</v-icon></v-list-item-icon>
-          <v-list-item-title>Keybinds</v-list-item-title>
-        </v-list-item>
         <v-list-item to="/status">
           <v-list-item-icon><v-icon>mdi-information</v-icon></v-list-item-icon>
           <v-list-item-title>Status</v-list-item-title>
@@ -58,6 +54,7 @@
 <script>
 import { ipcRenderer } from 'electron'
 import { MUTATION, ACTION } from './store/actions'
+import { KEYBOARD_SHORTCUTS } from './data/keyboardShortcuts'
 
 export default {
   name: 'soothsayer-2',
@@ -80,6 +77,12 @@ export default {
       // action just in case some async stuff needs to happen later
       // images might need to be formatted, etc.
       this.$store.dispatch(ACTION.LOAD_STATE, state)
+    })
+
+    // keyboard shortcuts
+    // main process sends an action key (keyboard shortcuts cannot currently have arguments)
+    ipcRenderer.on('keyboard', (event, { key }) => {
+      this.$store.dispatch(KEYBOARD_SHORTCUTS[key])
     })
 
     // ipcRenderer.send('get-version');

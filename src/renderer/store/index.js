@@ -44,6 +44,7 @@ export default new Vuex.Store({
       availableThemes: {},
       game: GAME.ERBS,
     },
+    keybinds: {}, // default keybinds are defined in the main process and forwarded
     availableOverlays: [],
     overlays: {},
     show: defaultShowData(),
@@ -180,6 +181,17 @@ export default new Vuex.Store({
     [MUTATION.UPDATE_THEME_DATA](state, { availableThemes, folder }) {
       state.app.themeFolder = folder
       Vue.set(state.app, 'availableThemes', availableThemes)
+    },
+    [MUTATION.UPDATE_KEYBINDS](state, { keybinds, status }) {
+      if (!status) {
+        Vue.set(state, 'keybinds', keybinds)
+      } else {
+        for (const key in keybinds) {
+          if (status[key]) {
+            Vue.set(state.keybinds, key, keybinds[key])
+          }
+        }
+      }
     },
   },
   actions: {
