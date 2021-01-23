@@ -32,6 +32,16 @@ const defaultShowData = () => {
     casterCount: 1,
     frameVariant: 1,
     eventLogo: '',
+    tournamentName: '',
+    eventName: '',
+    sponsorLogo: '',
+    notepad: '',
+    date: (new Date()).toISOString().substr(0, 10),
+    time: '12:00',
+    schedule: {},
+    mapImage: '',
+    lowerThirdVisible: false,
+    playerPool: [],
   }
 }
 
@@ -159,9 +169,9 @@ export default new Vuex.Store({
         stateLog(
           state.log,
           `Unable to load local image ${src}.`,
-          LOG_LEVEL.ERROR,
+          LOG_LEVEL.WARN,
         )
-        console.error(e)
+        console.log(e)
       }
     },
     [MUTATION.LOG](state, { message, severity }) {
