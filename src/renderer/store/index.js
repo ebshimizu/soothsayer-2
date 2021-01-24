@@ -11,6 +11,7 @@ import _ from 'lodash'
 import { OVERLAY_MANIFEST } from '../data/overlayManifest'
 import { GAME, GAME_SETTINGS, GAME_STRING } from '../data/supportedGames'
 import { defaultShowData } from './defaults'
+import moment from 'moment'
 
 // log helper for mutations
 function stateLog(log, message, severity) {
@@ -178,6 +179,9 @@ export default new Vuex.Store({
         }
       }
     },
+    [MUTATION.SET_TIMER_PROP](state, { key, value }) {
+      Vue.set(state.show.timer, key, value)
+    },
   },
   actions: {
     [ACTION.INIT_OVERLAY]({ commit, state }, socketData) {
@@ -205,6 +209,73 @@ export default new Vuex.Store({
     [ACTION.SET_THEME]({ commit, state }, data) {
       commit(MUTATION.SET_SHOW_PROP, data)
       ipcRenderer.send('update-all-state', state.show)
+    },
+    [ACTION.START_TIMER]({ commit, dispatch, state }) {
+      // state is updated with current duration (or mode, in the future)
+      // init the end time
+      const end = moment()
+        .add(state.show.timer.minutes, 'm')
+        .add(state.show.timer.seconds, 's')
+
+      commit(MUTATION.SET_TIMER_PROP, { key: 'endsAt', value: end.toDate() })
+      commit(MUTATION.SET_TIMER_PROP, { key: 'pauseDuration', value: 0 })
+      commit(MUTATION.SET_TIMER_PROP, { key: 'isPaused', value: false })
+      commit(MUTATION.SET_TIMER_PROP, { key: 'isPlaying', value: true })
+
+      commit(MUTATION.LOG, {
+        message: `Countdown timer set to end at ${end}`,
+        severity: LOG_LEVEL.INFO,
+      })
+
+      // inform overlays
+      dispatch(ACTION.UPDATE)
+    },
+    [ACTION.STOP_TIMER]({ commit, dispatch }) {
+      commit(MUTATION.SET_TIMER_PROP, { key: 'isPaused', value: false })
+      commit(MUTATION.SET_TIMER_PROP, { key: 'isPlaying', value: false })
+
+      commit(MUTATION.LOG, {
+        message: 'Countdown timer stopped',
+        severity: LOG_LEVEL.INFO,
+      })
+
+      // inform overlays
+      dispatch(ACTION.UPDATE)
+    },
+    [ACTION.PAUSE_TIMER]({ commit, dispatch }) {
+      // set the pause time
+      commit(MUTATION.SET_TIMER_PROP, { key: 'pausedAt', value: new Date() })
+
+      // set the pause key
+      commit(MUTATION.SET_TIMER_PROP, { key: 'isPaused', value: true })
+
+      commit(MUTATION.LOG, {
+        message: 'Countdown timer paused',
+        severity: LOG_LEVEL.INFO,
+      })
+
+      // inform overlays
+      dispatch(ACTION.UPDATE)
+    },
+    [ACTION.RESUME_TIMER]({ commit, dispatch, state }) {
+      // get the pause time and check the duration of the pause
+      const diff =
+        state.show.timer.pauseDuration +
+        moment().diff(moment(state.show.timer.pausedAt), 'ms')
+
+      // set the pause duration
+      commit(MUTATION.SET_TIMER_PROP, { key: 'pauseDuration', value: diff })
+
+      // update keys
+      commit(MUTATION.SET_TIMER_PROP, { key: 'isPaused', value: false })
+
+      commit(MUTATION.LOG, {
+        message: 'Countdown timer resumed',
+        severity: LOG_LEVEL.INFO,
+      })
+
+      // inform overlays
+      dispatch(ACTION.UPDATE)
     },
   },
 })

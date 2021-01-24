@@ -15,7 +15,11 @@
       </v-list>
       <v-divider></v-divider>
       <v-list nav dense>
-        <v-list-item to="/" v-show="$store.getters.menuVisible('general')">
+        <v-list-item to="/">
+          <v-list-item-icon><v-icon>mdi-rocket-launch</v-icon></v-list-item-icon>
+          <v-list-item-title>Dashboard</v-list-item-title>
+        </v-list-item>
+        <v-list-item to="/general" v-show="$store.getters.menuVisible('general')">
           <v-list-item-icon><v-icon>mdi-information</v-icon></v-list-item-icon>
           <v-list-item-title>Cast Info</v-list-item-title>
         </v-list-item>

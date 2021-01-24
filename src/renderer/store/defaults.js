@@ -22,6 +22,16 @@ const defaultShowData = () => {
     mapImage: '',
     lowerThirdVisible: false,
     playerPool: [],
+    timer: {
+      minutes: 0,
+      seconds: 0,
+      pauseDuration: 0,
+      endsAt: null,
+      pausedAt: null,
+      isPlaying: false,
+      isPaused: false,
+      visible: true,
+    },
   }
 }
 

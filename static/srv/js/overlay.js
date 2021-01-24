@@ -51,10 +51,15 @@ const app = {
       }, 3000)
     })
   },
+  beforeMount() {
+    // update timer
+    this.timerId = setInterval(this.updateRemaining, 500)
+  },
   data() {
     return {
       state: {},
       identify: false,
+      timer: '0:00',
     }
   },
   computed: {
@@ -100,8 +105,11 @@ const app = {
       // todo
       return []
     },
-    timer() {
-      return 'TODO'
+    running() {
+      return this.state.timer.isPlaying
+    },
+    paused() {
+      return this.state.timer.isPaused
     },
   },
   methods: {
@@ -111,6 +119,35 @@ const app = {
           ? this.state.casters[index]
           : {}
       }
+    },
+    updateRemaining() {
+      // actually compute the timer
+      if (!this.running) {
+        this.timer = '0:00'
+        return
+      }
+
+      // if it's paused, skip updates (should cache last value)
+      if (this.paused) {
+        return
+      }
+
+      // check diff b/t now and end. End is offset by pause duration.
+      const now = moment()
+      const end = moment(this.state.timer.endsAt)
+      const adjustedEnd = end.add(this.state.timer.pauseDuration, 'ms')
+
+      const diff = adjustedEnd.diff(now)
+
+      if (diff <= 0) {
+        this.timer = '0:00'
+        return
+      }
+
+      // format
+      const s = Math.floor(diff / 1000)
+
+      this.timer = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
     },
   },
 }

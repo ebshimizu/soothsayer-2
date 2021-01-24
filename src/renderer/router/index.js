@@ -6,7 +6,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/general',
       name: 'Cast Info',
       component: require('@/components/GeneralInfo').default,
     },
@@ -24,6 +24,11 @@ export default new Router({
       path: '/status',
       name: 'Status',
       component: require('@/components/AppStatus').default,
+    },
+    {
+      path: '/',
+      name: 'Dashboard',
+      component: require('@/components/AppDashboard').default,
     },
   ],
 })
