@@ -268,15 +268,15 @@ ipcMain.handle('load-state', async () => {
   }
 })
 
-ipcMain.handle('preview', (event, page) => {
+ipcMain.handle('preview', (event, { page, width, height }) => {
   if (page in previewWindows) {
     // already open
     return
   }
 
   previewWindows[page] = new BrowserWindow({
-    width: 1920,
-    height: 1080,
+    width,
+    height,
     useContentSize: true,
     resizable: false,
     parent: mainWindow,

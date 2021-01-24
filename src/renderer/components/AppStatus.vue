@@ -89,7 +89,7 @@ export default {
       clipboard.writeText(`http://localhost:3005/${item.page}`)
     },
     preview(item) {
-      ipcRenderer.invoke('preview', item.page)
+      ipcRenderer.invoke('preview', item)
     },
     identify(item) {
       // send an identify command to the overlay, which displays a full-screen overlay for a few seconds

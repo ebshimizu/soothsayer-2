@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Soothsayer - Standby</title>
+    <script src="/js/vue@2.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/overlay.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/overlay.css" />
+  </head>
+  <body id="standby">
+    <div id="app">
+      <!-- Identify overlay-->
+      <div id="identifier" v-bind:class="{ active: identify }">
+        This is a {{ overlayName }} overlay
+      </div>
+
+      <!-- Put Theme Specific Things After This Comment -->
+      <div class="tournament-name primary">{{ tournamentName }}</div>
+      <div class="tournament-name secondary">{{ tournamentName }}</div>
+      <div class="timer">{{ timer }}</div>
+
+      <div class="up-now">
+        <div class="event-name">{{ eventName }}</div>
+        <div class="event-time">
+          <span class="day">{{ eventDay }}</span>
+          <span class="time">{{ eventTime }}</span>
+        </div>
+      </div>
+
+      <!-- upcoming event list -->
+      <div class="up-next">
+        <div
+          class="up-next-item"
+          v-for="(item, index) in schedule"
+          :key="index"
+        >
+          <div class="event-name">{{ item.eventName }}</div>
+          <div class="event-time">
+            <span class="day">{{ item.eventDay }}</span>
+            <span class="time">{{ item.eventTime }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="aux-1"></div>
+      <div class="aux-2"></div>
+      <div class="aux-3"></div>
+      <div class="ref"></div>
+      <!-- Stop putting theme things after this comment -->
+
+      <!-- Theme style link -->
+      <link
+        rel="stylesheet"
+        type="text/css"
+        v-bind:href="theme + '/css/theme.css'"
+      />
+    </div>
+
+    <!-- theme specific js file -->
+    <script src="/js/standby.js"></script>
+  </body>
+</html>

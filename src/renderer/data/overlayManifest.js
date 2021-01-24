@@ -1,9 +1,19 @@
+const OVERLAY_FILES = {
+  casterSingleFrame: 'caster-single-frame.html',
+  standby: 'standby.html',
+}
+
 const OVERLAY_MANIFEST = {
-  'caster-single-frame.html': {
+  [OVERLAY_FILES.casterSingleFrame]: {
     name: 'Caster Frame - Single',
-    resolution: '1920 x 1080',
-    support: [], // todo: fill this in with keys for which games support what overlay
+    width: 1920,
+    height: 1080,
+  },
+  [OVERLAY_FILES.standby]: {
+    name: 'Standby',
+    width: 1920,
+    height: 1080,
   },
 }
 
-export { OVERLAY_MANIFEST }
+export { OVERLAY_MANIFEST, OVERLAY_FILES }

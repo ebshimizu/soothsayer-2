@@ -10,6 +10,7 @@ import { Persistence } from './persistence'
 import _ from 'lodash'
 import { OVERLAY_MANIFEST } from '../data/overlayManifest'
 import { GAME, GAME_SETTINGS, GAME_STRING } from '../data/supportedGames'
+import { defaultShowData } from './defaults'
 
 // log helper for mutations
 function stateLog(log, message, severity) {
@@ -17,33 +18,6 @@ function stateLog(log, message, severity) {
 }
 
 Vue.use(Vuex)
-
-const defaultShowData = () => {
-  return {
-    theme: '',
-    themeOverrides: {},
-    casters: [
-      {
-        name: '',
-        social: '',
-        textSize: 'medium',
-      },
-    ],
-    casterCount: 1,
-    frameVariant: 1,
-    eventLogo: '',
-    tournamentName: '',
-    eventName: '',
-    sponsorLogo: '',
-    notepad: '',
-    date: (new Date()).toISOString().substr(0, 10),
-    time: '12:00',
-    schedule: {},
-    mapImage: '',
-    lowerThirdVisible: false,
-    playerPool: [],
-  }
-}
 
 export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
@@ -89,6 +63,7 @@ export default new Vuex.Store({
       return overlays.map((o) => {
         return {
           ...OVERLAY_MANIFEST[o],
+          resolution: `${OVERLAY_MANIFEST[o].width} x ${OVERLAY_MANIFEST[o].height}`,
           page: o,
         }
       })
