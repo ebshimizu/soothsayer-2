@@ -4,15 +4,18 @@
     <v-card-subtitle>Displays a countdown timer</v-card-subtitle>
     <v-card-text>
       <v-row dense>
-        <v-col cols="1" class="mx-auto my-auto">
+        <v-col cols="1" class="mx-auto my-auto text-center">
           <h2>{{ remaining }}</h2>
         </v-col>
-        <v-col class="my-auto" cols="4">
+        <v-col class="my-auto">
           <v-btn color="green" @click="start">
             <v-icon>{{ playOrPauseIcon }}</v-icon> {{ playOrPause }}
           </v-btn>
           <v-btn color="red" @click="stop">
             <v-icon>mdi-stop</v-icon> Stop
+          </v-btn>
+          <v-btn @click="visible = !visible">
+            {{ visible ? 'Visible' : 'Hidden' }}
           </v-btn>
         </v-col>
         <v-col cols="2">
@@ -74,6 +77,15 @@ export default {
       },
       set(value) {
         this.$store.commit(MUTATION.SET_TIMER_PROP, { key: 'seconds', value })
+      },
+    },
+    visible: {
+      get() {
+        return this.$store.state.show.timer.visible
+      },
+      set(value) {
+        this.$store.commit(MUTATION.SET_TIMER_PROP, { key: 'visible', value })
+        this.$store.dispatch(ACTION.UPDATE)
       },
     },
     running() {

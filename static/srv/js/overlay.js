@@ -94,22 +94,33 @@ const app = {
     eventName() {
       return this.state?.eventName
     },
+    tournamentTime() {
+      return moment(`${this.state?.date}T${this.state?.time}`)
+    },
+    eventDow() {
+      return this.tournamentTime.format('dddd')
+    },
+    eventMonth() {
+      return this.tournamentTime.format('MMMM')
+    },
     eventDay() {
-      // todo: go get moment.js for formatting
-      return this.state?.date
+      return this.tournamentTime.format('DDDo')
     },
     eventTime() {
-      return this.state?.time
+      return this.tournamentTime.format('h:mm a')
     },
     schedule() {
       // todo
       return []
     },
     running() {
-      return this.state.timer.isPlaying
+      return this.state.timer?.isPlaying ?? false
     },
     paused() {
-      return this.state.timer.isPaused
+      return this.state.timer?.isPaused ?? false
+    },
+    timerVisible() {
+      return this.state.timer?.visible ?? false
     },
   },
   methods: {

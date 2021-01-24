@@ -133,7 +133,7 @@ ipcMain.on('identify', (event, id) => {
 // snapshot the entire application store for loading later
 // happens on update or on specific actions/mutations
 ipcMain.on('snapshot', (event, data) => {
-  console.log('Snapshotting state')
+  // console.log('Snapshotting state')
   settings.set('state', data)
 })
 

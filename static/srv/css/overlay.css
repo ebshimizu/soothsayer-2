@@ -15,7 +15,7 @@ body {
 }
 
 .debug {
-  background-color: #FF00FFA1
+  background-color: #ff00ffa1 !important;
 }
 
 #identifier {

@@ -19,13 +19,20 @@
       <!-- Put Theme Specific Things After This Comment -->
       <div class="tournament-name primary">{{ tournamentName }}</div>
       <div class="tournament-name secondary">{{ tournamentName }}</div>
-      <div class="timer">{{ timer }}</div>
+      <div class="timer" v-show="timerVisible">
+        <div class="timer-aux"></div>
+        {{ timer }}
+      </div>
 
       <div class="up-now">
-        <div class="event-name">{{ eventName }}</div>
-        <div class="event-time">
-          <span class="day">{{ eventDay }}</span>
-          <span class="time">{{ eventTime }}</span>
+        <div class="up-next-item">
+          <div class="event-name">{{ eventName }}</div>
+          <div class="event-time">
+            <span class="day-of-week">{{ eventDow }}</span>
+            <span class="month">{{ eventMonth }}</span>
+            <span class="day">{{ eventDay }}</span>
+            <span class="time">{{ eventTime }}</span>
+          </div>
         </div>
       </div>
 
@@ -33,6 +40,7 @@
       <div class="up-next">
         <div
           class="up-next-item"
+          index="index"
           v-for="(item, index) in schedule"
           :key="index"
         >
