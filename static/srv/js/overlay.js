@@ -32,6 +32,7 @@ const app = {
   beforeCreate() {
     socket.on('requestID', () => {
       console.log('Connected')
+      this.socketId = socket.id
       socket.emit('reportID', {
         id: window.overlayId,
         page: window.location.pathname.split('/')[1],
@@ -48,7 +49,7 @@ const app = {
       this.identify = true
       setTimeout(() => {
         this.identify = false
-      }, 3000)
+      }, 5000)
     })
   },
   beforeMount() {
@@ -60,6 +61,7 @@ const app = {
       state: {},
       identify: false,
       timer: '0:00',
+      socketId: null,
     }
   },
   computed: {
@@ -94,24 +96,48 @@ const app = {
     eventName() {
       return this.state?.eventName
     },
-    tournamentTime() {
-      return moment(`${this.state?.date}T${this.state?.time}`)
+    currentEvent() {
+      return this.schedule.length > 0 ? this.schedule[0] : {}
     },
-    eventDow() {
-      return this.tournamentTime.format('dddd')
-    },
-    eventMonth() {
-      return this.tournamentTime.format('MMMM')
-    },
-    eventDay() {
-      return this.tournamentTime.format('DDDo')
-    },
-    eventTime() {
-      return this.tournamentTime.format('h:mm a')
+    upcomingEvents() {
+      return this.schedule.length > 1 ? this.schedule.slice(1) : []
     },
     schedule() {
-      // todo
-      return []
+      const schedule = this.state?.schedule ?? {}
+
+      // format
+      const formatted = Object.values(schedule).map((event) => {
+        const time = moment(`${event.date}T${event.time}`)
+
+        return {
+          ...event,
+          timeObj: time,
+          eventDow: time.format('dddd'),
+          eventMonth: time.format('MMMM'),
+          eventDay: time.format('DDDo'),
+          eventTime: time.format('h:mm a'),
+        }
+      })
+
+      // sort oldest to newest
+      formatted.sort((a, b) => a.timeObj.toDate() - b.timeObj.toDate())
+
+      // filter
+      const now = new Date()
+      return formatted.filter((e, idx) => {
+        // events that already happened (e.timeObj < now) and have another event in front
+        // of them that has already happened
+        // (formatted[idx + 1].timeObj < now) get removed
+        if (idx < formatted.length - 1) {
+          return !(
+            e.timeObj.toDate() < now &&
+            formatted[idx + 1].timeObj.toDate() < now
+          )
+        }
+
+        // keep the last object
+        return true
+      })
     },
     running() {
       return this.state.timer?.isPlaying ?? false

@@ -23,6 +23,10 @@
           <v-list-item-icon><v-icon>mdi-information</v-icon></v-list-item-icon>
           <v-list-item-title>Cast Info</v-list-item-title>
         </v-list-item>
+        <v-list-item to="/tournament" v-show="$store.getters.menuVisible('tournament')">
+          <v-list-item-icon><v-icon>mdi-tournament</v-icon></v-list-item-icon>
+          <v-list-item-title>Tournament Info</v-list-item-title>
+        </v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list nav dense>

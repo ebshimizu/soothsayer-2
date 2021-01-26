@@ -2,10 +2,12 @@ import { OVERLAY_FILES } from '../overlayManifest'
 
 const COMPONENT_VISIBLE = {
   'general-info': true,
+  'tournament-info': true,
 }
 
 const MENU_VISIBLE = {
   general: true,
+  tournament: true,
 }
 
 const OVERLAY_SUPPORT = {

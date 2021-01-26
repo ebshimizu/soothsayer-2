@@ -30,5 +30,10 @@ export default new Router({
       name: 'Dashboard',
       component: require('@/components/AppDashboard').default,
     },
+    {
+      path: '/tournament',
+      name: 'Tournament Info',
+      component: require('@/components/TournamentInfo').default,
+    },
   ],
 })

@@ -10,7 +10,7 @@ import { Persistence } from './persistence'
 import _ from 'lodash'
 import { OVERLAY_MANIFEST } from '../data/overlayManifest'
 import { GAME, GAME_SETTINGS, GAME_STRING } from '../data/supportedGames'
-import { defaultShowData } from './defaults'
+import { defaultShowData, scheduleItem } from './defaults'
 import moment from 'moment'
 
 // log helper for mutations
@@ -82,6 +82,9 @@ export default new Vuex.Store({
       return Object.keys(GAME).map((k) => {
         return { value: k, text: GAME_STRING[k] }
       })
+    },
+    tournamentSchedule(state) {
+      return Object.values(state.show.schedule)
     },
   },
   mutations: {
@@ -181,6 +184,19 @@ export default new Vuex.Store({
     },
     [MUTATION.SET_TIMER_PROP](state, { key, value }) {
       Vue.set(state.show.timer, key, value)
+    },
+    [MUTATION.ADD_TOURNAMENT_SCHEDULE_ITEM](state) {
+      const newItem = scheduleItem()
+      Vue.set(state.show.schedule, newItem.id, newItem)
+    },
+    [MUTATION.DELETE_TOURNAMENT_SCHEDULE_ITEM](state, id) {
+      Vue.delete(state.show.schedule, id)
+    },
+    [MUTATION.DELETE_TOURNAMENT_SCHEDULE](state) {
+      state.show.schedule = {}
+    },
+    [MUTATION.SET_TOURNAMENT_SCHEDULE_PROP](state, { id, key, value }) {
+      Vue.set(state.show.schedule[id], key, value)
     },
   },
   actions: {

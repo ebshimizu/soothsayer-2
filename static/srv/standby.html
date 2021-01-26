@@ -13,7 +13,8 @@
     <div id="app">
       <!-- Identify overlay-->
       <div id="identifier" v-bind:class="{ active: identify }">
-        This is a {{ overlayName }} overlay
+        This is a {{ overlayName }} overlay<br />
+        <span class="id">id: {{ socketId }}</span>
       </div>
 
       <!-- Put Theme Specific Things After This Comment -->
@@ -26,12 +27,12 @@
 
       <div class="up-now">
         <div class="up-next-item">
-          <div class="event-name">{{ eventName }}</div>
+          <div class="event-name">{{ currentEvent.name }}</div>
           <div class="event-time">
-            <span class="day-of-week">{{ eventDow }}</span>
-            <span class="month">{{ eventMonth }}</span>
-            <span class="day">{{ eventDay }}</span>
-            <span class="time">{{ eventTime }}</span>
+            <span class="day-of-week">{{ currentEvent.eventDow }}</span>
+            <span class="month">{{ currentEvent.eventMonth }}</span>
+            <span class="day">{{ currentEvent.eventDay }}</span>
+            <span class="time">{{ currentEvent.eventTime }}</span>
           </div>
         </div>
       </div>
@@ -40,12 +41,14 @@
       <div class="up-next">
         <div
           class="up-next-item"
-          index="index"
-          v-for="(item, index) in schedule"
+          :index="index"
+          v-for="(item, index) in upcomingEvents"
           :key="index"
         >
-          <div class="event-name">{{ item.eventName }}</div>
+          <div class="event-name">{{ item.name }}</div>
           <div class="event-time">
+            <span class="day-of-week">{{ item.eventDow }}</span>
+            <span class="month">{{ item.eventMonth }}</span>
             <span class="day">{{ item.eventDay }}</span>
             <span class="time">{{ item.eventTime }}</span>
           </div>
@@ -55,7 +58,6 @@
       <div class="aux-1"></div>
       <div class="aux-2"></div>
       <div class="aux-3"></div>
-      <div class="ref"></div>
       <!-- Stop putting theme things after this comment -->
 
       <!-- Theme style link -->

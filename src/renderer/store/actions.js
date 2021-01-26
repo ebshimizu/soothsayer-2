@@ -13,6 +13,10 @@ const MUTATION = {
   UPDATE_THEME_DATA: 'Update Theme Data',
   UPDATE_KEYBINDS: 'Update Keybinds',
   SET_TIMER_PROP: 'Set Timer Property',
+  ADD_TOURNAMENT_SCHEDULE_ITEM: 'Add Tournament Schedule Item',
+  DELETE_TOURNAMENT_SCHEDULE_ITEM: 'Delete Tournament Schedule Item',
+  SET_TOURNAMENT_SCHEDULE_PROP: 'Set Tournament Schedule Prop',
+  DELETE_TOURNAMENT_SCHEDULE: 'Delete All Tournament Schedule Items',
 }
 
 const ACTION = {

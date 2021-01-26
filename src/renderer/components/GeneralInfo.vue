@@ -64,75 +64,6 @@
         <v-card-title>Uncategorized</v-card-title>
         <v-card-text>
           <v-row dense>
-            <v-col>
-              <v-text-field
-                label="Tournament Name"
-                :value="$store.state.show.tournamentName"
-                @input="(v) => updateShowParam('tournamentName', v)"
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field
-                label="Event Name"
-                :value="$store.state.show.eventName"
-                @input="(v) => updateShowParam('eventName', v)"
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-menu
-                v-model="datePicker"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="date"
-                    label="Tournament Day"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="date"
-                  @input="datePicker = false"
-                ></v-date-picker>
-              </v-menu>
-            </v-col>
-            <v-col>
-              <v-menu
-                ref="menu"
-                v-model="timePicker"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                :return-value.sync="time"
-                transition="scale-transition"
-                offset-y
-                max-width="290px"
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="time"
-                    label="Tournament Time"
-                    prepend-icon="mdi-clock-time-four-outline"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-time-picker
-                  v-if="timePicker"
-                  v-model="time"
-                  full-width
-                  @click:minute="$refs.menu.save(time)"
-                ></v-time-picker>
-              </v-menu>
-            </v-col>
             <v-col cols="12">
               <v-combobox
                 label="Sponsor Logo"
@@ -178,8 +109,6 @@ export default {
       casters: this.$store.state.show.casters,
       casterConfigs: CASTER_CONFIGS,
       frameVariants: FRAME_VARIANTS,
-      datePicker: false,
-      timePicker: false,
       defaultSponsors: SPONSOR_LOGOS,
     }
   },
@@ -210,28 +139,6 @@ export default {
       set(value) {
         this.$store.commit(MUTATION.SET_SHOW_PROP, {
           key: 'eventLogo',
-          value,
-        })
-      },
-    },
-    date: {
-      get() {
-        return this.$store.state.show.date
-      },
-      set(value) {
-        this.$store.commit(MUTATION.SET_SHOW_PROP, {
-          key: 'date',
-          value,
-        })
-      },
-    },
-    time: {
-      get() {
-        return this.$store.state.show.time
-      },
-      set(value) {
-        this.$store.commit(MUTATION.SET_SHOW_PROP, {
-          key: 'time',
           value,
         })
       },

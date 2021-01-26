@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid'
+
 const defaultShowData = () => {
   return {
     theme: '',
@@ -13,11 +15,8 @@ const defaultShowData = () => {
     frameVariant: 1,
     eventLogo: '',
     tournamentName: '',
-    eventName: '',
     sponsorLogo: '',
     notepad: '',
-    date: (new Date()).toISOString().substr(0, 10),
-    time: '12:00',
     schedule: {},
     mapImage: '',
     lowerThirdVisible: false,
@@ -35,4 +34,13 @@ const defaultShowData = () => {
   }
 }
 
-export { defaultShowData }
+const scheduleItem = () => {
+  return {
+    date: new Date().toISOString().substr(0, 10),
+    time: '12:00',
+    name: '',
+    id: uuidv4(),
+  }
+}
+
+export { defaultShowData, scheduleItem }
