@@ -27,6 +27,10 @@
           <v-list-item-icon><v-icon>mdi-tournament</v-icon></v-list-item-icon>
           <v-list-item-title>Tournament Info</v-list-item-title>
         </v-list-item>
+        <v-list-item to="/whiteboard" v-show="$store.getters.menuVisible('whiteboard')">
+          <v-list-item-icon><v-icon>mdi-draw</v-icon></v-list-item-icon>
+          <v-list-item-title>Whiteboard</v-list-item-title>
+        </v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list nav dense>

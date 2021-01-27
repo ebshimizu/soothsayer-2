@@ -35,5 +35,10 @@ export default new Router({
       name: 'Tournament Info',
       component: require('@/components/TournamentInfo').default,
     },
+    {
+      path: '/whiteboard',
+      name: 'Whiteboard',
+      component: require('@/components/WhiteBoard').default,
+    },
   ],
 })
