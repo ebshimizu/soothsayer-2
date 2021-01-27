@@ -22,6 +22,19 @@ const WHITEBOARD_SETTINGS = {
   height: 888 * 1.1,
   originOffset: 0.05,
   background: 'erbs-map-map.png',
+  stamps: [
+    'erbs-map_1.png',
+    'erbs-map_2.png',
+    'erbs-map_3.png',
+    'erbs-map_4.png',
+    'erbs-map_5.png',
+    'erbs-map_6.png',
+  ],
 }
 
-export default { COMPONENT_VISIBLE, MENU_VISIBLE, OVERLAY_SUPPORT, WHITEBOARD_SETTINGS }
+export default {
+  COMPONENT_VISIBLE,
+  MENU_VISIBLE,
+  OVERLAY_SUPPORT,
+  WHITEBOARD_SETTINGS,
+}
