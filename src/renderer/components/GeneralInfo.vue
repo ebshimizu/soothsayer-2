@@ -60,6 +60,9 @@
       </v-card>
     </v-col>
     <v-col cols="12">
+      <note-pad></note-pad>
+    </v-col>
+    <v-col cols="12">
       <v-card outlined>
         <v-card-title>Uncategorized</v-card-title>
         <v-card-text>
@@ -74,13 +77,6 @@
                 v-model="sponsorLogo"
                 :items="defaultSponsors"
               ></v-combobox>
-            </v-col>
-            <v-col cols="12">
-              <v-textarea
-                label="Notepad"
-                :value="$store.state.show.notepad"
-                @input="(v) => updateShowParam('notepad', v)"
-              ></v-textarea>
             </v-col>
           </v-row>
         </v-card-text>
@@ -98,9 +94,11 @@ import {
   SPONSOR_LOGOS,
 } from '../data/appDefaults'
 import { browseAndLoadLocalFile } from './util'
+import NotePad from './NotePad.vue'
 
 export default {
   name: 'general-info',
+  components: { NotePad },
   created() {
     this.update = _.debounce(this.debouncedUpdate, 100)
   },

@@ -17,6 +17,7 @@ const defaultShowData = () => {
     tournamentName: '',
     sponsorLogo: '',
     notepad: '',
+    notepadTitle: '',
     schedule: {},
     mapImage: '',
     lowerThirdVisible: false,
