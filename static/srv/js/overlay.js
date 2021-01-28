@@ -150,6 +150,12 @@ const app = {
     timerVisible() {
       return this.state.timer?.visible ?? false
     },
+    notepadHeader() {
+      return this.state.notepadTitle
+    },
+    notepadText() {
+      return this.state.notepad?.split('\n') ?? false
+    }
   },
   methods: {
     getCaster(index) {

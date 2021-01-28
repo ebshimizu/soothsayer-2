@@ -18,8 +18,15 @@
       </div>
 
       <!-- Put Theme Specific Things After This Comment -->
-      <div class="whiteboard-image" :style="{ backgroundImage: whiteboard }">
-
+      <div
+        class="whiteboard-image"
+        :style="{ backgroundImage: whiteboard }"
+      ></div>
+      <div class="text">
+        <div class="header">{{ notepadHeader }}</div>
+        <div class="line" v-for="(text, index) in notepadText" :key="index">
+          {{ text }}
+        </div>
       </div>
 
       <div class="ref"></div>
