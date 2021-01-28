@@ -69,7 +69,25 @@ const defaultThemeFolder = path.join(localFiles, 'themes')
 // temp image file folder
 const imgFolder = path.join(localFiles, 'img')
 fs.ensureDirSync(imgFolder)
+
+// ok i want to grab the whiteboard image real quick because it doesn't render until mount
+if (fs.existsSync(path.join(imgFolder, 'whiteboard.png'))) {
+  fs.copyFileSync(
+    path.join(imgFolder, 'whiteboard.png'),
+    path.join(localFiles, 'whiteboard.png'),
+  )
+}
+
 fs.emptyDirSync(imgFolder)
+
+// and now put it back
+if (fs.existsSync(path.join(localFiles, 'whiteboard.png'))) {
+  fs.copyFileSync(
+    path.join(localFiles, 'whiteboard.png'),
+    path.join(imgFolder, 'whiteboard.png'),
+  )
+}
+
 const soothsayerLocalImageServer = serveStatic(imgFolder)
 
 console.log(`Serving from ${path.join(__static, 'srv')}`)

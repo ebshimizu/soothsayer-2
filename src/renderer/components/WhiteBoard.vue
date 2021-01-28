@@ -50,6 +50,7 @@
             ref="canvas"
             :width="width"
             :height="height"
+            tabindex="1"
           ></canvas>
         </div>
       </v-col>
@@ -58,6 +59,8 @@
 </template>
 
 <script>
+import fs from 'fs-extra'
+import path from 'path'
 import { GAME_SETTINGS, WHITEBOARD_IMAGES } from '../data/supportedGames'
 
 export default {
@@ -73,6 +76,7 @@ export default {
   },
   mounted() {
     this.canvas = new fabric.Canvas(this.$refs.canvas)
+    this.canvas.on('mouse:up', this.updoot)
     this.reset()
     this.canvas.freeDrawingBrush.color = this.color
     this.canvas.freeDrawingBrush.width = this.strokeWidth
@@ -144,6 +148,7 @@ export default {
           originY: 'top',
         },
       )
+      setTimeout(this.updoot, 250)
     },
     deleteSelected() {
       const selected = this.canvas.getActiveObjects()
@@ -163,6 +168,22 @@ export default {
         top: this.width / 2,
       })
       this.canvas.add(canvasImg)
+    },
+    updoot(opt) {
+      // save that canvas
+      const data = this.canvas.toDataURL()
+      const base64Data = data.replace(/^data:image\/png;base64,/, '')
+      fs.writeFile(
+        path.join(this.$store.state.localFiles, 'img', 'whiteboard.png'),
+        base64Data,
+        'base64',
+        function (err) {
+          // yeah like i don't really care about the error lol
+          console.log(err)
+        },
+      )
+
+      this.canvas.renderAll()
     },
   },
 }

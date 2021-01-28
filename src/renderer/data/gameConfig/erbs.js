@@ -15,6 +15,7 @@ const MENU_VISIBLE = {
 const OVERLAY_SUPPORT = {
   [OVERLAY_FILES.casterSingleFrame]: true,
   [OVERLAY_FILES.standby]: true,
+  [OVERLAY_FILES.whiteboard]: true,
 }
 
 const WHITEBOARD_SETTINGS = {

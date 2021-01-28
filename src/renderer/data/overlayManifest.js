@@ -1,6 +1,7 @@
 const OVERLAY_FILES = {
   casterSingleFrame: 'caster-single-frame.html',
   standby: 'standby.html',
+  whiteboard: 'whiteboard.html',
 }
 
 const OVERLAY_MANIFEST = {
@@ -11,6 +12,11 @@ const OVERLAY_MANIFEST = {
   },
   [OVERLAY_FILES.standby]: {
     name: 'Standby',
+    width: 1920,
+    height: 1080,
+  },
+  [OVERLAY_FILES.whiteboard]: {
+    name: 'Whiteboard',
     width: 1920,
     height: 1080,
   },

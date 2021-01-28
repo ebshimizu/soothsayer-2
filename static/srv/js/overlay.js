@@ -42,6 +42,7 @@ const app = {
     socket.on('update', (state) => {
       console.log('State updated')
       this.state = state
+      this.whiteboard = `url('/whiteboard.png?${Date.now()}')`
     })
 
     socket.on('identify', () => {
@@ -62,6 +63,7 @@ const app = {
       identify: false,
       timer: '0:00',
       socketId: null,
+      whiteboard: "url('/whiteboard.png')",
     }
   },
   computed: {
