@@ -61,6 +61,7 @@
 <script>
 import fs from 'fs-extra'
 import path from 'path'
+import { MUTATION } from '../store/actions'
 import { GAME_SETTINGS, WHITEBOARD_IMAGES } from '../data/supportedGames'
 
 export default {
@@ -77,9 +78,17 @@ export default {
   mounted() {
     this.canvas = new fabric.Canvas(this.$refs.canvas)
     this.canvas.on('mouse:up', this.updoot)
-    this.reset()
     this.canvas.freeDrawingBrush.color = this.color
     this.canvas.freeDrawingBrush.width = this.strokeWidth
+
+    // load
+    if (this.$store.state.whiteboardData) {
+      this.canvas.loadFromJSON(this.$store.state.whiteboardData, () => {
+        this.updoot()
+      })
+    } else {
+      this.reset()
+    }
   },
   watch: {
     // proxy for when game changes
@@ -179,10 +188,11 @@ export default {
         'base64',
         function (err) {
           // yeah like i don't really care about the error lol
-          console.log(err)
+          if (err) console.log(err)
         },
       )
 
+      this.$store.commit(MUTATION.SAVE_CANVAS, JSON.stringify(this.canvas))
       this.canvas.renderAll()
     },
   },

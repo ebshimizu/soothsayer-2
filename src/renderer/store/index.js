@@ -37,6 +37,7 @@ export default new Vuex.Store({
     log: [],
     version: 'uh oh',
     localFiles: '',
+    whiteboardData: null,
   },
   getters: {
     version(state) {
@@ -197,6 +198,9 @@ export default new Vuex.Store({
     },
     [MUTATION.SET_TOURNAMENT_SCHEDULE_PROP](state, { id, key, value }) {
       Vue.set(state.show.schedule[id], key, value)
+    },
+    [MUTATION.SAVE_CANVAS](state, data) {
+      state.whiteboardData = data
     },
   },
   actions: {

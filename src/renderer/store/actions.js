@@ -17,6 +17,7 @@ const MUTATION = {
   DELETE_TOURNAMENT_SCHEDULE_ITEM: 'Delete Tournament Schedule Item',
   SET_TOURNAMENT_SCHEDULE_PROP: 'Set Tournament Schedule Prop',
   DELETE_TOURNAMENT_SCHEDULE: 'Delete All Tournament Schedule Items',
+  SAVE_CANVAS: 'Save Canvas',
 }
 
 const ACTION = {
