@@ -107,7 +107,10 @@ export default new Vuex.Store({
         while (state.show.casters.length < count) {
           state.show.casters.push({
             name: '',
-            social: '',
+            socialTwitch: '',
+            socialTwitter: '',
+            socialYoutube: '',
+            socialInsta: '',
             textSize: 'medium',
           })
         }

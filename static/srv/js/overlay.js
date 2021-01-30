@@ -71,14 +71,34 @@ const app = {
       // check overrides at some point
       return getTheme(this.state)
     },
+    lowerThirdVisible() {
+      // TODO: add flag for lower third visibility
+      return false
+    },
     casterOneName() {
       return this.getCaster(0)?.name
     },
-    casterOneSocial() {
-      return this.getCaster(0)?.social
+    casterOneTwitter() {
+      return this.getCaster(0)?.socialTwitter
+    },
+    casterOneTwitch() {
+      return this.getCaster(0)?.socialTwitch
+    },
+    casterOneYoutube() {
+      return this.getCaster(0)?.socialYoutube
+    },
+    casterOneInstagram() {
+      return this.getCaster(0)?.socialInstagram
     },
     casterOneTextSize() {
-      return this.getCaster(0)?.textSize
+      // based on text length
+      const casterName = this.casterOneName ?? ''
+
+      if (casterName.length > 15) {
+        return 'small'
+      }
+
+      return 'medium'
     },
     eventLogo() {
       if (this.state?.eventLogo) {

@@ -9,16 +9,25 @@
     <script src="/js/overlay.js"></script>
     <link rel="stylesheet" type="text/css" href="css/overlay.css" />
   </head>
-  <body id="single-caster-frame">
-    <div id="app">
+  <body id="caster-frame" class="single">
+    <div id="app" v-bind:class="{ lowerThird: lowerThirdVisible }">
       <div id="identifier" v-bind:class="{ active: identify }">
         This is a {{ overlayName }} overlay
       </div>
-      <div class="caster-name-flex one" v-bind:class="casterOneTextSize">
-        <div id="caster-1-name">{{ casterOneName }}</div>
-      </div>
-      <div class="caster-social-flex one" v-bind:class="casterOneTextSize">
-        <div id="caster-1-social">{{ casterOneSocial }}</div>
+      <div class="caster one" v-bind:class="casterOneTextSize">{{ casterOneName }}</div>
+      <div class="caster-social-flex one">
+        <div id="caster-1-twitter" class="social twitter">
+          {{ casterOneTwitter }}
+        </div>
+        <div id="caster-1-twitch" class="social twitch">
+          {{ casterOneTwitch }}
+        </div>
+        <div id="caster-1-youtube" class="social youtube">
+          {{ casterOneYoutube }}
+        </div>
+        <div id="caster-1-instagram" class="social instagram">
+          {{ casterOneInstagram }}
+        </div>
       </div>
       <div id="blue-team-logo" class="team-logo"></div>
       <div id="red-team-logo" class="team-logo"></div>
@@ -36,10 +45,9 @@
       </div>
       <div class="tournament-name-flex"><div id="tournament-name"></div></div>
       <!-- themeable elements -->
-      <div id="logo1"></div>
-      <div id="logo2"></div>
-      <div id="logo3"></div>
+      <div id="aux1"></div>
       <div id="event-logo" v-bind:style="eventLogo"></div>
+      <div class="ref"></div>
 
       <!-- lol? -->
       <link

@@ -14,15 +14,7 @@
                 item-value="value"
               ></v-select>
             </v-col>
-            <v-col cols="3">
-              <v-select
-                label="Frame Variant"
-                v-model="frameVariant"
-                :items="frameVariants"
-              >
-              </v-select>
-            </v-col>
-            <v-col cols="6">
+            <v-col cols="9">
               <v-text-field
                 label="Event Logo"
                 clearable
@@ -34,27 +26,53 @@
             </v-col>
           </v-row>
           <v-row v-for="(caster, index) in casters" :key="index">
-            <v-col cols="7">
-              <v-text-field
-                :value="caster.name"
-                :label="`Caster ${index + 1} Name`"
-                @input="(v) => update(index, 'name', v)"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="3">
-              <v-text-field
-                :value="caster.social"
-                :label="`Caster ${index + 1} Social`"
-                @input="(v) => update(index, 'social', v)"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="2">
-              <v-select
-                label="Text Size"
-                :value="caster.textSize"
-                @input="(v) => update(index, 'textSize', v)"
-              ></v-select>
-            </v-col>
+            <v-col cols="12">
+              <v-card>
+                <v-card-title>Caster {{ index + 1 }} Info</v-card-title>
+                <v-card-text>
+                  <v-row dense>
+                    <v-col cols="4">
+                      <v-text-field
+                        :value="caster.name"
+                        :label="`Caster ${index + 1} Name`"
+                        @input="(v) => update(index, 'name', v)"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-text-field
+                        :value="caster.socialTwitch"
+                        label="Twitch"
+                        prepend-icon="mdi-twitch"
+                        @input="(v) => update(index, 'socialTwitch', v)"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-text-field
+                        :value="caster.socialTwitter"
+                        label="Twitter"
+                        prepend-icon="mdi-twitter"
+                        @input="(v) => update(index, 'socialTwitter', v)"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-text-field
+                        :value="caster.socialYoutube"
+                        label="YouTube"
+                        prepend-icon="mdi-youtube"
+                        @input="(v) => update(index, 'socialYoutube', v)"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-text-field
+                        :value="caster.socialInsta"
+                        label="Instagram"
+                        prepend-icon="mdi-instagram"
+                        @input="(v) => update(index, 'socialInsta', v)"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-card-text> </v-card
+            ></v-col>
           </v-row>
         </v-card-text>
       </v-card>
