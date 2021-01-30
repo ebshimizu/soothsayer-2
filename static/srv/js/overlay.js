@@ -40,9 +40,22 @@ const app = {
     })
 
     socket.on('update', (state) => {
-      console.log('State updated')
+      // the lower third updating logic is in a different file.
+      // however, there's a case we do have to handle here
+      // if, before the update, the lower third is hidden at the top level, immediately commit the change,
+      // do not wait for any animation stuff to happen
+      // this way, we don't duplicate animations if the lower third is changing data and also becoming visible
+      if (!this.state.lowerThirdVisible) {
+        this.lowerThird = Object.assign({}, state.lowerThird)
+        // DON'T TOUCH MODIFIED
+      } else {
+        this.lowerThirdModified = state.lowerThird.lastChangeAt
+      }
+
       this.state = state
       this.whiteboard = `url('/whiteboard.png?${Date.now()}')`
+
+      console.log('State updated')
     })
 
     socket.on('identify', () => {
@@ -64,7 +77,12 @@ const app = {
       timer: '0:00',
       socketId: null,
       whiteboard: "url('/whiteboard.png')",
+      lowerThirdModified: null,
+      lowerThirdChangingData: false, // combined with regular lower third visibility
+      lowerThird: null, // local copy of the lower third data that actually gets shown
     }
+  },
+  watch: {
   },
   computed: {
     theme() {
@@ -72,8 +90,9 @@ const app = {
       return getTheme(this.state)
     },
     lowerThirdVisible() {
-      // TODO: add flag for lower third visibility
-      return false
+      // this is the general visibility flag. The actual lower third might be animating or changing data,
+      // so it might not actually be visible even if this is true.
+      return this.state.lowerThirdVisible
     },
     casterOneName() {
       return this.getCaster(0)?.name
@@ -175,6 +194,9 @@ const app = {
     },
     notepadText() {
       return this.state.notepad?.split('\n') ?? false
+    },
+    ltErbsPlayerStats() {
+      return this.lowerThird?.modeData['ERBS: Player Stats'] ?? ''
     }
   },
   methods: {

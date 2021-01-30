@@ -19,7 +19,9 @@
               <v-btn color="green" class="mx-2"
                 ><v-icon left>mdi-play</v-icon> Display</v-btn
               >
-              <v-btn color="red"><v-icon left>mdi-eye-off</v-icon> Hide</v-btn>
+              <v-btn color="red" @click="toggleVisibility"
+                ><v-icon left>mdi-eye-off</v-icon> Hide</v-btn
+              >
             </v-col>
             <v-col cols="4" v-show="erbsPlayerStat">
               <v-text-field
@@ -96,7 +98,7 @@
 <script>
 import { LOWER_THIRD_MODES } from '../data/overlayManifest'
 import { GAME_SETTINGS } from '../data/supportedGames'
-import { MUTATION } from '../store/actions'
+import { ACTION, MUTATION } from '../store/actions'
 
 export default {
   name: 'motion-graphics',
@@ -123,6 +125,13 @@ export default {
     },
   },
   methods: {
+    toggleVisibility() {
+      this.$store.commit(MUTATION.SET_SHOW_PROP, {
+        key: 'lowerThirdVisible',
+        value: !this.$store.state.show.lowerThirdVisible,
+      })
+      this.$store.dispatch(ACTION.UPDATE)
+    },
     update(key, value) {
       this.$store.commit(MUTATION.SET_LT_PROP, { key, value })
     },

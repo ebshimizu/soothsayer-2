@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Soothsayer - Standby</title>
+    <script src="/js/vue@2.js"></script>
+    <script src="/js/moment.min.js"></script>
+    <script src="/js/lodash.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/overlay.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/overlay.css" />
+  </head>
+  <body id="lower-third">
+    <div id="app">
+      <!-- Identify overlay-->
+      <div id="identifier" v-bind:class="{ active: identify }">
+        This is a {{ overlayName }} overlay<br />
+        <span class="id">id: {{ socketId }}</span>
+      </div>
+
+      <!-- Put Theme Specific Things After This Comment -->
+      <!-- NOTE: Theme implementers are responsible for handling visibility correctly -->
+      <div class="outer-container" v-bind:class="{ visible: lowerThirdVisible }">
+        <div class="inner-container" v-bind:class="{ visible: !lowerThirdChangingData }">
+          {{ ltErbsPlayerStats.playerName }}
+          <div class="aux-1"></div>
+          <div class="aux-2"></div>
+          <div class="aux-3"></div>
+        </div>
+
+      </div>
+      <!-- Stop putting theme things after this comment -->
+
+      <!-- Theme style link -->
+      <link
+        rel="stylesheet"
+        type="text/css"
+        v-bind:href="theme + '/css/theme.css'"
+      />
+    </div>
+
+    <!-- theme specific js file -->
+    <script src="/js/lower-third.js"></script>
+  </body>
+</html>
