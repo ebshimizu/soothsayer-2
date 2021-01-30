@@ -10,7 +10,11 @@ import { Persistence } from './persistence'
 import _ from 'lodash'
 import { OVERLAY_MANIFEST } from '../data/overlayManifest'
 import { GAME, GAME_SETTINGS, GAME_STRING } from '../data/supportedGames'
-import { defaultShowData, scheduleItem } from './defaults'
+import {
+  defaultLowerThirdData,
+  defaultShowData,
+  scheduleItem,
+} from './defaults'
 import moment from 'moment'
 
 // log helper for mutations
@@ -28,6 +32,7 @@ export default new Vuex.Store({
       themeFolder: '',
       availableThemes: {},
       game: GAME.ERBS,
+      erbsApiKey: '',
     },
     keybinds: {}, // default keybinds are defined in the main process and forwarded
     availableOverlays: [],
@@ -204,6 +209,22 @@ export default new Vuex.Store({
     },
     [MUTATION.SAVE_CANVAS](state, data) {
       state.whiteboardData = data
+    },
+    [MUTATION.SET_LT_PROP](state, { key, value }) {
+      Vue.set(state.show.lowerThird, key, value)
+      state.show.lowerThird.lastChangeAt = Date.now()
+    },
+    [MUTATION.SET_LT_MODE_DATA](state, { mode, key, value }) {
+      Vue.set(state.show.lowerThird.modeData[mode], key, value)
+      state.show.lowerThird.lastChangeAt = Date.now()
+    },
+    [MUTATION.SET_ALL_LT_MODE_DATA](state, { mode, data }) {
+      Vue.set(state.show.lowerThird.modeData, mode, data)
+      state.show.lowerThird.lastChangeAt = Date.now()
+    },
+    [MUTATION.RESET_LT](state) {
+      Vue.set(state.show, 'lowerThird', defaultLowerThirdData())
+      state.show.lowerThird.lastChangeAt = Date.now()
     },
   },
   actions: {

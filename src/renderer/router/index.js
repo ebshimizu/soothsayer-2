@@ -40,5 +40,10 @@ export default new Router({
       name: 'Whiteboard',
       component: require('@/components/WhiteBoard').default,
     },
+    {
+      path: '/graphics',
+      name: 'Motion Graphics',
+      component: require('@/components/MotionGraphics').default,
+    },
   ],
 })

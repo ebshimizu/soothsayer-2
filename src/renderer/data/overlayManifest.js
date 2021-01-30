@@ -2,6 +2,7 @@ const OVERLAY_FILES = {
   casterSingleFrame: 'caster-single-frame.html',
   standby: 'standby.html',
   whiteboard: 'whiteboard.html',
+  lowerThird: 'lower-third.html',
 }
 
 const OVERLAY_MANIFEST = {
@@ -20,6 +21,16 @@ const OVERLAY_MANIFEST = {
     width: 1920,
     height: 1080,
   },
+  [OVERLAY_FILES.lowerThird]: {
+    name: 'Lower Third',
+    width: 1920,
+    height: 1080,
+  },
 }
 
-export { OVERLAY_MANIFEST, OVERLAY_FILES }
+const LOWER_THIRD_MODES = {
+  CASTER_INFO: 'Caster Info',
+  ERBS_PLAYER_STATS: 'ERBS: Player Stats',
+}
+
+export { OVERLAY_MANIFEST, OVERLAY_FILES, LOWER_THIRD_MODES }

@@ -1,4 +1,31 @@
 import { v4 as uuidv4 } from 'uuid'
+import { LOWER_THIRD_MODES } from '../data/overlayManifest'
+
+const defaultLowerThirdData = () => {
+  return {
+    activeMode: LOWER_THIRD_MODES.CASTER_INFO,
+    loading: false,
+    status: '',
+    ready: true,
+    lastChangeAt: Date.now(),
+    // caster info actually pulls from everywhere else
+    // but put it here just to make sure it's not null if called
+    modeData: {
+      [LOWER_THIRD_MODES.CASTER_INFO]: {},
+      [LOWER_THIRD_MODES.ERBS_PLAYER_STATS]: {
+        playerName: '',
+        playerId: 0,
+        playerTwitter: '',
+        playerTwitch: '',
+        kda: 0,
+        winRate: 0,
+        top3: 0,
+        avgKills: 0,
+        characters: [],
+      },
+    },
+  }
+}
 
 const defaultShowData = () => {
   return {
@@ -32,6 +59,7 @@ const defaultShowData = () => {
       isPaused: false,
       visible: true,
     },
+    lowerThird: defaultLowerThirdData(),
   }
 }
 
@@ -44,4 +72,4 @@ const scheduleItem = () => {
   }
 }
 
-export { defaultShowData, scheduleItem }
+export { defaultShowData, defaultLowerThirdData, scheduleItem }

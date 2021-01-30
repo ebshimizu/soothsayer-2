@@ -1,15 +1,17 @@
-import { OVERLAY_FILES } from '../overlayManifest'
+import { LOWER_THIRD_MODES, OVERLAY_FILES } from '../overlayManifest'
 
 const COMPONENT_VISIBLE = {
   'general-info': true,
   'tournament-info': true,
   'white-board': true,
+  'motion-graphics': true,
 }
 
 const MENU_VISIBLE = {
   general: true,
   tournament: true,
   whiteboard: true,
+  graphics: true,
 }
 
 const OVERLAY_SUPPORT = {
@@ -33,9 +35,15 @@ const WHITEBOARD_SETTINGS = {
   ],
 }
 
+const SUPPORTED_LT_MODES = {
+  [LOWER_THIRD_MODES.CASTER_INFO]: true,
+  [LOWER_THIRD_MODES.ERBS_PLAYER_STATS]: true,
+}
+
 export default {
   COMPONENT_VISIBLE,
   MENU_VISIBLE,
   OVERLAY_SUPPORT,
   WHITEBOARD_SETTINGS,
+  SUPPORTED_LT_MODES,
 }

@@ -16,20 +16,40 @@
       <v-divider></v-divider>
       <v-list nav dense>
         <v-list-item to="/">
-          <v-list-item-icon><v-icon>mdi-rocket-launch</v-icon></v-list-item-icon>
+          <v-list-item-icon
+            ><v-icon>mdi-rocket-launch</v-icon></v-list-item-icon
+          >
           <v-list-item-title>Dashboard</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/general" v-show="$store.getters.menuVisible('general')">
+        <v-list-item
+          to="/general"
+          v-show="$store.getters.menuVisible('general')"
+        >
           <v-list-item-icon><v-icon>mdi-information</v-icon></v-list-item-icon>
           <v-list-item-title>Cast Info</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/tournament" v-show="$store.getters.menuVisible('tournament')">
+        <v-list-item
+          to="/tournament"
+          v-show="$store.getters.menuVisible('tournament')"
+        >
           <v-list-item-icon><v-icon>mdi-tournament</v-icon></v-list-item-icon>
           <v-list-item-title>Tournament Info</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/whiteboard" v-show="$store.getters.menuVisible('whiteboard')">
+        <v-list-item
+          to="/whiteboard"
+          v-show="$store.getters.menuVisible('whiteboard')"
+        >
           <v-list-item-icon><v-icon>mdi-draw</v-icon></v-list-item-icon>
           <v-list-item-title>Whiteboard</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          to="/graphics"
+          v-show="$store.getters.menuVisible('graphics')"
+        >
+          <v-list-item-icon
+            ><v-icon>mdi-movie-filter</v-icon></v-list-item-icon
+          >
+          <v-list-item-title>Motion Graphics</v-list-item-title>
         </v-list-item>
       </v-list>
       <v-divider></v-divider>

@@ -18,6 +18,10 @@ const MUTATION = {
   SET_TOURNAMENT_SCHEDULE_PROP: 'Set Tournament Schedule Prop',
   DELETE_TOURNAMENT_SCHEDULE: 'Delete All Tournament Schedule Items',
   SAVE_CANVAS: 'Save Canvas',
+  SET_LT_PROP: 'Set Lower Third Prop',
+  SET_LT_MODE_DATA: 'Set Lower Third Mode Data',
+  SET_ALL_LT_MODE_DATA: 'Replace Lower Third Mode Data',
+  RESET_LT: 'Reset Lower Third',
 }
 
 const ACTION = {

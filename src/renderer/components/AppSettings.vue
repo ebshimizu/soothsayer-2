@@ -10,6 +10,14 @@
       ></v-select>
     </v-col>
     <v-col cols="12">
+      <v-text-field
+        label="Eternal Return: Black Survival API Key"
+        hint="Visit https://developer.eternalreturn.io/ to get a key"
+        :value="$store.state.app.erbsApiKey"
+        @input="(v) => update('erbsApiKey', v)"
+      ></v-text-field>
+    </v-col>
+    <v-col cols="12">
       <v-card outlined>
         <v-card-title>Keyboard Shortcuts</v-card-title>
         <v-card-subtitle
@@ -71,7 +79,7 @@ export default {
         return this.$store.state.app.game
       },
       set(value) {
-        this.$store.commit(MUTATION.SET_APP_PROP, { key: 'game', value })
+        this.update('game', value)
       },
     },
     // just copy the keybinds.
@@ -114,6 +122,9 @@ export default {
           keybinds: DEFAULT_SHORTCUTS,
         })
       })
+    },
+    update(key, value) {
+      this.$store.commit(MUTATION.SET_APP_PROP, { key, value })
     },
   },
 }
