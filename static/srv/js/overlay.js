@@ -127,7 +127,7 @@ const app = {
       return this.getCaster(0) ? this.getCaster(0).socialYoutube : ''
     },
     casterOneInstagram() {
-      return this.getCaster(0) ? this.getCaster(0).socialInstagram : ''
+      return this.getCaster(0) ? this.getCaster(0).socialInsta : ''
     },
     casterOneTextSize() {
       // based on text length
