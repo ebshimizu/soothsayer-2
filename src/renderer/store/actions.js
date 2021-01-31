@@ -28,6 +28,7 @@ const ACTION = {
   INIT_OVERLAY: 'Register and Init Overlay',
   DISCONNECT_OVERLAY: 'Overlay Disconnected',
   UPDATE: 'Update All Overlays',
+  UPDATE_GRAPHICS: 'Update Graphics',
   LOAD_STATE: 'Load Local State',
   SET_THEME: 'Set Overlay Theme',
   START_TIMER: 'Start Timer',

@@ -7,6 +7,7 @@ const defaultLowerThirdData = () => {
     loading: false,
     status: '',
     ready: true,
+    visible: false,
     lastChangeAt: Date.now(),
     // caster info actually pulls from everywhere else
     // but put it here just to make sure it's not null if called
@@ -47,7 +48,6 @@ const defaultShowData = () => {
     notepadTitle: '',
     schedule: {},
     mapImage: '',
-    lowerThirdVisible: false,
     playerPool: [],
     timer: {
       minutes: 0,
@@ -59,6 +59,11 @@ const defaultShowData = () => {
       isPaused: false,
       visible: true,
     },
+  }
+}
+
+const defaultGraphicsData = () => {
+  return {
     lowerThird: defaultLowerThirdData(),
   }
 }
@@ -72,4 +77,9 @@ const scheduleItem = () => {
   }
 }
 
-export { defaultShowData, defaultLowerThirdData, scheduleItem }
+export {
+  defaultShowData,
+  defaultLowerThirdData,
+  defaultGraphicsData,
+  scheduleItem,
+}

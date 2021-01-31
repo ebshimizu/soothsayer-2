@@ -7,7 +7,7 @@
 // there's a lot of linter yelling happening here lol
 app.watch.lowerThirdModified = function (newTime, oldTime) {
   // check if state exists first whoops
-  if (this.state && newTime !== oldTime) {
+  if (this.graphics && newTime !== oldTime) {
     // ok so here's the update plan
     // first, there's two visibility levels happening here:
     // - the overall container visibility in state.lowerThirdVisible (used by other overlays to adjust their layouts)
@@ -22,7 +22,7 @@ app.watch.lowerThirdModified = function (newTime, oldTime) {
     this.lowerThirdChangingData = true
     // wait half a second
     setTimeout(() => {
-      this.lowerThird = Object.assign({}, this.state.lowerThird)
+      this.lowerThird = Object.assign({}, this.graphics.lowerThird)
       // unset the changing data flag
       console.log('update complete')
       this.lowerThirdChangingData = false

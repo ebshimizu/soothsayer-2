@@ -8,7 +8,7 @@
           <v-row>
             <v-col cols="3">
               <v-select
-                :value="$store.state.show.lowerThird.activeMode"
+                :value="$store.state.graphics.lowerThird.activeMode"
                 @input="(v) => update('activeMode', v)"
                 :items="modes"
                 label="Lower Third Mode"
@@ -16,10 +16,11 @@
             </v-col>
             <v-col cols="5"></v-col>
             <v-col cols="4" class="my-auto d-flex justify-end">
-              <v-btn color="green" class="mx-2"
-                ><v-icon left>mdi-play</v-icon> Display</v-btn
+              <v-btn color="green" class="mx-2" @click="showOrUpdate"
+                ><v-icon left>mdi-play</v-icon>
+                {{ visible ? 'Update Graphics' : 'Show Graphics' }}</v-btn
               >
-              <v-btn color="red" @click="toggleVisibility"
+              <v-btn color="red" @click="hide" :disabled="!visible"
                 ><v-icon left>mdi-eye-off</v-icon> Hide</v-btn
               >
             </v-col>
@@ -104,7 +105,10 @@ export default {
   name: 'motion-graphics',
   computed: {
     lowerThird() {
-      return this.$store.state.show.lowerThird
+      return this.$store.state.graphics.lowerThird
+    },
+    visible() {
+      return this.lowerThird.visible
     },
     status() {
       return this.lowerThird.status
@@ -125,15 +129,25 @@ export default {
     },
   },
   methods: {
-    toggleVisibility() {
-      this.$store.commit(MUTATION.SET_SHOW_PROP, {
-        key: 'lowerThirdVisible',
-        value: !this.$store.state.show.lowerThirdVisible,
+    hide() {
+      this.$store.commit(MUTATION.SET_LT_PROP, {
+        key: 'visible',
+        value: false,
       })
-      this.$store.dispatch(ACTION.UPDATE)
+      this.$store.dispatch(ACTION.UPDATE_GRAPHICS)
     },
     update(key, value) {
       this.$store.commit(MUTATION.SET_LT_PROP, { key, value })
+    },
+    showOrUpdate() {
+      if (!this.visible) {
+        this.$store.commit(MUTATION.SET_LT_PROP, {
+          key: 'visible',
+          value: true,
+        })
+      }
+
+      this.$store.dispatch(ACTION.UPDATE_GRAPHICS)
     },
     updateErbsPlayer(key, value) {
       this.$store.commit(MUTATION.SET_LT_MODE_DATA, {

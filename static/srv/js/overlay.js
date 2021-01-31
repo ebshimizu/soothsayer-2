@@ -40,22 +40,42 @@ const app = {
     })
 
     socket.on('update', (state) => {
+      this.state = state
+      this.whiteboard = `url('/whiteboard.png?${Date.now()}')`
+
+      console.log('State updated')
+    })
+
+    socket.on('update-graphics', (gfxState) => {
       // the lower third updating logic is in a different file.
       // however, there's a case we do have to handle here
       // if, before the update, the lower third is hidden at the top level, immediately commit the change,
       // do not wait for any animation stuff to happen
       // this way, we don't duplicate animations if the lower third is changing data and also becoming visible
-      if (!this.state.lowerThirdVisible) {
-        this.lowerThird = Object.assign({}, state.lowerThird)
-        // DON'T TOUCH MODIFIED
+      if (this.lowerThird) {
+        if (!this.lowerThird.visible) {
+          // if the overlay is currently invisible we can just immediately commit the update
+          this.lowerThird = Object.assign({}, gfxState.lowerThird)
+          // DON'T TOUCH MODIFIED
+        } else if (this.lowerThird.visible && !gfxState.lowerThird.visible) {
+          // similarly, if the overlay is going from visible to invisible, we can delay the data swap
+          // and also skip the animation in the event of changed data
+          this.lowerThird.visible = false
+          // delay, 550ms
+          setTimeout(() => {
+            this.lowerThird = Object.assign({}, gfxState.lowerThird)
+          }, 550)
+        } else {
+          // otherwise, the overlay is visible and we do the normal update
+          this.lowerThirdModified = gfxState.lowerThird.lastChangeAt
+        }
       } else {
-        this.lowerThirdModified = state.lowerThird.lastChangeAt
+        // first update
+        this.lowerThird = Object.assign({}, gfxState.lowerThird)
       }
 
-      this.state = state
-      this.whiteboard = `url('/whiteboard.png?${Date.now()}')`
-
-      console.log('State updated')
+      console.log('graphics updated')
+      this.graphics = gfxState
     })
 
     socket.on('identify', () => {
@@ -73,6 +93,7 @@ const app = {
   data() {
     return {
       state: {},
+      graphics: {},
       identify: false,
       timer: '0:00',
       socketId: null,
@@ -91,7 +112,7 @@ const app = {
     lowerThirdVisible() {
       // this is the general visibility flag. The actual lower third might be animating or changing data,
       // so it might not actually be visible even if this is true.
-      return this.state.lowerThirdVisible
+      return this.lowerThird ? this.lowerThird.visible : false
     },
     casterOneName() {
       return this.getCaster(0) ? this.getCaster(0).name : ''

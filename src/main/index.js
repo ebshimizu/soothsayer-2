@@ -142,6 +142,19 @@ ipcMain.on('update-all-state', (event, data) => {
   socketIo.emit('update', data)
 })
 
+ipcMain.on('update-one-graphics', (event, { id, data }) => {
+  console.log(`Updating graphics for ${id}`)
+  if (id in socketCache) {
+    socketCache[id].emit('update-graphics', data)
+  }
+})
+
+ipcMain.on('update-all-graphics', (event, data) => {
+  console.log('Updating all Graphics')
+
+  socketIo.emit('update-graphics', data)
+})
+
 ipcMain.on('identify', (event, id) => {
   if (id in socketCache) {
     socketCache[id].emit('identify')

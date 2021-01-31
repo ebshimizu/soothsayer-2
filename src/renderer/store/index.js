@@ -13,6 +13,7 @@ import { GAME, GAME_SETTINGS, GAME_STRING } from '../data/supportedGames'
 import {
   defaultLowerThirdData,
   defaultShowData,
+  defaultGraphicsData,
   scheduleItem,
 } from './defaults'
 import moment from 'moment'
@@ -38,6 +39,7 @@ export default new Vuex.Store({
     availableOverlays: [],
     overlays: {},
     show: defaultShowData(),
+    graphics: defaultGraphicsData(),
     imageCache: {},
     log: [],
     version: 'uh oh',
@@ -211,33 +213,36 @@ export default new Vuex.Store({
       state.whiteboardData = data
     },
     [MUTATION.SET_LT_PROP](state, { key, value }) {
-      Vue.set(state.show.lowerThird, key, value)
-      state.show.lowerThird.lastChangeAt = Date.now()
+      Vue.set(state.graphics.lowerThird, key, value)
+      state.graphics.lowerThird.lastChangeAt = Date.now()
     },
     [MUTATION.SET_LT_MODE_DATA](state, { mode, key, value }) {
-      Vue.set(state.show.lowerThird.modeData[mode], key, value)
-      state.show.lowerThird.lastChangeAt = Date.now()
+      Vue.set(state.graphics.lowerThird.modeData[mode], key, value)
+      state.graphics.lowerThird.lastChangeAt = Date.now()
     },
     [MUTATION.SET_ALL_LT_MODE_DATA](state, { mode, data }) {
-      Vue.set(state.show.lowerThird.modeData, mode, data)
-      state.show.lowerThird.lastChangeAt = Date.now()
+      Vue.set(state.graphics.lowerThird.modeData, mode, data)
+      state.graphics.lowerThird.lastChangeAt = Date.now()
     },
     [MUTATION.RESET_LT](state) {
-      Vue.set(state.show, 'lowerThird', defaultLowerThirdData())
-      state.show.lowerThird.lastChangeAt = Date.now()
+      Vue.set(state.graphics, 'lowerThird', defaultLowerThirdData())
+      state.graphics.lowerThird.lastChangeAt = Date.now()
     },
   },
   actions: {
     [ACTION.INIT_OVERLAY]({ commit, state }, socketData) {
       commit(MUTATION.REGISTER_OVERLAY, socketData)
-      ipcRenderer.send('change-one-theme', {
-        id: socketData.id,
-        theme: state.show.theme,
-      })
       ipcRenderer.send('update-one-state', {
         id: socketData.id,
         data: state.show,
       })
+      ipcRenderer.send('update-one-graphics', {
+        id: socketData.id,
+        data: state.graphics,
+      })
+    },
+    [ACTION.UPDATE_GRAPHICS]({ state }, socketData) {
+      ipcRenderer.send('update-all-graphics', state.graphics)
     },
     [ACTION.DISCONNECT_OVERLAY]({ commit }, socketId) {
       commit(MUTATION.UNREGISTER_OVERLAY, socketId)
@@ -252,7 +257,7 @@ export default new Vuex.Store({
     },
     [ACTION.SET_THEME]({ commit, state }, data) {
       commit(MUTATION.SET_SHOW_PROP, data)
-      ipcRenderer.send('update-all-state', state.show)
+      ipcRenderer.send('update-all-theme', state.show.theme)
     },
     [ACTION.START_TIMER]({ commit, dispatch, state }) {
       // state is updated with current duration (or mode, in the future)
