@@ -25,10 +25,18 @@
       >
         <!-- outer elements (might be static for each lt) -->
         <div class="ticker"></div>
-        <div
-          class="sponsor-logo"
-          :style="{ backgroundImage: sponsorLogo }"
-        ></div>
+        <div class="sponsor-logos">
+          <div
+            class="sponsor-logo slot-1"
+            :class="{ visible: sponsorLogos.slot1Active }"
+            :style="{ backgroundImage: sponsorLogos.slot1 }"
+          ></div>
+          <div
+            class="sponsor-logo slot-2"
+            :class="{ visible: !sponsorLogos.slot1Active }"
+            :style="{ backgroundImage: sponsorLogos.slot2 }"
+          ></div>
+        </div>
         <div class="outer aux-1"></div>
         <div class="outer aux-2"></div>
 

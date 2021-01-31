@@ -43,6 +43,11 @@ const app = {
       this.state = state
       this.whiteboard = `url('/whiteboard.png?${Date.now()}')`
 
+      // some first update stuff
+      if (this.sponsorLogos.slot1 === '') {
+        this.firstUpdateSponsors()
+      }
+
       console.log('State updated')
     })
 
@@ -87,8 +92,10 @@ const app = {
     })
   },
   beforeMount() {
-    // update timer
+    // timer check every 0.5s
     this.timerId = setInterval(this.updateRemaining, 500)
+    // sponsor rotation every 10s
+    this.sponsorCycleId = setInterval(this.rotateSponsors, 10000)
   },
   data() {
     return {
@@ -98,6 +105,12 @@ const app = {
       timer: '0:00',
       socketId: null,
       whiteboard: "url('/whiteboard.png')",
+      sponsorLogos: {
+        slot1: '',
+        slot2: '',
+        index: 0,
+        slot1Active: true,
+      },
       lowerThirdModified: null,
       lowerThirdChangingData: false, // combined with regular lower third visibility
       lowerThird: null, // local copy of the lower third data that actually gets shown
@@ -145,15 +158,6 @@ const app = {
           return `url('${this.state.eventLogo}'`
         }
       }
-      return 'none'
-    },
-    sponsorLogo() {
-      if (this.state) {
-        if (this.state.sponsorLogo) {
-          return `url(${this.state.sponsorLogo})`
-        }
-      }
-
       return 'none'
     },
     overlayName() {
@@ -238,6 +242,11 @@ const app = {
         ? this.lowerThird.activeMode === 'ERBS: Player Stats'
         : false
     },
+    sponsors() {
+      return this.state.sponsorLogos
+        ? Object.values(this.state.sponsorLogos)
+        : {}
+    },
   },
   methods: {
     getCaster(index) {
@@ -275,6 +284,56 @@ const app = {
       const s = Math.floor(diff / 1000)
 
       this.timer = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
+    },
+    firstUpdateSponsors() {
+      // initial state, triggers when a slot is listed as ''
+      if (this.sponsors.length === 0) {
+        return
+      } if (this.sponsors.length === 1) {
+        this.sponsorLogos.slot1 = `url(${this.sponsors[0]})`
+        this.sponsorLogos.slot2 = this.sponsorLogos.slot1
+        this.sponsorLogos.slot1Active = true
+      } else {
+        this.sponsorLogos.index = 1
+        this.sponsorLogos.slot1Active = true
+        this.sponsorLogos.slot1 = `url(${this.sponsors[0]})`
+        this.sponsorLogos.slot2 = `url(${this.sponsors[1]})`
+      }
+    },
+    rotateSponsors() {
+      // if we have no logos just skip
+      if (this.sponsors.length === 0) {
+        this.sponsorLogos.slot1 = 'none'
+        this.sponsorLogos.slot2 = 'none'
+        return
+      } else if (this.sponsors.length === 1) {
+        this.sponsorLogos.slot1 = `url(${this.sponsors[0]})`
+        this.sponsorLogos.slot2 = this.sponsorLogos.slot1
+        this.sponsorLogos.slot1Active = true
+        return
+      }
+
+      // fade out current by taking away the visible class
+      this.sponsorLogos.slot1Active = !this.sponsorLogos.slot1Active
+
+      // get the index for the next logo
+      this.sponsorLogos.index += 1
+
+      if (this.sponsorLogos.index >= this.sponsors.length) {
+        this.sponsorLogos.index = 0
+      }
+
+      const nextLogo = this.sponsors[this.sponsorLogos.index]
+
+      setTimeout(() => {
+        // after 500ms, set the next sponsor logo into the invisible slot
+        if (this.sponsorLogos.slot1Active) {
+          // put in slot 2 because slot 1 is active
+          this.sponsorLogos.slot2 = `url(${nextLogo})`
+        } else {
+          this.sponsorLogos.slot1 = `url(${nextLogo})`
+        }
+      }, 525)
     },
   },
 }
