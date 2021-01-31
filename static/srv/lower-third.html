@@ -2,10 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Soothsayer - Standby</title>
+    <title>Soothsayer - Lower Third</title>
     <script src="/js/vue@2.js"></script>
     <script src="/js/moment.min.js"></script>
-    <script src="/js/lodash.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/overlay.js"></script>
     <link rel="stylesheet" type="text/css" href="css/overlay.css" />
@@ -20,15 +19,48 @@
 
       <!-- Put Theme Specific Things After This Comment -->
       <!-- NOTE: Theme implementers are responsible for handling visibility correctly -->
-      <div class="outer-container" v-bind:class="{ visible: lowerThirdVisible }">
-        <div class="inner-container" v-bind:class="{ visible: !lowerThirdChangingData }">
-          {{ ltErbsPlayerStats.playerName }}
-          <div class="aux-1"></div>
+      <div
+        class="outer-container"
+        v-bind:class="{ visible: lowerThirdVisible }"
+      >
+        <!-- outer elements (might be static for each lt) -->
+        <div class="ticker"></div>
+        <div
+          class="sponsor-logo"
+          :style="{ backgroundImage: sponsorLogo }"
+        ></div>
+        <div class="event-logo" :style="{ backgroundImage: eventLogo }"></div>
+
+        <div
+          class="inner-container"
+          v-bind:class="{ visible: !lowerThirdChangingData }"
+        >
+          <div class="caster-info" v-show="ltCasterInfoMode">
+            <div class="socials">
+              <div v-show="casterOneTwitter !== ''" class="social twitter">
+                {{ casterOneTwitter }}
+              </div>
+              <div v-show="casterOneTwitch !== ''" class="social twitch">
+                {{ casterOneTwitch }}
+              </div>
+              <div v-show="casterOneYoutube !== ''" class="social youtube">
+                {{ casterOneYoutube }}
+              </div>
+              <div v-show="casterOneInstagram !== ''" class="social insta">
+                {{ casterOneInstagram }}
+              </div>
+            </div>
+            <div class="aux-1"></div>
+          </div>
+          <div class="erbs-player-stats" v-show="ltErbsPlayerStatsMode">
+            {{ ltErbsPlayerStats.playerName }}
+          </div>
+
           <div class="aux-2"></div>
           <div class="aux-3"></div>
         </div>
-
       </div>
+      <div class="ref"></div>
       <!-- Stop putting theme things after this comment -->
 
       <!-- Theme style link -->

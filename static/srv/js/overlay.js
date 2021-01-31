@@ -82,8 +82,7 @@ const app = {
       lowerThird: null, // local copy of the lower third data that actually gets shown
     }
   },
-  watch: {
-  },
+  watch: {},
   computed: {
     theme() {
       // check overrides at some point
@@ -95,23 +94,23 @@ const app = {
       return this.state.lowerThirdVisible
     },
     casterOneName() {
-      return this.getCaster(0)?.name
+      return this.getCaster(0) ? this.getCaster(0).name : ''
     },
     casterOneTwitter() {
-      return this.getCaster(0)?.socialTwitter
+      return this.getCaster(0) ? this.getCaster(0).socialTwitter : ''
     },
     casterOneTwitch() {
-      return this.getCaster(0)?.socialTwitch
+      return this.getCaster(0) ? this.getCaster(0).socialTwitch : ''
     },
     casterOneYoutube() {
-      return this.getCaster(0)?.socialYoutube
+      return this.getCaster(0) ? this.getCaster(0).socialYoutube : ''
     },
     casterOneInstagram() {
-      return this.getCaster(0)?.socialInstagram
+      return this.getCaster(0) ? this.getCaster(0).socialInstagram : ''
     },
     casterOneTextSize() {
       // based on text length
-      const casterName = this.casterOneName ?? ''
+      const casterName = this.casterOneName
 
       if (casterName.length > 15) {
         return 'small'
@@ -120,22 +119,30 @@ const app = {
       return 'medium'
     },
     eventLogo() {
-      if (this.state?.eventLogo) {
-        return {
-          backgroundImage: `url('${this.state?.eventLogo}'`,
+      if (this.state) {
+        if (this.state.eventLogo) {
+          return `url('${this.state.eventLogo}'`
         }
-      } else {
-        return {}
       }
+      return 'none'
+    },
+    sponsorLogo() {
+      if (this.state) {
+        if (this.state.sponsorLogo) {
+          return `url(${this.state.sponsorLogo})`
+        }
+      }
+
+      return 'none'
     },
     overlayName() {
       return window.overlayId
     },
     tournamentName() {
-      return this.state?.tournamentName
+      return this.state ? this.state.tournamentName : ''
     },
     eventName() {
-      return this.state?.eventName
+      return this.state ? this.state.eventName : ''
     },
     currentEvent() {
       return this.schedule.length > 0 ? this.schedule[0] : {}
@@ -144,7 +151,7 @@ const app = {
       return this.schedule.length > 1 ? this.schedule.slice(1) : []
     },
     schedule() {
-      const schedule = this.state?.schedule ?? {}
+      const schedule = this.state.schedule ? this.state.schedule : {}
 
       // format
       const formatted = Object.values(schedule).map((event) => {
@@ -181,23 +188,35 @@ const app = {
       })
     },
     running() {
-      return this.state.timer?.isPlaying ?? false
+      return this.state.timer ? this.state.timer.isPlaying : false
     },
     paused() {
-      return this.state.timer?.isPaused ?? false
+      return this.state.timer ? this.state.timer.isPaused : false
     },
     timerVisible() {
-      return this.state.timer?.visible ?? false
+      return this.state.timer ? this.state.timer.visible : false
     },
     notepadHeader() {
       return this.state.notepadTitle
     },
     notepadText() {
-      return this.state.notepad?.split('\n') ?? false
+      return this.state.notepad ? this.state.notepad.split('\n') : false
     },
     ltErbsPlayerStats() {
-      return this.lowerThird?.modeData['ERBS: Player Stats'] ?? ''
-    }
+      return this.lowerThird
+        ? this.lowerThird.modeData['ERBS: Player Stats']
+        : ''
+    },
+    ltCasterInfoMode() {
+      return this.lowerThird
+        ? this.lowerThird.activeMode === 'Caster Info'
+        : false
+    },
+    ltErbsPlayerStatsMode() {
+      return this.lowerThird
+        ? this.lowerThird.activeMode === 'ERBS: Player Stats'
+        : false
+    },
   },
   methods: {
     getCaster(index) {
