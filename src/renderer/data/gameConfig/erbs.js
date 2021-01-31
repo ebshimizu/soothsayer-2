@@ -40,10 +40,15 @@ const SUPPORTED_LT_MODES = {
   [LOWER_THIRD_MODES.ERBS_PLAYER_STATS]: true,
 }
 
+const SPONSOR_LOGOS = {
+  'Nimble Neuron (with Background)': '/img/erbs-nimble-neuron-with-bg.png',
+}
+
 export default {
   COMPONENT_VISIBLE,
   MENU_VISIBLE,
   OVERLAY_SUPPORT,
   WHITEBOARD_SETTINGS,
   SUPPORTED_LT_MODES,
+  SPONSOR_LOGOS,
 }

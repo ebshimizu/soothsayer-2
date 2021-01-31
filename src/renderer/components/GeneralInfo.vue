@@ -81,24 +81,7 @@
       <note-pad></note-pad>
     </v-col>
     <v-col cols="12">
-      <v-card outlined>
-        <v-card-title>Uncategorized</v-card-title>
-        <v-card-text>
-          <v-row dense>
-            <v-col cols="12">
-              <v-combobox
-                label="Sponsor Logo"
-                clearable
-                append-outer-icon="mdi-folder-open"
-                hint="Paste remote file URL, select a preset, or load from local file"
-                @click:append-outer="loadSponsorLogo"
-                v-model="sponsorLogo"
-                :items="defaultSponsors"
-              ></v-combobox>
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
+       <sponsor-logos></sponsor-logos> 
     </v-col>
   </v-row>
 </template>
@@ -109,14 +92,14 @@ import { MUTATION } from '../store/actions'
 import {
   CASTER_CONFIGS,
   FRAME_VARIANTS,
-  SPONSOR_LOGOS,
 } from '../data/appDefaults'
 import { browseAndLoadLocalFile } from './util'
 import NotePad from './NotePad.vue'
+import SponsorLogos from './SponsorLogos.vue'
 
 export default {
   name: 'general-info',
-  components: { NotePad },
+  components: { NotePad, SponsorLogos },
   created() {
     this.update = _.debounce(this.debouncedUpdate, 100)
   },
@@ -125,7 +108,6 @@ export default {
       casters: this.$store.state.show.casters,
       casterConfigs: CASTER_CONFIGS,
       frameVariants: FRAME_VARIANTS,
-      defaultSponsors: SPONSOR_LOGOS,
     }
   },
   computed: {
@@ -178,9 +160,6 @@ export default {
     },
     loadEventLogo() {
       browseAndLoadLocalFile('eventLogo', this.$store)
-    },
-    loadSponsorLogo() {
-      browseAndLoadLocalFile('sponsorLogo', this.$store)
     },
     updateShowParam(key, value) {
       this.$store.commit(MUTATION.SET_SHOW_PROP, {

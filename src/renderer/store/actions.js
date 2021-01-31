@@ -22,6 +22,9 @@ const MUTATION = {
   SET_LT_MODE_DATA: 'Set Lower Third Mode Data',
   SET_ALL_LT_MODE_DATA: 'Replace Lower Third Mode Data',
   RESET_LT: 'Reset Lower Third',
+  ADD_SPONSOR_IMAGE: 'Add Sponsor Image',
+  REMOVE_SPONSOR_IMAGE: 'Remove Sponsor Image',
+  ADD_LOCAL_SPONSOR_IMAGE: 'Add Local Sponsor Image',
 }
 
 const ACTION = {

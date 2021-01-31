@@ -14,4 +14,13 @@ function browseAndLoadLocalFile(stateProp, store) {
   })
 }
 
-export { browseAndLoadLocalFile }
+function browseAndLoadLocalSponsorFile(store) {
+  ipcRenderer.invoke('open-file').then((file) => {
+    if (file && file.filePaths[0]) {
+      // do the load
+      store.commit(MUTATION.ADD_LOCAL_SPONSOR_IMAGE, file.filePaths[0])
+    }
+  })
+}
+
+export { browseAndLoadLocalFile, browseAndLoadLocalSponsorFile }

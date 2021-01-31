@@ -43,7 +43,7 @@ const defaultShowData = () => {
     frameVariant: 1,
     eventLogo: '',
     tournamentName: '',
-    sponsorLogo: '',
+    sponsorLogos: {},
     notepad: '',
     notepadTitle: '',
     schedule: {},

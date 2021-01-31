@@ -13,8 +13,4 @@ const CASTER_CONFIGS = [
 // caster frame variant options
 const FRAME_VARIANTS = [1, 2, 3, 4]
 
-const SPONSOR_LOGOS = [
-  '/soothsayer-sponsor-logo.png', // todo: crow needs to make this
-]
-
-export { CASTER_CONFIGS, FRAME_VARIANTS, LOG_LEVEL, SPONSOR_LOGOS }
+export { CASTER_CONFIGS, FRAME_VARIANTS, LOG_LEVEL }

@@ -228,6 +228,43 @@ export default new Vuex.Store({
       Vue.set(state.graphics, 'lowerThird', defaultLowerThirdData())
       state.graphics.lowerThird.lastChangeAt = Date.now()
     },
+    [MUTATION.ADD_SPONSOR_IMAGE](state, url) {
+      Vue.set(state.show.sponsorLogos, url, url)
+    },
+    [MUTATION.REMOVE_SPONSOR_IMAGE](state, url) {
+      Vue.delete(state.show.sponsorLogos, url, url)
+
+      // check cache
+      const key = `sponsorLogos[${url}]`
+      if (key in state.imageCache) {
+        Vue.delete(state.imageCache, key)
+      }
+    },
+    [MUTATION.ADD_LOCAL_SPONSOR_IMAGE](state, url) {
+      // similar to load local imge but the key is a bit different
+      // first, load the src
+      try {
+        const fileName = path.basename(url)
+
+        // to avoid conflicts, a guid will be pre-pended to the filename
+        const uniqueFileName = `${uuidv4()}-${fileName}`
+        const key = `sponsorLogos[${uniqueFileName}]`
+
+        const dest = path.join(state.localFiles, 'img', uniqueFileName)
+        fs.copyFileSync(url, dest)
+
+        // update the cache for this element
+        Vue.set(state.show.sponsorLogos, uniqueFileName, uniqueFileName)
+        Vue.set(state.imageCache, key, { src: url, dest })
+      } catch (e) {
+        stateLog(
+          state.log,
+          `Unable to load local image ${url}.`,
+          LOG_LEVEL.WARN,
+        )
+        console.log(e)
+      }
+    },
   },
   actions: {
     [ACTION.INIT_OVERLAY]({ commit, state }, socketData) {
