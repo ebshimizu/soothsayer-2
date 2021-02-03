@@ -228,9 +228,26 @@ const app = {
       return this.state.notepad ? this.state.notepad.split('\n') : false
     },
     ltErbsPlayerStats() {
-      return this.lowerThird
-        ? this.lowerThird.modeData['ERBS: Player Stats']
-        : ''
+      if (this.lowerThird) {
+        const erbsData = this.lowerThird.modeData['ERBS: Player Stats']
+        erbsData.kda = parseFloat(erbsData.kda).toFixed(1)
+        erbsData.winRate = (parseFloat(erbsData.winRate) * 100).toFixed(0) + '%'
+        erbsData.top3 = (parseFloat(erbsData.top3) * 100).toFixed(0) + '%'
+        erbsData.avgKills = parseFloat(erbsData.avgKills).toFixed(1)
+
+        return erbsData
+      }
+
+      return {}
+    },
+    ltErbsPlayerNameSize() {
+      if (this.ltErbsPlayerStats && this.ltErbsPlayerStats.playerName) {
+        if (this.ltErbsPlayerStats.playerName.length >= 15) {
+          return 'small'
+        }
+
+        return 'normal'
+      }
     },
     ltCasterInfoMode() {
       return this.lowerThird
@@ -289,7 +306,8 @@ const app = {
       // initial state, triggers when a slot is listed as ''
       if (this.sponsors.length === 0) {
         return
-      } if (this.sponsors.length === 1) {
+      }
+      if (this.sponsors.length === 1) {
         this.sponsorLogos.slot1 = `url(${this.sponsors[0]})`
         this.sponsorLogos.slot2 = this.sponsorLogos.slot1
         this.sponsorLogos.slot1Active = true

@@ -53,7 +53,7 @@
             <v-col cols="2" v-show="erbsPlayerStat">
               <v-text-field
                 label="KDA"
-                :value="erbsPlayer.kda"
+                type="number"
                 @input="(v) => updateErbsPlayer('kda', v)"
               ></v-text-field>
             </v-col>
@@ -61,6 +61,7 @@
               <v-text-field
                 label="Win Rate"
                 :value="erbsPlayer.winRate"
+                type="number"
                 @input="(v) => updateErbsPlayer('winRate', v)"
               ></v-text-field>
             </v-col>
@@ -68,6 +69,7 @@
               <v-text-field
                 label="Top 3 Rate"
                 :value="erbsPlayer.top3"
+                type="number"
                 @input="(v) => updateErbsPlayer('top3', v)"
               ></v-text-field>
             </v-col>
@@ -75,6 +77,7 @@
               <v-text-field
                 label="Average Kills"
                 :value="erbsPlayer.avgKills"
+                type="number"
                 @input="(v) => updateErbsPlayer('avgKills', v)"
               ></v-text-field>
             </v-col>

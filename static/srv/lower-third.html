@@ -62,7 +62,41 @@
             <div class="aux-1"></div>
           </div>
           <div class="erbs-player-stats" v-show="ltErbsPlayerStatsMode">
-            {{ ltErbsPlayerStats.playerName }}
+            <div class="player-name" v-bind:class="[ltErbsPlayerNameSize]">
+              {{ ltErbsPlayerStats.playerName }}
+            </div>
+            <div class="socials">
+              <div
+                class="social twitter"
+                v-show="ltErbsPlayerStats.playerTwitter && ltErbsPlayerStats.playerTwitter !== ''"
+              >
+                {{ ltErbsPlayerStats.playerTwitter }}
+              </div>
+              <div
+                class="social twitch"
+                v-show="ltErbsPlayerStats.playerTwitch && ltErbsPlayerStats.playerTwitch !== ''"
+              >
+                {{ ltErbsPlayerStats.playerTwitch }}
+              </div>
+            </div>
+            <div class="stat kda">
+              <div class="name">KDA</div>
+              <div class="value">{{ ltErbsPlayerStats.kda }}</div>
+            </div>
+            <div class="stat win">
+              <div class="name">Win Rate</div>
+              <div class="value">{{ ltErbsPlayerStats.winRate }}</div>
+            </div>
+            <div class="stat top3">
+              <div class="name">Top 3</div>
+              <div class="value">{{ ltErbsPlayerStats.top3 }}</div>
+            </div>
+            <div class="stat avg-kill">
+              <div class="name">Avg. Kills</div>
+              <div class="value">{{ ltErbsPlayerStats.avgKills }}</div>
+            </div>
+            <div class="aux-1"></div>
+            <div class="aux-2"></div>
           </div>
         </div>
       </div>

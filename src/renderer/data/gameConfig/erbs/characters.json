@@ -1,0 +1,134 @@
+{
+  "1": {
+    "code": 1,
+    "name": "Jackie",
+    "classname": "Jackie",
+    "imgSrc": "/img/erbs/sm-portrait/1-Jackie.png"
+  },
+  "2": {
+    "code": 2,
+    "name": "Aya",
+    "classname": "Aya",
+    "imgSrc": "/img/erbs/sm-portrait/2-Aya.png"
+  },
+  "3": {
+    "code": 3,
+    "name": "Fiora",
+    "classname": "Fiora",
+    "imgSrc": "/img/erbs/sm-portrait/3-Fiora.png"
+  },
+  "4": {
+    "code": 4,
+    "name": "Magnus",
+    "classname": "Magnus",
+    "imgSrc": "/img/erbs/sm-portrait/4-Magnus.png"
+  },
+  "5": {
+    "code": 5,
+    "name": "Zahir",
+    "classname": "Zahir",
+    "imgSrc": "/img/erbs/sm-portrait/5-Zahir.png"
+  },
+  "6": {
+    "code": 6,
+    "name": "Nadine",
+    "classname": "Nadine",
+    "imgSrc": "/img/erbs/sm-portrait/6-Nadine.png"
+  },
+  "7": {
+    "code": 7,
+    "name": "Hyunwoo",
+    "classname": "Hyunwoo",
+    "imgSrc": "/img/erbs/sm-portrait/7-Hyunwoo.png"
+  },
+  "8": {
+    "code": 8,
+    "name": "Hart",
+    "classname": "Hart",
+    "imgSrc": "/img/erbs/sm-portrait/8-Hart.png"
+  },
+  "9": {
+    "code": 9,
+    "name": "Isol",
+    "classname": "Isol",
+    "imgSrc": "/img/erbs/sm-portrait/9-Isol.png"
+  },
+  "10": {
+    "code": 10,
+    "name": "LiDailin",
+    "classname": "LiDailin",
+    "imgSrc": "/img/erbs/sm-portrait/10-LiDailin.png"
+  },
+  "11": {
+    "code": 11,
+    "name": "Yuki",
+    "classname": "Yuki",
+    "imgSrc": "/img/erbs/sm-portrait/11-Yuki.png"
+  },
+  "12": {
+    "code": 12,
+    "name": "Hyejin",
+    "classname": "Hyejin",
+    "imgSrc": "/img/erbs/sm-portrait/12-Hyejin.png"
+  },
+  "13": {
+    "code": 13,
+    "name": "Xiukai",
+    "classname": "Xiukai",
+    "imgSrc": "/img/erbs/sm-portrait/13-Xiukai.png"
+  },
+  "14": {
+    "code": 14,
+    "name": "Chiara",
+    "classname": "Chiara",
+    "imgSrc": "/img/erbs/sm-portrait/14-Chiara.png"
+  },
+  "15": {
+    "code": 15,
+    "name": "Sissela",
+    "classname": "Sissela",
+    "imgSrc": "/img/erbs/sm-portrait/15-Sissela.png"
+  },
+  "16": {
+    "code": 16,
+    "name": "Silvia",
+    "classname": "Silvia",
+    "imgSrc": "/img/erbs/sm-portrait/16-Silvia.png"
+  },
+  "17": {
+    "code": 17,
+    "name": "Adriana",
+    "classname": "Adriana",
+    "imgSrc": "/img/erbs/sm-portrait/17-Adriana.png"
+  },
+  "18": {
+    "code": 18,
+    "name": "Shoichi",
+    "classname": "Shoichi",
+    "imgSrc": "/img/erbs/sm-portrait/18-Shoichi.png"
+  },
+  "19": {
+    "code": 19,
+    "name": "Emma",
+    "classname": "Emma",
+    "imgSrc": "/img/erbs/sm-portrait/19-Emma.png"
+  },
+  "20": {
+    "code": 20,
+    "name": "Lenox",
+    "classname": "Lenox",
+    "imgSrc": "/img/erbs/sm-portrait/20-Lenox.png"
+  },
+  "21": {
+    "code": 21,
+    "name": "Rozzi",
+    "classname": "Rozzi",
+    "imgSrc": "/img/erbs/sm-portrait/21-Rozzi.png"
+  },
+  "22": {
+    "code": 22,
+    "name": "Luke",
+    "classname": "Luke",
+    "imgSrc": "/img/erbs/sm-portrait/22-Luke.png"
+  }
+}
