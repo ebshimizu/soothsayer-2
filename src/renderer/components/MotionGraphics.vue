@@ -54,6 +54,7 @@
               <v-text-field
                 label="KDA"
                 type="number"
+                :value="erbsPlayer.kda"
                 @input="(v) => updateErbsPlayer('kda', v)"
               ></v-text-field>
             </v-col>
@@ -82,7 +83,19 @@
               ></v-text-field>
             </v-col>
             <v-col cols="4" v-show="erbsPlayerStat">
-              <v-select multiple label="Top 3 Characters"></v-select>
+              <v-autocomplete
+                multiple
+                label="Top 3 Characters"
+                hint="Select up to three characters"
+                :items="characters"
+                :value="erbsPlayer.characters"
+                chips
+                deletable-chips
+                small-chips
+                :rules="characterRules"
+                @input="(v) => updateErbsPlayer('characters', v)"
+              >
+              </v-autocomplete>
             </v-col>
             <v-col cols="3" v-show="erbsPlayerStat">
               <v-text-field
@@ -103,6 +116,7 @@
 import { LOWER_THIRD_MODES } from '../data/overlayManifest'
 import { GAME_SETTINGS } from '../data/supportedGames'
 import { ACTION, MUTATION } from '../store/actions'
+import characters from '../data/gameConfig/erbs/characters'
 
 export default {
   name: 'motion-graphics',
@@ -129,6 +143,22 @@ export default {
       const supported =
         GAME_SETTINGS[this.$store.state.app.game].SUPPORTED_LT_MODES
       return Object.keys(supported)
+    },
+    characters() {
+      return Object.values(characters).map((c) => {
+        return {
+          text: c.name,
+          value: c.ltImgSrc,
+        }
+      })
+    },
+    characterRules() {
+      return [
+        (v) => {
+          if (v.length > 3) return 'Too many characters selected'
+          return true
+        },
+      ]
     },
   },
   methods: {

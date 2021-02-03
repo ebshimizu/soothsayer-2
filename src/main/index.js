@@ -96,7 +96,6 @@ console.log(`Serving theme from ${defaultThemeFolder}`)
 
 // todo: load saved theme folder location
 const storedThemeFolder = settings.getSync('state.app.themeFolder')
-console.log(storedThemeFolder)
 let soothsayerThemeRootServer = storedThemeFolder
   ? serveStatic(storedThemeFolder)
   : serveStatic(defaultThemeFolder)
@@ -249,6 +248,7 @@ ipcMain.handle('load-state', async () => {
 
     if (!data) {
       data = {}
+      data.app = {}
     }
 
     // update main process fields

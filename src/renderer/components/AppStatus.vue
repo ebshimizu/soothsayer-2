@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2 class="mb-2">Available Overlays</h2>
+    <h2 class="mb-2">{{ gameName }} Overlays</h2>
     <v-data-table
       :headers="availableHeaders"
       :items="availableOverlays"
@@ -57,6 +57,7 @@
 
 <script>
 import { ipcRenderer, clipboard } from 'electron'
+import { GAME_STRING } from '../data/supportedGames'
 
 export default {
   name: 'app-status',
@@ -82,6 +83,9 @@ export default {
     },
     availableOverlays() {
       return this.$store.getters.availableOverlays
+    },
+    gameName() {
+      return GAME_STRING[this.$store.state.app.game]
     },
   },
   methods: {

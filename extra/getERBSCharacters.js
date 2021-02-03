@@ -31,7 +31,7 @@ async function main() {
       code: c.code,
       name: c.name,
       classname: slugify(c.name),
-      imgSrc: `/img/erbs/sm-portrait/${c.code}-${slugify(c.name)}.png`,
+      ltImgSrc: `/img/erbs/sm-portrait/${c.code}-${slugify(c.name)}.png`,
     }
   }
 

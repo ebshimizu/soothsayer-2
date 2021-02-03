@@ -196,9 +196,10 @@ export default new Vuex.Store({
     [MUTATION.SET_TIMER_PROP](state, { key, value }) {
       Vue.set(state.show.timer, key, value)
     },
-    [MUTATION.ADD_TOURNAMENT_SCHEDULE_ITEM](state) {
+    [MUTATION.ADD_TOURNAMENT_SCHEDULE_ITEM](state, id) {
       const newItem = scheduleItem()
-      Vue.set(state.show.schedule, newItem.id, newItem)
+      newItem.id = id
+      Vue.set(state.show.schedule, id, newItem)
     },
     [MUTATION.DELETE_TOURNAMENT_SCHEDULE_ITEM](state, id) {
       Vue.delete(state.show.schedule, id)

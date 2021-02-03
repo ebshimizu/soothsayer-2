@@ -120,6 +120,7 @@
 
 <script>
 import { MUTATION } from '../store/actions'
+import { v4 as uuidv4 } from 'uuid'
 
 export default {
   name: 'tournament-info',
@@ -179,7 +180,7 @@ export default {
   },
   methods: {
     addEvent() {
-      this.$store.commit(MUTATION.ADD_TOURNAMENT_SCHEDULE_ITEM)
+      this.$store.commit(MUTATION.ADD_TOURNAMENT_SCHEDULE_ITEM, uuidv4())
     },
     updateEvent(id, key, value, idx) {
       this.$store.commit(MUTATION.SET_TOURNAMENT_SCHEDULE_PROP, {
