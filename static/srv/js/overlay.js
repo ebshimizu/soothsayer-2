@@ -259,6 +259,13 @@ const app = {
         ? this.lowerThird.activeMode === 'ERBS: Player Stats'
         : false
     },
+    ltErbsPlayerStatsCharacters() {
+      if (this.ltErbsPlayerStats && this.ltErbsPlayerStats.characters) {
+        return this.ltErbsPlayerStats.characters.map((c) => `url('${c}')`)
+      }
+
+      return []
+    },
     sponsors() {
       return this.state.sponsorLogos
         ? Object.values(this.state.sponsorLogos)

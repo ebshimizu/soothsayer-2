@@ -95,6 +95,14 @@
               <div class="name">Avg. Kills</div>
               <div class="value">{{ ltErbsPlayerStats.avgKills }}</div>
             </div>
+            <div class="characters">
+              <div
+                v-for="bg in ltErbsPlayerStatsCharacters"
+                :key="bg"
+                :style="{backgroundImage: bg}"
+                class="portrait"
+              ></div>
+            </div>
             <div class="aux-1"></div>
             <div class="aux-2"></div>
           </div>
