@@ -187,7 +187,7 @@ const app = {
           timeObj: time,
           eventDow: time.format('dddd'),
           eventMonth: time.format('MMMM'),
-          eventDay: time.format('DDDo'),
+          eventDay: time.format('Do'),
           eventTime: time.format('h:mm a'),
         }
       })
@@ -265,6 +265,29 @@ const app = {
       }
 
       return []
+    },
+    textTicker() {
+      // this ticker format outputs everything as a plain text thing
+      // combines a few sources
+      // first, input tournament info
+      const tickerItems = []
+
+      tickerItems.push(this.state.tournamentName)
+
+      // upcoming events
+      if (this.schedule.length > 0) {
+        for (const event of this.schedule) {
+          const zone = moment().tz(moment.tz.guess()).zoneAbbr()
+
+          tickerItems.push(
+            `${event.name} - ${event.eventTime} ${zone}, ${event.eventDow}, ${event.eventMonth} ${event.eventDay}`,
+          )
+        }
+      }
+
+      // extra items
+
+      return tickerItems
     },
     sponsors() {
       return this.state.sponsorLogos

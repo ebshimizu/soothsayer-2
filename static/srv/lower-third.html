@@ -5,6 +5,7 @@
     <title>Soothsayer - Lower Third</title>
     <script src="/js/vue@2.js"></script>
     <script src="/js/moment.min.js"></script>
+    <script src="/js/moment-timezone.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/overlay.js"></script>
     <link rel="stylesheet" type="text/css" href="css/overlay.css" />
@@ -24,7 +25,13 @@
         v-bind:class="{ visible: lowerThirdVisible }"
       >
         <!-- outer elements (might be static for each lt) -->
-        <div class="ticker"></div>
+        <div class="text-only ticker">
+          <div class="content" :style="{ animationDuration: textTickerDuration }">
+            <div v-for="(item, index) in textTicker" :key="index" class="item">
+              {{ item }}
+            </div>
+          </div>
+        </div>
         <div class="sponsor-logos">
           <div
             class="sponsor-logo slot-1"
