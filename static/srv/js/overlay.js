@@ -289,6 +289,17 @@ const app = {
 
       return tickerItems
     },
+    textTickerDuration() {
+      // bit of a hack, but let's count characters (it's not a monospace font lolll)
+      const tickerString = this.textTicker.join(' | ')
+      const textLength = tickerString.length
+
+      // target duration is 30s for like 3900 px
+      // estimate px per text? wait this is all relative hmmmm
+      console.log(textLength)
+      const estDuration = 0.19 * textLength
+      return `${estDuration}s`
+    },
     sponsors() {
       return this.state.sponsorLogos
         ? Object.values(this.state.sponsorLogos)
