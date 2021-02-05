@@ -296,7 +296,6 @@ const app = {
 
       // target duration is 30s for like 3900 px
       // estimate px per text? wait this is all relative hmmmm
-      console.log(textLength)
       const estDuration = 0.19 * textLength
       return `${estDuration}s`
     },
