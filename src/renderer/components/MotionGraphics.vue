@@ -27,7 +27,7 @@
                 ><v-icon left>mdi-eye-off</v-icon> Hide</v-btn
               >
             </v-col>
-            <v-col cols="4" v-show="erbsPlayerStat">
+            <v-col cols="3" v-show="erbsPlayerStat">
               <v-text-field
                 label="Player Name"
                 TickerItems
@@ -35,8 +35,32 @@
                 @input="(v) => updateErbsPlayer('playerName', v)"
               ></v-text-field
             ></v-col>
-            <v-col cols="2" v-show="erbsPlayerStat" class="my-auto">
-              <v-btn color="primary">Load From API</v-btn>
+            <v-col cols="3" v-show="erbsPlayerStat">
+              <v-select
+                label="Season"
+                v-model="season"
+                :items="seasons"
+                :disabled="noApiKey"
+              ></v-select>
+            </v-col>
+            <v-col cols="3" v-show="erbsPlayerStat">
+              <v-select
+                label="Squad Size"
+                v-model="squadSize"
+                :items="squadSizes"
+                :disabled="noApiKey"
+              ></v-select>
+            </v-col>
+            <v-col cols="3" v-show="erbsPlayerStat" class="my-auto">
+              <v-btn
+                block
+                color="primary"
+                :disabled="noApiKey"
+                @click="loadFromApi"
+                >{{
+                  $store.state.app.erbsApiKey ? 'Load From API' : 'No API Key'
+                }}</v-btn
+              >
             </v-col>
             <v-col cols="3" v-show="erbsPlayerStat">
               <v-text-field
@@ -120,21 +144,43 @@
 import { LOWER_THIRD_MODES } from '../data/overlayManifest'
 import { GAME_SETTINGS } from '../data/supportedGames'
 import { ACTION, MUTATION } from '../store/actions'
+import {
+  getPlayerStats,
+  SEASONS,
+  SQUAD_SIZES,
+} from '../data/gameConfig/erbs/api'
 import characters from '../data/gameConfig/erbs/characters'
 import TickerItems from './TickerItems.vue'
 
 export default {
   name: 'motion-graphics',
   components: { TickerItems },
+  data() {
+    return {
+      season: 1,
+      squadSize: 1,
+      status: '',
+    }
+  },
   computed: {
+    seasons() {
+      return Object.entries(SEASONS).map(([text, value]) => {
+        return { text, value }
+      })
+    },
+    squadSizes() {
+      return Object.entries(SQUAD_SIZES).map(([text, value]) => {
+        return { text, value }
+      })
+    },
+    noApiKey() {
+      return this.$store.state.app.erbsApiKey === ''
+    },
     lowerThird() {
       return this.$store.state.graphics.lowerThird
     },
     visible() {
       return this.lowerThird.visible
-    },
-    status() {
-      return this.lowerThird.status
     },
     casterInfo() {
       return this.lowerThird.activeMode === LOWER_THIRD_MODES.CASTER_INFO
@@ -194,6 +240,28 @@ export default {
         key,
         value,
       })
+    },
+    async loadFromApi() {
+      this.status = 'Loading from ERBS API...'
+
+      const data = await getPlayerStats(
+        this.erbsPlayer.playerName,
+        this.season,
+        this.squadSize,
+        this.$store.state.app.erbsApiKey,
+        this.setStatus.bind(this),
+      )
+
+      if (data) {
+        Object.entries(data).forEach(([key, value]) => {
+          this.updateErbsPlayer(key, value)
+        })
+
+        this.status = 'Data Loaded from API.'
+      }
+    },
+    setStatus(msg, error = false) {
+      this.status = msg
     },
   },
 }
