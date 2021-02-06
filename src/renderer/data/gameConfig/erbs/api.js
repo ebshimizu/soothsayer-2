@@ -57,9 +57,7 @@ async function getPlayerStats(playerName, season, teamMode, key, setStatus) {
 
         if (playerStats) {
           return {
-            kda:
-              (playerStats.averageKills * playerStats.totalGames) /
-              (playerStats.totalGames - playerStats.totalWins), // horrible hack this isn't a real stat
+            avgHunts: playerStats.averageHunts,
             winRate: playerStats.totalWins / playerStats.totalGames,
             top3: playerStats.top3,
             avgKills: playerStats.averageKills,

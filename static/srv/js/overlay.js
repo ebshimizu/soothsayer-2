@@ -230,7 +230,7 @@ const app = {
     ltErbsPlayerStats() {
       if (this.lowerThird) {
         const erbsData = this.lowerThird.modeData['ERBS: Player Stats']
-        erbsData.kda = parseFloat(erbsData.kda).toFixed(1)
+        erbsData.avgHunts = parseFloat(erbsData.avgHunts).toFixed(1)
         erbsData.winRate = (parseFloat(erbsData.winRate) * 100).toFixed(0) + '%'
         erbsData.top3 = (parseFloat(erbsData.top3) * 100).toFixed(0) + '%'
         erbsData.avgKills = parseFloat(erbsData.avgKills).toFixed(1)

@@ -80,14 +80,6 @@
             </v-col>
             <v-col cols="2" v-show="erbsPlayerStat">
               <v-text-field
-                label="KDA"
-                type="number"
-                :value="erbsPlayer.kda"
-                @input="(v) => updateErbsPlayer('kda', v)"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="2" v-show="erbsPlayerStat">
-              <v-text-field
                 label="Win Rate"
                 :value="erbsPlayer.winRate"
                 type="number"
@@ -108,6 +100,14 @@
                 :value="erbsPlayer.avgKills"
                 type="number"
                 @input="(v) => updateErbsPlayer('avgKills', v)"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="2" v-show="erbsPlayerStat">
+              <v-text-field
+                label="Avg. Hunts"
+                type="number"
+                :value="erbsPlayer.avgHunts"
+                @input="(v) => updateErbsPlayer('avgHunts', v)"
               ></v-text-field>
             </v-col>
             <v-col cols="4" v-show="erbsPlayerStat">

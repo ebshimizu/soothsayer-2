@@ -18,7 +18,7 @@ const defaultLowerThirdData = () => {
         playerId: 0,
         playerTwitter: '',
         playerTwitch: '',
-        kda: 0,
+        avgHunts: 0,
         winRate: 0,
         top3: 0,
         avgKills: 0,
