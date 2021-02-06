@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer app permanent expand-on-hover>
+    <v-navigation-drawer app permanent class="dark-bg">
       <v-list>
         <v-list-item class="px-2" two-line>
           <v-list-item-avatar rounded="0">
@@ -46,9 +46,7 @@
           to="/graphics"
           v-show="$store.getters.menuVisible('graphics')"
         >
-          <v-list-item-icon
-            ><v-icon>mdi-movie-filter</v-icon></v-list-item-icon
-          >
+          <v-list-item-icon><v-icon>mdi-movie-filter</v-icon></v-list-item-icon>
           <v-list-item-title>Motion Graphics</v-list-item-title>
         </v-list-item>
       </v-list>
@@ -130,6 +128,22 @@ export default {
 }
 </script>
 
-<style>
-/* CSS */
+<style lang="scss">
+$body-font-family: 'Muli', sans-serif;
+$title-font: 'Muli', sans-serif;
+$dark-bg: #031A1C;
+
+.v-application {
+  font-family: $body-font-family, sans-serif !important;
+  background: #0D2629 !important;
+
+  .title {
+    // To pin point specific classes of some components
+    font-family: $title-font, sans-serif !important;
+  }
+}
+
+.dark-bg {
+  background: $dark-bg !important;
+}
 </style>
