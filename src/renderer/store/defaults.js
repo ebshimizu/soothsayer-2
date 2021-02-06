@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { LOWER_THIRD_MODES } from '../data/overlayManifest'
+import { LOWER_THIRD_MODES, TICKER_TYPES } from '../data/overlayManifest'
 
 const defaultLowerThirdData = () => {
   return {
@@ -59,6 +59,14 @@ const defaultShowData = () => {
       isPaused: false,
       visible: true,
     },
+    tickerItems: {},
+  }
+}
+
+const defaultTickerItem = () => {
+  return {
+    type: TICKER_TYPES.TEXT,
+    text: '',
   }
 }
 
@@ -81,5 +89,6 @@ export {
   defaultShowData,
   defaultLowerThirdData,
   defaultGraphicsData,
+  defaultTickerItem,
   scheduleItem,
 }

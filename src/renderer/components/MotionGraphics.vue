@@ -1,6 +1,9 @@
 <template>
   <v-row dense v-show="$store.getters.componentVisible('motion-graphics')">
     <v-col cols="12">
+      <ticker-items></ticker-items>
+    </v-col>
+    <v-col cols="12">
       <v-card outlined>
         <v-card-title>Lower Third</v-card-title>
         <v-card-subtitle>{{ status }}</v-card-subtitle>
@@ -27,6 +30,7 @@
             <v-col cols="4" v-show="erbsPlayerStat">
               <v-text-field
                 label="Player Name"
+                TickerItems
                 :value="erbsPlayer.playerName"
                 @input="(v) => updateErbsPlayer('playerName', v)"
               ></v-text-field
@@ -117,9 +121,11 @@ import { LOWER_THIRD_MODES } from '../data/overlayManifest'
 import { GAME_SETTINGS } from '../data/supportedGames'
 import { ACTION, MUTATION } from '../store/actions'
 import characters from '../data/gameConfig/erbs/characters'
+import TickerItems from './TickerItems.vue'
 
 export default {
   name: 'motion-graphics',
+  components: { TickerItems },
   computed: {
     lowerThird() {
       return this.$store.state.graphics.lowerThird

@@ -15,6 +15,7 @@ import {
   defaultShowData,
   defaultGraphicsData,
   scheduleItem,
+  defaultTickerItem,
 } from './defaults'
 import moment from 'moment'
 
@@ -265,6 +266,16 @@ export default new Vuex.Store({
         )
         console.log(e)
       }
+    },
+    [MUTATION.ADD_TICKER_ITEM](state) {
+      const id = uuidv4()
+      Vue.set(state.show.tickerItems, id, defaultTickerItem())
+    },
+    [MUTATION.DELETE_TICKER_ITEM](state, id) {
+      Vue.delete(state.show.tickerItems, id)
+    },
+    [MUTATION.SET_TICKER_ITEM_PROP](state, { id, key, value }) {
+      Vue.set(state.show.tickerItems[id], key, value)
     },
   },
   actions: {

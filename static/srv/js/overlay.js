@@ -286,6 +286,14 @@ const app = {
       }
 
       // extra items
+      if (this.state.tickerItems) {
+        for (const key in this.state.tickerItems) {
+          const item = this.state.tickerItems[key]
+          if (item.type === 'TEXT') {
+            tickerItems.push(item.text)
+          }
+        }
+      }
 
       return tickerItems
     },

@@ -25,6 +25,9 @@ const MUTATION = {
   ADD_SPONSOR_IMAGE: 'Add Sponsor Image',
   REMOVE_SPONSOR_IMAGE: 'Remove Sponsor Image',
   ADD_LOCAL_SPONSOR_IMAGE: 'Add Local Sponsor Image',
+  ADD_TICKER_ITEM: 'Add Ticker Item',
+  DELETE_TICKER_ITEM: 'Delete Ticker Item',
+  SET_TICKER_ITEM_PROP: 'Set Ticker Item Prop',
 }
 
 const ACTION = {
