@@ -48,7 +48,7 @@ const defaultShowData = () => {
     notepadTitle: '',
     schedule: {},
     mapImage: '',
-    playerPool: [],
+    playerPool: '',
     timer: {
       minutes: 0,
       seconds: 0,

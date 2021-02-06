@@ -20,10 +20,10 @@
       <v-card outlined>
         <v-card-title>Event Information</v-card-title>
         <v-card-subtitle
-          >A tournament is often made up of multiple events (like Day 1, Group Stage,
-          Playoffs, etc.). List these events here. The overlays will list events
-          in chronological order. Some themes will not display all upcoming
-          events.</v-card-subtitle
+          >A tournament is often made up of multiple events (like Day 1, Group
+          Stage, Playoffs, etc.). List these events here. The overlays will list
+          events in chronological order. Some themes will not display all
+          upcoming events.</v-card-subtitle
         >
         <v-card-text>
           <v-row dense>
@@ -112,6 +112,23 @@
               <v-btn color="green" block @click="addEvent">Add Event</v-btn>
             </v-col>
           </v-row>
+        </v-card-text>
+      </v-card>
+    </v-col>
+    <v-col cols="12">
+      <v-card outlined>
+        <v-card-title>Participants</v-card-title>
+        <v-card-subtitle
+          >A list of player names, listed one per line. Names entered here will
+          be used as shortcuts in other parts of the app, such as the lower
+          third</v-card-subtitle
+        >
+        <v-card-text>
+          <v-textarea
+            label="Participants"
+            :value="this.$store.state.show.playerPool"
+            @input="(v) => updateShowParam('playerPool', v)"
+          ></v-textarea>
         </v-card-text>
       </v-card>
     </v-col>

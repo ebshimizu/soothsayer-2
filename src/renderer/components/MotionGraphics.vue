@@ -28,12 +28,12 @@
               >
             </v-col>
             <v-col cols="3" v-show="erbsPlayerStat">
-              <v-text-field
+              <v-combobox
                 label="Player Name"
-                TickerItems
+                :items="$store.getters.playerPoolItems"
                 :value="erbsPlayer.playerName"
                 @input="(v) => updateErbsPlayer('playerName', v)"
-              ></v-text-field
+              ></v-combobox
             ></v-col>
             <v-col cols="3" v-show="erbsPlayerStat">
               <v-select

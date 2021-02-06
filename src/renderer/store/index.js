@@ -95,6 +95,9 @@ export default new Vuex.Store({
     tournamentSchedule(state) {
       return Object.values(state.show.schedule)
     },
+    playerPoolItems(state) {
+      return state.show.playerPool.split('\n')
+    },
   },
   mutations: {
     [MUTATION.REGISTER_OVERLAY](state, { id, name, page }) {
