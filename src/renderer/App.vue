@@ -1,33 +1,73 @@
 <template>
   <v-app>
-    <v-navigation-drawer app permanent class="dark-bg">
+    <v-system-bar class="dark-bg system-bar" window>
+      <span class="bar-title">{{ $route.name }}</span>
+      <v-spacer></v-spacer>
+      <v-icon>mdi-minus</v-icon>
+      <v-icon>mdi-checkbox-blank-outline</v-icon>
+      <v-icon @click="close">mdi-close</v-icon>
+    </v-system-bar>
+
+    <v-navigation-drawer app permanent class="dark-bg" :width="460">
       <v-list>
         <v-list-item class="px-2" two-line>
-          <v-list-item-avatar rounded="0">
-            <img src="~@/assets/soothsayer-logo.png" />
-          </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title
-              >Soothsayer v{{ $store.getters.version }}</v-list-item-title
-            >
+            <div class="soothsayer-bar-logo"></div>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-content>
+            <v-row>
+              <v-col
+                cols="4"
+                class="d-flex flex-column align-content-center justify-center align-center"
+              >
+                <v-btn fab color="primary" class="nav-btn" @click="update"
+                  ><v-icon large>mdi-update</v-icon></v-btn
+                >
+                <span class="mt-3 nav-dark">Update</span>
+              </v-col>
+              <v-col
+                cols="4"
+                class="d-flex flex-column align-content-center justify-center align-center"
+              >
+                <v-btn fab color="primary" class="nav-btn" to="/status"
+                  ><v-icon large>mdi-file-find</v-icon></v-btn
+                >
+                <span class="mt-3 nav-dark">Preview</span>
+              </v-col>
+              <v-col
+                cols="4"
+                class="d-flex flex-column align-content-center justify-center align-center"
+              >
+                <v-btn fab color="primary" class="nav-btn" to="/"
+                  ><v-icon large>mdi-view-dashboard</v-icon></v-btn
+                >
+                <span class="mt-3 nav-dark">Dashboard</span>
+              </v-col>
+            </v-row>
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-divider></v-divider>
       <v-list nav dense>
-        <v-list-item to="/">
-          <v-list-item-icon
-            ><v-icon>mdi-rocket-launch</v-icon></v-list-item-icon
-          >
-          <v-list-item-title>Dashboard</v-list-item-title>
-        </v-list-item>
         <v-list-item
           to="/general"
           v-show="$store.getters.menuVisible('general')"
         >
-          <v-list-item-icon><v-icon>mdi-information</v-icon></v-list-item-icon>
-          <v-list-item-title>Cast Info</v-list-item-title>
+          <v-list-item-icon><v-icon>mdi-key</v-icon></v-list-item-icon>
+          <v-list-item-title>User Information</v-list-item-title>
         </v-list-item>
+        <v-list-item to="/schedule">
+          <v-list-item-icon><v-icon>mdi-calendar</v-icon></v-list-item-icon>
+          <v-list-item-title>Schedule</v-list-item-title>
+        </v-list-item>
+        <v-list-item to="/settings">
+          <v-list-item-icon><v-icon>mdi-cog</v-icon></v-list-item-icon>
+          <v-list-item-title>Application Settings</v-list-item-title>
+        </v-list-item>
+      </v-list>
+      <v-list nav dense>
+        <v-subheader>Cast Setup</v-subheader>
         <v-list-item
           to="/tournament"
           v-show="$store.getters.menuVisible('tournament')"
@@ -35,45 +75,47 @@
           <v-list-item-icon><v-icon>mdi-tournament</v-icon></v-list-item-icon>
           <v-list-item-title>Tournament Info</v-list-item-title>
         </v-list-item>
-        <v-list-item
-          to="/whiteboard"
-          v-show="$store.getters.menuVisible('whiteboard')"
-        >
-          <v-list-item-icon><v-icon>mdi-draw</v-icon></v-list-item-icon>
-          <v-list-item-title>Whiteboard</v-list-item-title>
+        <v-list-item to="/players">
+          <v-list-item-icon><v-icon>mdi-account-group</v-icon></v-list-item-icon>
+          <v-list-item-title>Players &amp; Teams</v-list-item-title>
         </v-list-item>
+        <v-list-item to="/co-caster">
+          <v-list-item-icon><v-icon>mdi-microphone</v-icon></v-list-item-icon>
+          <v-list-item-title>Co-Caster Information</v-list-item-title>
+        </v-list-item>
+        <v-list-item to="/notepad">
+          <v-list-item-icon><v-icon>mdi-note-text</v-icon></v-list-item-icon>
+          <v-list-item-title>Notepad</v-list-item-title>
+        </v-list-item>
+      </v-list>
+      <v-list nav dense>
+        <v-subheader>Dynamic Elements</v-subheader>
         <v-list-item
           to="/graphics"
           v-show="$store.getters.menuVisible('graphics')"
         >
-          <v-list-item-icon><v-icon>mdi-movie-filter</v-icon></v-list-item-icon>
-          <v-list-item-title>Motion Graphics</v-list-item-title>
+          <v-list-item-icon><v-icon>mdi-folder-information</v-icon></v-list-item-icon>
+          <v-list-item-title>Lower Third</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          to="/whiteboard"
+          v-show="$store.getters.menuVisible('whiteboard')"
+        >
+          <v-list-item-icon><v-icon>mdi-earth</v-icon></v-list-item-icon>
+          <v-list-item-title>Map</v-list-item-title>
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list nav dense>
-        <v-list-item to="/settings">
-          <v-list-item-icon><v-icon>mdi-cog</v-icon></v-list-item-icon>
-          <v-list-item-title>General Settings</v-list-item-title>
-        </v-list-item>
+        <v-subheader>TO REMOVE</v-subheader>
         <v-list-item to="/theme">
           <v-list-item-icon><v-icon>mdi-palette</v-icon></v-list-item-icon>
           <v-list-item-title>Theme</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/status">
-          <v-list-item-icon><v-icon>mdi-information</v-icon></v-list-item-icon>
-          <v-list-item-title>Status</v-list-item-title>
-        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar color="primary" app dark>
-      <v-toolbar-title>{{ $route.name }}</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn color="green" large @click="update">Update</v-btn>
-    </v-app-bar>
-
-    <v-main>
+    <v-main class="pt-8">
       <v-container fluid>
         <router-view></router-view>
       </v-container>
@@ -124,6 +166,9 @@ export default {
     update() {
       this.$store.dispatch(ACTION.UPDATE)
     },
+    close() {
+      ipcRenderer.send('quit')
+    },
   },
 }
 </script>
@@ -131,11 +176,12 @@ export default {
 <style lang="scss">
 $body-font-family: 'Muli', sans-serif;
 $title-font: 'Muli', sans-serif;
-$dark-bg: #031A1C;
+$dark-bg: #031a1c;
+$nav-link-dark: #487e84;
 
 .v-application {
   font-family: $body-font-family, sans-serif !important;
-  background: #0D2629 !important;
+  background: #0d2629 !important;
 
   .title {
     // To pin point specific classes of some components
@@ -145,5 +191,53 @@ $dark-bg: #031A1C;
 
 .dark-bg {
   background: $dark-bg !important;
+}
+
+.system-bar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  width: 100%;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+
+  .bar-title {
+    margin-left: 470px;
+  }
+
+  .v-icon {
+    -webkit-app-region: no-drag;
+  }
+}
+
+.v-navigation-drawer {
+  padding: 32px;
+}
+
+.soothsayer-bar-logo {
+  background-image: url('~@/assets/soothsayer.png');
+  width: 100%;
+  height: 62px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.nav-btn {
+  color: $dark-bg !important;
+}
+
+.nav-dark {
+  color: $nav-link-dark !important;
+  font-size: 16px;
+}
+
+html {
+  overflow-y: hidden !important;
+}
+
+.v-main__wrap {
+  overflow-y: auto !important;
+  height: calc(100vh - 32px) !important;
 }
 </style>

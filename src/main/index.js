@@ -323,6 +323,12 @@ ipcMain.handle('preview', (event, { page, width, height }) => {
   })
 })
 
+ipcMain.on('quit', () => {
+  console.log('quitting')
+  mainWindow.close()
+  socketServer.close()
+})
+
 function bootServer() {
   if (socketServer) {
     console.log('Shutting down server for reboot.')
@@ -393,6 +399,7 @@ function createWindow() {
     height: 1080,
     useContentSize: true,
     width: 1920,
+    frame: false,
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
@@ -416,8 +423,8 @@ app.on('ready', initApp)
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit()
     socketServer.close()
+    app.quit()
   }
 })
 
