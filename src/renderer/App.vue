@@ -1,11 +1,13 @@
 <template>
   <v-app>
-    <v-system-bar class="dark-bg system-bar" window>
+    <v-system-bar class="dark-bg system-bar" app window height="52">
       <span class="bar-title">{{ $route.name }}</span>
       <v-spacer></v-spacer>
       <v-icon>mdi-minus</v-icon>
       <v-icon>mdi-checkbox-blank-outline</v-icon>
-      <v-icon @click="close">mdi-close</v-icon>
+      <v-btn tile color="red" icon @click="close">
+        <v-icon @click="close">mdi-close</v-icon></v-btn
+      >
     </v-system-bar>
 
     <v-navigation-drawer app permanent class="dark-bg" :width="460">
@@ -75,15 +77,20 @@
           <v-list-item-icon><v-icon>mdi-tournament</v-icon></v-list-item-icon>
           <v-list-item-title>Tournament Info</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/players">
-          <v-list-item-icon><v-icon>mdi-account-group</v-icon></v-list-item-icon>
+        <v-list-item to="/players-teams">
+          <v-list-item-icon
+            ><v-icon>mdi-account-group</v-icon></v-list-item-icon
+          >
           <v-list-item-title>Players &amp; Teams</v-list-item-title>
         </v-list-item>
         <v-list-item to="/co-caster">
           <v-list-item-icon><v-icon>mdi-microphone</v-icon></v-list-item-icon>
           <v-list-item-title>Co-Caster Information</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/notepad">
+        <v-list-item
+          to="/notepad"
+          v-show="$store.getters.menuVisible('notepad')"
+        >
           <v-list-item-icon><v-icon>mdi-note-text</v-icon></v-list-item-icon>
           <v-list-item-title>Notepad</v-list-item-title>
         </v-list-item>
@@ -91,10 +98,12 @@
       <v-list nav dense>
         <v-subheader>Dynamic Elements</v-subheader>
         <v-list-item
-          to="/graphics"
-          v-show="$store.getters.menuVisible('graphics')"
+          to="/lower-third"
+          v-show="$store.getters.menuVisible('lowerThird')"
         >
-          <v-list-item-icon><v-icon>mdi-folder-information</v-icon></v-list-item-icon>
+          <v-list-item-icon
+            ><v-icon>mdi-folder-information</v-icon></v-list-item-icon
+          >
           <v-list-item-title>Lower Third</v-list-item-title>
         </v-list-item>
         <v-list-item
@@ -105,17 +114,9 @@
           <v-list-item-title>Map</v-list-item-title>
         </v-list-item>
       </v-list>
-      <v-divider></v-divider>
-      <v-list nav dense>
-        <v-subheader>TO REMOVE</v-subheader>
-        <v-list-item to="/theme">
-          <v-list-item-icon><v-icon>mdi-palette</v-icon></v-list-item-icon>
-          <v-list-item-title>Theme</v-list-item-title>
-        </v-list-item>
-      </v-list>
     </v-navigation-drawer>
 
-    <v-main class="pt-8">
+    <v-main>
       <v-container fluid>
         <router-view></router-view>
       </v-container>
@@ -212,7 +213,7 @@ $nav-link-dark: #487e84;
 }
 
 .v-navigation-drawer {
-  padding: 32px;
+  padding: 0 32px 32px 32px;
 }
 
 .soothsayer-bar-logo {

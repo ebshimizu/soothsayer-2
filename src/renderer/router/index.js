@@ -16,11 +16,6 @@ export default new Router({
       component: require('@/components/AppSettings').default,
     },
     {
-      path: '/theme',
-      name: 'Theme',
-      component: require('@/components/ThemeSettings').default,
-    },
-    {
       path: '/status',
       name: 'Status',
       component: require('@/components/AppStatus').default,
@@ -41,9 +36,24 @@ export default new Router({
       component: require('@/components/WhiteBoard').default,
     },
     {
-      path: '/graphics',
-      name: 'Motion Graphics',
-      component: require('@/components/MotionGraphics').default,
+      path: '/lower-third',
+      name: 'Lower Third',
+      component: require('@/components/LowerThird').default,
+    },
+    {
+      path: '/notepad',
+      name: 'Note Pad',
+      component: require('@/components/NotePad').default,
+    },
+    {
+      path: '/schedule',
+      name: 'Schedule',
+      component: require('@/components/EventSchedule').default,
+    },
+    {
+      path: '/players-teams',
+      name: 'Players and Teams',
+      component: require('@/components/PlayersTeams').default,
     },
   ],
 })

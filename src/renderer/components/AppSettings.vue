@@ -1,21 +1,34 @@
 <template>
   <v-row dense>
-    <v-col cols="12" class="mb-2">
-      <v-select
-        v-model="game"
-        :items="games"
-        label="Selected Game Configuration"
-        hint="Each game supports a different set of overlays and functions."
-        persistent-hint
-      ></v-select>
+    <v-col cols="12">
+      <v-card outlined>
+        <v-card-title>Application Settings</v-card-title>
+        <v-card-text>
+          <v-row dense>
+            <v-col cols="12" class="mb-2">
+              <v-select
+                v-model="game"
+                :items="games"
+                label="Selected Game Configuration"
+                hint="Each game supports a different set of overlays and functions."
+                persistent-hint
+              ></v-select>
+            </v-col>
+            <v-col cols="12" v-if="erbs">
+              <v-text-field
+                label="Eternal Return: Black Survival API Key"
+                hint="Visit https://developer.eternalreturn.io/ to get a key"
+                :value="$store.state.app.erbsApiKey"
+                persistent-hint
+                @input="(v) => update('erbsApiKey', v)"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
     </v-col>
     <v-col cols="12">
-      <v-text-field
-        label="Eternal Return: Black Survival API Key"
-        hint="Visit https://developer.eternalreturn.io/ to get a key"
-        :value="$store.state.app.erbsApiKey"
-        @input="(v) => update('erbsApiKey', v)"
-      ></v-text-field>
+      <theme-settings></theme-settings>
     </v-col>
     <v-col cols="12">
       <v-card outlined>
@@ -61,9 +74,12 @@ import { MUTATION } from '../store/actions'
 import { ipcRenderer, shell } from 'electron'
 import { SHORTCUT_NAMES } from '../data/keyboardShortcuts'
 import { DEFAULT_SHORTCUTS } from '../../main/defaultKeyboardShortcuts'
+import { GAME } from '../data/supportedGames'
+import ThemeSettings from './ThemeSettings'
 
 export default {
   name: 'app-settings',
+  components: { ThemeSettings },
   data() {
     return {
       // keybinds aren't dynamic. The state on load should be consistent.
@@ -81,6 +97,9 @@ export default {
       set(value) {
         this.update('game', value)
       },
+    },
+    erbs() {
+      return this.game === GAME.ERBS
     },
     // just copy the keybinds.
     // we want to save local edits, send to main, validate, update main state.

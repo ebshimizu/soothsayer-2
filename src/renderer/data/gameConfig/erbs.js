@@ -4,14 +4,17 @@ const COMPONENT_VISIBLE = {
   'general-info': true,
   'tournament-info': true,
   'white-board': true,
-  'motion-graphics': true,
+  'lower-third': true,
+  'note-pad': true,
+  'event-schedule': true,
 }
 
 const MENU_VISIBLE = {
   general: true,
   tournament: true,
   whiteboard: true,
-  graphics: true,
+  lowerThird: true,
+  notepad: true,
 }
 
 const OVERLAY_SUPPORT = {

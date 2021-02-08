@@ -1,5 +1,5 @@
 <template>
-  <v-row dense v-show="$store.getters.componentVisible('motion-graphics')">
+  <v-row dense v-show="$store.getters.componentVisible('lower-third')">
     <v-col cols="12">
       <ticker-items></ticker-items>
     </v-col>
@@ -153,7 +153,7 @@ import characters from '../data/gameConfig/erbs/characters'
 import TickerItems from './TickerItems.vue'
 
 export default {
-  name: 'motion-graphics',
+  name: 'lower-third',
   components: { TickerItems },
   data() {
     return {

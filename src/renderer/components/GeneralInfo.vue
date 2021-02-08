@@ -77,12 +77,6 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col cols="12">
-      <note-pad></note-pad>
-    </v-col>
-    <v-col cols="12">
-       <sponsor-logos></sponsor-logos> 
-    </v-col>
   </v-row>
 </template>
 
