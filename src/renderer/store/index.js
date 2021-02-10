@@ -35,6 +35,7 @@ export default new Vuex.Store({
       availableThemes: {},
       game: GAME.ERBS,
       erbsApiKey: '',
+      firstLaunch: true,
     },
     keybinds: {}, // default keybinds are defined in the main process and forwarded
     availableOverlays: [],
