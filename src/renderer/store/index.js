@@ -98,6 +98,16 @@ export default new Vuex.Store({
     playerPoolItems(state) {
       return state.show.playerPool.split('\n')
     },
+    castProfile(state) {
+      const showData = _.cloneDeep(state.show)
+
+      // delete some things
+      delete showData.schedule
+      delete showData.casterOne
+      delete showData.mapImage
+
+      return { show: showData }
+    },
   },
   mutations: {
     [MUTATION.REGISTER_OVERLAY](state, { id, name, page }) {
