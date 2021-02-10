@@ -45,12 +45,6 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col cols="12">
-      <v-card outlined>
-        <v-card-title>Manage Overrides</v-card-title>
-        <v-card-subtitle>Assign themes to individual overlays</v-card-subtitle>
-      </v-card>
-    </v-col>
   </v-row>
 </template>
 

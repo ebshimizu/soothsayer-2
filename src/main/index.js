@@ -323,6 +323,10 @@ ipcMain.handle('preview', (event, { page, width, height }) => {
   })
 })
 
+ipcMain.handle('delete-settings', () => {
+  settings.unset('state')
+})
+
 ipcMain.on('quit', () => {
   console.log('quitting')
   mainWindow.close()

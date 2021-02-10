@@ -32,14 +32,20 @@ const defaultShowData = () => {
   return {
     theme: '',
     themeOverrides: {},
-    casters: [
-      {
-        name: '',
-        social: '',
-        textSize: 'medium',
-      },
-    ],
-    casterCount: 1,
+    casterOne: {
+      name: '',
+      socialTwitch: '',
+      socialTwitter: '',
+      socialYoutube: '',
+      socialInsta: '',
+    },
+    casterTwo: {
+      name: '',
+      socialTwitch: '',
+      socialTwitter: '',
+      socialYoutube: '',
+      socialInsta: '',
+    },
     frameVariant: 1,
     eventLogo: '',
     tournamentName: '',

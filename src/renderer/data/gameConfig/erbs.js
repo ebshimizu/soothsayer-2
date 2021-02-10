@@ -14,7 +14,10 @@ const MENU_VISIBLE = {
   tournament: true,
   whiteboard: true,
   lowerThird: true,
+  schedule: true,
   notepad: true,
+  playersTeams: true,
+  coCaster: false,
 }
 
 const OVERLAY_SUPPORT = {

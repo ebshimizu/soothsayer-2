@@ -59,7 +59,10 @@
           <v-list-item-icon><v-icon>mdi-key</v-icon></v-list-item-icon>
           <v-list-item-title>User Information</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/schedule">
+        <v-list-item
+          to="/schedule"
+          v-show="$store.getters.menuVisible('schedule')"
+        >
           <v-list-item-icon><v-icon>mdi-calendar</v-icon></v-list-item-icon>
           <v-list-item-title>Schedule</v-list-item-title>
         </v-list-item>
@@ -77,13 +80,19 @@
           <v-list-item-icon><v-icon>mdi-tournament</v-icon></v-list-item-icon>
           <v-list-item-title>Tournament Info</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/players-teams">
+        <v-list-item
+          to="/players-teams"
+          v-show="$store.getters.menuVisible('playersTeams')"
+        >
           <v-list-item-icon
             ><v-icon>mdi-account-group</v-icon></v-list-item-icon
           >
           <v-list-item-title>Players &amp; Teams</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/co-caster">
+        <v-list-item
+          to="/co-caster"
+          v-show="$store.getters.menuVisible('coCaster')"
+        >
           <v-list-item-icon><v-icon>mdi-microphone</v-icon></v-list-item-icon>
           <v-list-item-title>Co-Caster Information</v-list-item-title>
         </v-list-item>
@@ -240,5 +249,9 @@ html {
 .v-main__wrap {
   overflow-y: auto !important;
   height: calc(100vh - 32px) !important;
+}
+
+.v-btn.primary span {
+  color: $dark-bg !important;
 }
 </style>

@@ -112,28 +112,8 @@ export default new Vuex.Store({
     [MUTATION.SET_LOCAL_FILES](state, files) {
       state.localFiles = files
     },
-    [MUTATION.CHANGE_CASTER_LENGTH](state, count) {
-      if (count > state.show.casters.length) {
-        // expand by adding until length
-        while (state.show.casters.length < count) {
-          state.show.casters.push({
-            name: '',
-            socialTwitch: '',
-            socialTwitter: '',
-            socialYoutube: '',
-            socialInsta: '',
-            textSize: 'medium',
-          })
-        }
-      } else if (count < state.show.casters.length) {
-        // truncate
-        state.show.casters.splice(count)
-      }
-
-      state.show.casterCount = count
-    },
-    [MUTATION.SET_CASTER_DATA](state, { index, key, value }) {
-      Vue.set(state.show.casters[index], key, value)
+    [MUTATION.SET_CASTER_DATA](state, { caster, key, value }) {
+      Vue.set(state.show[caster], key, value)
     },
     [MUTATION.SET_SHOW_PROP](state, { key, value }) {
       Vue.set(state.show, key, value)
@@ -280,6 +260,9 @@ export default new Vuex.Store({
     [MUTATION.SET_TICKER_ITEM_PROP](state, { id, key, value }) {
       Vue.set(state.show.tickerItems[id], key, value)
     },
+    [MUTATION.RESET_SHOW_DATA](state) {
+      Vue.set(state, 'show', defaultShowData())
+    },
   },
   actions: {
     [ACTION.INIT_OVERLAY]({ commit, state }, socketData) {
@@ -377,6 +360,9 @@ export default new Vuex.Store({
 
       // inform overlays
       dispatch(ACTION.UPDATE)
+    },
+    [ACTION.DELETE_SETTINGS_CACHE]() {
+      ipcRenderer.invoke('delete-settings')
     },
   },
 })

@@ -2,7 +2,6 @@ const MUTATION = {
   REGISTER_OVERLAY: 'Register Overlay',
   UNREGISTER_OVERLAY: 'Unregister Overlay',
   SET_VERSION: 'Set Version',
-  CHANGE_CASTER_LENGTH: 'Change Number of Casters',
   SET_CASTER_DATA: 'Set Caster Data',
   SET_SHOW_PROP: 'Set Show Property',
   SET_LOCAL_FILES: 'Set Local File Path',
@@ -28,6 +27,7 @@ const MUTATION = {
   ADD_TICKER_ITEM: 'Add Ticker Item',
   DELETE_TICKER_ITEM: 'Delete Ticker Item',
   SET_TICKER_ITEM_PROP: 'Set Ticker Item Prop',
+  RESET_SHOW_DATA: 'Reset Show Data',
 }
 
 const ACTION = {
@@ -41,6 +41,7 @@ const ACTION = {
   STOP_TIMER: 'Stop Timer',
   PAUSE_TIMER: 'Pause Timer',
   RESUME_TIMER: 'Resume Timer',
+  DELETE_SETTINGS_CACHE: 'Delete Settings Cache',
 }
 
 export { MUTATION, ACTION }

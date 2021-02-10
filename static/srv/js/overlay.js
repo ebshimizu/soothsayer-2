@@ -128,19 +128,19 @@ const app = {
       return this.lowerThird ? this.lowerThird.visible : false
     },
     casterOneName() {
-      return this.getCaster(0) ? this.getCaster(0).name : ''
+      return this.state.casterOne ? this.state.casterOne.name : ''
     },
     casterOneTwitter() {
-      return this.getCaster(0) ? this.getCaster(0).socialTwitter : ''
+      return this.state.casterOne ? this.state.casterOne.socialTwitter : ''
     },
     casterOneTwitch() {
-      return this.getCaster(0) ? this.getCaster(0).socialTwitch : ''
+      return this.state.casterOne ? this.state.casterOne.socialTwitch : ''
     },
     casterOneYoutube() {
-      return this.getCaster(0) ? this.getCaster(0).socialYoutube : ''
+      return this.state.casterOne ? this.state.casterOne.socialYoutube : ''
     },
     casterOneInstagram() {
-      return this.getCaster(0) ? this.getCaster(0).socialInsta : ''
+      return this.state.casterOne ? this.state.casterOne.socialInsta : ''
     },
     casterOneTextSize() {
       // based on text length
@@ -314,13 +314,6 @@ const app = {
     },
   },
   methods: {
-    getCaster(index) {
-      if (this.state.casters) {
-        return this.state.casters.length > index
-          ? this.state.casters[index]
-          : {}
-      }
-    },
     updateRemaining() {
       // actually compute the timer
       if (!this.running) {
