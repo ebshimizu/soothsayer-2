@@ -162,6 +162,8 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <first-launch></first-launch>
   </v-app>
 </template>
 
@@ -169,9 +171,11 @@
 import { ipcRenderer } from 'electron'
 import { MUTATION, ACTION } from './store/actions'
 import { KEYBOARD_SHORTCUTS } from './data/keyboardShortcuts'
+import FirstLaunch from './components/FirstLaunch'
 
 export default {
   name: 'soothsayer-2',
+  components: { FirstLaunch },
   beforeCreate() {
     // add ipc hooks from main
     ipcRenderer.on('register-overlay', (event, data) => {
@@ -287,6 +291,31 @@ $nav-link-dark: #487e84;
 
 .dark-bg {
   background: $dark-bg !important;
+}
+
+.v-stepper,
+.v-dialog {
+  background-color: $dark-bg !important;
+}
+
+.v-dialog .v-stepper {
+  box-shadow: unset;
+}
+
+.v-stepper__label {
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 28px;
+}
+
+.v-stepper__step--inactive {
+  .v-stepper__label {
+    color: #487E84 !important;
+  }
+}
+
+.v-stepper__step__step.primary {
+  color: $dark-bg !important;
 }
 
 .system-bar {

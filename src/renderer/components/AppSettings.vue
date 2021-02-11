@@ -66,6 +66,24 @@
         </v-card-actions>
       </v-card>
     </v-col>
+    <v-col cols="12">
+      <v-card outlined>
+        <v-card-title>Resets</v-card-title>
+        <v-card-text>
+          <v-row dense>
+            <v-col cols="4"
+              ><v-btn block @click="firstTime">Run First Time Setup</v-btn>
+            </v-col>
+            <v-col cols="4"
+              ><v-btn color="red" block>Reset Show Data</v-btn></v-col
+            >
+            <v-col col="4"
+              ><v-btn color="red" block>Reset All Data</v-btn></v-col
+            >
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-col>
   </v-row>
 </template>
 
@@ -144,6 +162,12 @@ export default {
     },
     update(key, value) {
       this.$store.commit(MUTATION.SET_APP_PROP, { key, value })
+    },
+    firstTime() {
+      this.$store.commit(MUTATION.SET_APP_PROP, {
+        key: 'firstLaunch',
+        value: true,
+      })
     },
   },
 }
