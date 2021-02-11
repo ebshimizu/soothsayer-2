@@ -6,18 +6,7 @@
         <v-card-subtitle>Set the theme used by all overlays</v-card-subtitle>
         <v-card-text>
           <v-row dense>
-            <v-col cols="12">
-              <v-select
-                label="Available Themes"
-                :items="availableThemes"
-                v-model="theme"
-              >
-                <template v-slot:append-outer>
-                  <v-btn class="mx-1" color="secondary">Scan</v-btn>
-                  <v-btn class="mx-1" color="secondary">Add</v-btn>
-                </template>
-              </v-select>
-            </v-col>
+            <theme-selector></theme-selector>
           </v-row>
         </v-card-text>
       </v-card>
@@ -50,10 +39,12 @@
 
 <script>
 import { ipcRenderer } from 'electron'
-import { MUTATION, ACTION } from '../store/actions'
+import { MUTATION } from '../store/actions'
+import ThemeSelector from './ThemeSelector'
 
 export default {
   name: 'theme-settings',
+  components: { ThemeSelector },
   computed: {
     themeFolder: {
       get() {
@@ -66,17 +57,7 @@ export default {
         })
       },
     },
-    availableThemes() {
-      return this.$store.getters.availableThemes
-    },
-    theme: {
-      get() {
-        return this.$store.state.show.theme
-      },
-      set(value) {
-        this.$store.dispatch(ACTION.SET_THEME, { key: 'theme', value })
-      },
-    },
+
   },
   methods: {
     setThemeFolder() {

@@ -20,6 +20,7 @@
   "repository": "https://github.com/ebshimizu/soothsayer-2",
   "main": "./dist/electron/main.js",
   "dependencies": {
+    "adm-zip": "^0.5.2",
     "bufferutil": "^4.0.3",
     "electron-settings": "^4.0.2",
     "electron-updater": "^4.3.5",

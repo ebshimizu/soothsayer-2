@@ -2,6 +2,7 @@
 
 import { app, BrowserWindow, dialog, globalShortcut, ipcMain } from 'electron'
 import http from 'http'
+import https from 'https'
 import serveStatic from 'serve-static'
 import path from 'path'
 import fs from 'fs-extra'
@@ -11,6 +12,7 @@ import settings from 'electron-settings'
 import { scanForThemes } from './themes'
 import { DEFAULT_SHORTCUTS } from './defaultKeyboardShortcuts'
 import _ from 'lodash'
+import AdmZip from 'adm-zip'
 // import { autoUpdater } from 'electron-updater'
 
 /**
@@ -214,6 +216,17 @@ ipcMain.handle('set-theme-folder', async (event, reset = false) => {
   }
 })
 
+ipcMain.handle('scan-theme-folder', (event, folder) => {
+  // scan the folder
+  const availableThemes = scanForThemes(folder)
+
+  // ok re-serve
+  soothsayerThemeRootServer = serveStatic(folder)
+  bootServer()
+
+  return availableThemes
+})
+
 ipcMain.handle('rebind', (event, keybinds) => {
   return bindShortcuts(keybinds)
 })
@@ -323,6 +336,73 @@ ipcMain.handle('preview', (event, { page, width, height }) => {
 
 ipcMain.handle('delete-settings', () => {
   settings.unset('state')
+})
+
+ipcMain.handle('download-theme', (event, url) => {
+  const dest = path.join(localFiles, 'tmp-theme.zip')
+  fs.unlinkSync(dest)
+
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(dest)
+    let fileInfo = null
+
+    const request = https.get(url, (response) => {
+      if (response.statusCode !== 200) {
+        reject(new Error(`Failed to get '${url}' (${response.statusCode})`))
+        return
+      }
+
+      fileInfo = {
+        mime: response.headers['content-type'],
+        size: parseInt(response.headers['content-length'], 10),
+      }
+
+      response.pipe(file)
+    })
+
+    // The destination stream is ended by the time it's called
+    file.on('finish', () => resolve(fileInfo))
+
+    request.on('error', (err) => {
+      fs.unlink(dest, () => reject(err))
+    })
+
+    file.on('error', (err) => {
+      fs.unlink(dest, () => reject(err))
+    })
+
+    request.end()
+  })
+})
+
+ipcMain.handle('extract-theme', (event, folder) => {
+  try {
+    // extract zip
+    const tmp = path.join(localFiles, 'theme-tmp')
+    fs.ensureDirSync(tmp)
+    fs.emptyDirSync(tmp)
+
+    const zip = new AdmZip(path.join(localFiles, 'tmp-theme.zip'))
+    zip.extractAllTo(tmp, true)
+
+    // check theme manifest
+    const manifest = path.join(localFiles, 'theme-tmp', 'theme.json')
+
+    if (fs.existsSync(manifest)) {
+      // read manifest
+      const theme = JSON.parse(fs.readFileSync(manifest))
+
+      // check write folder
+      const dest = path.join(folder, theme.folderName)
+
+      fs.copySync(tmp, dest)
+      return
+    } else {
+      return 'Failed to extract theme. No manifest found.'
+    }
+  } catch (e) {
+    return e
+  }
 })
 
 ipcMain.on('quit', () => {

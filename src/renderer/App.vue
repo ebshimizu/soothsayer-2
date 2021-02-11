@@ -293,6 +293,10 @@ $nav-link-dark: #487e84;
   background: $dark-bg !important;
 }
 
+.v-messages__message {
+  line-height: 20px !important;
+}
+
 .v-stepper,
 .v-dialog {
   background-color: $dark-bg !important;
