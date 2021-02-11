@@ -112,7 +112,13 @@
         What theme do you want to use?
       </v-stepper-step>
       <v-stepper-content step="4">
-        <p>Todo: port the entire theme selection dropdown component to here</p>
+        <p>
+          You can either install themes from the Soothsayer Theme Registry, or
+          you can download the themes manually and place them in your theme
+          folder. If needed, you can change the location of your theme folder in
+          the Application Settings.
+        </p>
+        <theme-selector></theme-selector>
         <v-btn color="primary" @click="finish">Finish</v-btn>
       </v-stepper-content>
     </v-stepper>
@@ -124,8 +130,10 @@
 
 <script>
 import { MUTATION } from '../store/actions'
+import ThemeSelector from './ThemeSelector.vue'
 
 export default {
+  components: { ThemeSelector },
   name: 'first-launch',
   data() {
     return {
