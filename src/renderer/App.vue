@@ -168,11 +168,28 @@
     </v-dialog>
 
     <first-launch></first-launch>
+
+    <v-tooltip left>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+          class="problem"
+          color="yellow darken-3"
+          fab
+          elevation="2"
+          @click="openIssue"
+        >
+          <v-icon>mdi-message-alert-outline</v-icon>
+        </v-btn>
+      </template>
+      <span>Report a Problem</span>
+    </v-tooltip>
   </v-app>
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 import { MUTATION, ACTION } from './store/actions'
 import { KEYBOARD_SHORTCUTS } from './data/keyboardShortcuts'
 import FirstLaunch from './components/FirstLaunch'
@@ -229,6 +246,9 @@ export default {
     },
     close() {
       ipcRenderer.send('quit')
+    },
+    openIssue() {
+      shell.openExternal('https://github.com/ebshimizu/soothsayer-2/issues')
     },
     saveProfile() {
       const a = document.createElement('a')
@@ -427,5 +447,12 @@ html {
   .profile.save {
     right: 150px;
   }
+}
+
+.problem {
+  position: absolute !important;
+  right: 12px;
+  bottom: 31px;
+  z-index: 10;
 }
 </style>
