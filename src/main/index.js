@@ -335,7 +335,7 @@ ipcMain.handle('preview', (event, { page, width, height }) => {
 })
 
 ipcMain.handle('delete-settings', () => {
-  settings.unset('state')
+  settings.unsetSync('state')
 })
 
 ipcMain.handle('download-theme', (event, url) => {

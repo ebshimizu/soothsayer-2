@@ -24,12 +24,8 @@ function stateLog(log, message, severity) {
   log.push({ message, severity, date: new Date() })
 }
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
-  strict: process.env.NODE_ENV !== 'production',
-  plugins: [Persistence],
-  state: {
+function initialState() {
+  return {
     app: {
       themeFolder: '',
       availableThemes: {},
@@ -47,7 +43,15 @@ export default new Vuex.Store({
     version: 'uh oh',
     localFiles: '',
     whiteboardData: null,
-  },
+  }
+}
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  strict: process.env.NODE_ENV !== 'production',
+  plugins: [Persistence],
+  state: initialState(),
   getters: {
     version(state) {
       return state.version
@@ -272,7 +276,12 @@ export default new Vuex.Store({
       Vue.set(state.show.tickerItems[id], key, value)
     },
     [MUTATION.RESET_SHOW_DATA](state) {
-      Vue.set(state, 'show', defaultShowData())
+      // keep theme
+      const reset = defaultShowData()
+      reset.theme = state.show.theme
+      reset.themeOverrides = state.show.themeOverrides
+
+      Vue.set(state, 'show', reset)
     },
   },
   actions: {
@@ -372,8 +381,14 @@ export default new Vuex.Store({
       // inform overlays
       dispatch(ACTION.UPDATE)
     },
-    [ACTION.DELETE_SETTINGS_CACHE]() {
-      ipcRenderer.invoke('delete-settings')
+    [ACTION.DELETE_SETTINGS_CACHE]({ dispatch }) {
+      ipcRenderer.invoke('delete-settings').then(() => {
+        ipcRenderer.invoke('load-state').then((state) => {
+          // action just in case some async stuff needs to happen later
+          // images might need to be formatted, etc.
+          dispatch(ACTION.LOAD_STATE, state)
+        })
+      })
     },
   },
 })

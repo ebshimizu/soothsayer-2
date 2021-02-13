@@ -75,10 +75,14 @@
               ><v-btn block @click="firstTime">Run First Time Setup</v-btn>
             </v-col>
             <v-col cols="4"
-              ><v-btn color="red" block>Reset Show Data</v-btn></v-col
+              ><v-btn color="red" block @click="resetShow"
+                >Reset Show Data</v-btn
+              ></v-col
             >
             <v-col col="4"
-              ><v-btn color="red" block>Reset All Data</v-btn></v-col
+              ><v-btn color="red" block @click="resetAll"
+                >Delete Settings Cache</v-btn
+              ></v-col
             >
           </v-row>
         </v-card-text>
@@ -88,7 +92,7 @@
 </template>
 
 <script>
-import { MUTATION } from '../store/actions'
+import { ACTION, MUTATION } from '../store/actions'
 import { ipcRenderer, shell } from 'electron'
 import { SHORTCUT_NAMES } from '../data/keyboardShortcuts'
 import { DEFAULT_SHORTCUTS } from '../../main/defaultKeyboardShortcuts'
@@ -168,6 +172,12 @@ export default {
         key: 'firstLaunch',
         value: true,
       })
+    },
+    resetShow() {
+      this.$store.commit(MUTATION.RESET_SHOW_DATA)
+    },
+    resetAll() {
+      this.$store.dispatch(ACTION.DELETE_SETTINGS_CACHE)
     },
   },
 }
