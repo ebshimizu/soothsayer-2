@@ -411,6 +411,14 @@ ipcMain.on('quit', () => {
   socketServer.close()
 })
 
+ipcMain.on('maximize', () => {
+  mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize()
+})
+
+ipcMain.on('minimize', () => {
+  mainWindow.minimize()
+})
+
 function bootServer() {
   if (socketServer) {
     console.log('Shutting down server for reboot.')

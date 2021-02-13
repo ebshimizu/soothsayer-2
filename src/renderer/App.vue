@@ -3,11 +3,15 @@
     <v-system-bar class="dark-bg system-bar" app window height="52">
       <span class="bar-title">{{ $route.name }}</span>
       <v-spacer></v-spacer>
-      <v-icon>mdi-minus</v-icon>
-      <v-icon>mdi-checkbox-blank-outline</v-icon>
-      <v-btn tile color="red" icon @click="close">
-        <v-icon @click="close">mdi-close</v-icon></v-btn
-      >
+      <div class="app button" @click="minimize">
+        <v-icon>mdi-minus</v-icon>
+      </div>
+      <div class="app button" @click="maximize">
+        <v-icon>mdi-checkbox-blank-outline</v-icon>
+      </div>
+      <div class="app button close" @click="close">
+        <v-icon>mdi-close</v-icon>
+      </div>
     </v-system-bar>
 
     <v-navigation-drawer app permanent class="dark-bg" :width="460">
@@ -217,6 +221,12 @@ export default {
     update() {
       this.$store.dispatch(ACTION.UPDATE)
     },
+    minimize() {
+      ipcRenderer.send('minimize')
+    },
+    maximize() {
+      ipcRenderer.send('maximize')
+    },
     close() {
       ipcRenderer.send('quit')
     },
@@ -314,7 +324,7 @@ $nav-link-dark: #487e84;
 
 .v-stepper__step--inactive {
   .v-stepper__label {
-    color: #487E84 !important;
+    color: #487e84 !important;
   }
 }
 
@@ -337,6 +347,28 @@ $nav-link-dark: #487e84;
 
   .v-icon {
     -webkit-app-region: no-drag;
+    margin-right: 0 !important;
+  }
+
+  .app.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    height: 100% !important;
+    width: 52px !important;
+  }
+
+  .button:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .close {
+    margin-right: -8px;
+  }
+  .close:hover {
+    background-color: #e53935 !important;
   }
 }
 
