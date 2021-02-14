@@ -220,10 +220,7 @@ ipcMain.handle('scan-theme-folder', (event, folder) => {
   // scan the folder
   const availableThemes = scanForThemes(folder)
 
-  // ok re-serve
-  soothsayerThemeRootServer = serveStatic(folder)
-  bootServer()
-
+  // don't re-serve this doesn't change the current folder
   return availableThemes
 })
 

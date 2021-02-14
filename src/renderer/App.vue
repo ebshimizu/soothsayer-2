@@ -135,6 +135,9 @@
           <v-list-item-title>Map</v-list-item-title>
         </v-list-item>
       </v-list>
+      <v-footer class="status" padless absolute @click.native="about">
+        v{{ $store.state.version }}
+      </v-footer>
     </v-navigation-drawer>
 
     <v-main>
@@ -212,12 +215,6 @@ export default {
       this.$store.commit(MUTATION.SET_LOCAL_FILES, localFiles)
     })
 
-    ipcRenderer.invoke('load-state').then((state) => {
-      // action just in case some async stuff needs to happen later
-      // images might need to be formatted, etc.
-      this.$store.dispatch(ACTION.LOAD_STATE, state)
-    })
-
     // keyboard shortcuts
     // main process sends an action key (keyboard shortcuts cannot currently have arguments)
     ipcRenderer.on('keyboard', (event, { key }) => {
@@ -225,6 +222,13 @@ export default {
     })
 
     // ipcRenderer.send('get-version');
+  },
+  beforeMount() {
+    ipcRenderer.invoke('load-state').then((state) => {
+      // action just in case some async stuff needs to happen later
+      // images might need to be formatted, etc.
+      this.$store.dispatch(ACTION.LOAD_STATE, state)
+    })
   },
   data() {
     return {
@@ -235,6 +239,9 @@ export default {
     }
   },
   methods: {
+    about() {
+      this.$router.push('/about')
+    },
     update() {
       this.$store.dispatch(ACTION.UPDATE)
     },
@@ -419,40 +426,57 @@ html {
 
 .v-main__wrap {
   overflow-y: auto !important;
-  height: calc(100vh - 32px) !important;
+  height: calc(100vh - 52px) !important;
 }
 
 .v-btn.primary span {
   color: $dark-bg !important;
 }
 
-.v-navigation-drawer .v-subheader {
-  color: $primary !important;
-  font-size: 22px !important;
-  font-weight: 600;
-
-  .v-icon {
+.v-navigation-drawer {
+  .v-subheader {
     color: $primary !important;
+    font-size: 22px !important;
+    font-weight: 600;
+
+    .v-icon {
+      color: $primary !important;
+    }
+
+    .profile {
+      font-size: 16px !important;
+      color: $nav-link-dark !important;
+      font-weight: 400;
+      position: absolute;
+      right: 64px;
+      cursor: pointer;
+    }
+
+    .profile.save {
+      right: 150px;
+    }
   }
 
-  .profile {
-    font-size: 16px !important;
+  .status {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0) !important;
     color: $nav-link-dark !important;
-    font-weight: 400;
-    position: absolute;
-    right: 64px;
     cursor: pointer;
   }
 
-  .profile.save {
-    right: 150px;
+  .status:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
   }
 }
 
 .problem {
   position: absolute !important;
-  right: 12px;
-  bottom: 31px;
+  right: 24px;
+  bottom: 24px;
   z-index: 10;
 }
 </style>

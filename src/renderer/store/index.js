@@ -171,6 +171,7 @@ export default new Vuex.Store({
       // object is cleaned up by the action before giving it to the state here
       const newState = _.merge(state, data)
       Object.assign(state, newState)
+      Vue.set(state.app, 'availableThemes', newState.app.availableThemes)
 
       // ensure defaults
       if (!state.app.themeFolder || state.app.themeFolder === '') {

@@ -55,5 +55,10 @@ export default new Router({
       name: 'Players and Teams',
       component: require('@/components/PlayersTeams').default,
     },
+    {
+      path: '/about',
+      name: 'About Soothsayer',
+      component: require('@/components/AppAbout').default,
+    },
   ],
 })

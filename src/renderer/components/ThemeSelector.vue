@@ -2,7 +2,9 @@
   <v-col cols="12">
     <v-select label="Available Themes" :items="availableThemes" v-model="theme">
       <template v-slot:append-outer>
-        <v-btn class="mx-1" color="secondary" @click="scanThemeFolder">Scan</v-btn>
+        <v-btn class="mx-1" color="secondary" @click="scanThemeFolder"
+          >Scan</v-btn
+        >
         <v-btn class="mx-1" color="secondary" @click="openDownload">Add</v-btn>
       </template>
     </v-select>
@@ -57,6 +59,10 @@ export default {
       remoteThemes: [],
       error: false,
     }
+  },
+  beforeMount() {
+    // not entirely sure why this component needs a scan on the theme folder to make them show up.
+    this.scanThemeFolder()
   },
   computed: {
     availableThemes() {
@@ -155,16 +161,18 @@ export default {
         })
     },
     scanThemeFolder() {
-      ipcRenderer
-        .invoke('scan-theme-folder', this.$store.state.app.themeFolder)
-        .then((themes) => {
-          if (themes) {
-            this.$store.commit(MUTATION.SET_APP_PROP, {
-              key: 'availableThemes',
-              value: themes,
-            })
-          }
-        })
+      if (this.$store.state.app.themeFolder) {
+        ipcRenderer
+          .invoke('scan-theme-folder', this.$store.state.app.themeFolder)
+          .then((themes) => {
+            if (themes) {
+              this.$store.commit(MUTATION.SET_APP_PROP, {
+                key: 'availableThemes',
+                value: themes,
+              })
+            }
+          })
+      }
     },
   },
 }
