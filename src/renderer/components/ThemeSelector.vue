@@ -9,6 +9,38 @@
       </template>
     </v-select>
 
+    <v-card dense v-if="themeData !== null">
+      <v-card-title>{{ themeData.name }}</v-card-title>
+      <v-card-subtitle
+        >v{{ themeData.version }}
+        <span v-if="themeLicense"
+          ><br />Licenesed under
+          <a @click="openExternal(themeLicense.link)">{{ themeLicense.name }}</a
+          >. <span v-if="themeLicense.long">{{ themeLicense.long }}</span></span
+        ></v-card-subtitle
+      >
+      <v-card-text>
+        {{ themeData.description }}
+      </v-card-text>
+      <v-card-actions>
+        <v-chip
+          v-for="link in themeLinks"
+          :key="link.key"
+          class="mr-2"
+          :color="link.color"
+          @click="openExternal(link.link)"
+        >
+          <v-avatar v-if="link.key === 'kofi'" left :class="link.color">
+            <img src="~@/assets/ko-fi-icon.png" />
+          </v-avatar>
+          <v-icon v-else left>
+            {{ link.icon }}
+          </v-icon>
+          {{ link.value }}
+        </v-chip>
+      </v-card-actions>
+    </v-card>
+
     <v-dialog v-model="downloadTheme" max-width="800">
       <v-card>
         <v-card-title>Add or Update Offical Theme</v-card-title>
@@ -43,7 +75,7 @@
 
 <script>
 import { MUTATION, ACTION } from '../store/actions'
-import { ipcRenderer } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 
 const REMOTE_THEME_MANIFEST =
   'https://ebshimizu.github.io/soothsayer-2/themes.json'
@@ -76,8 +108,54 @@ export default {
         this.$store.dispatch(ACTION.SET_THEME, { key: 'theme', value })
       },
     },
+    themeData() {
+      if (this.theme in this.$store.state.app.availableThemes) {
+        return this.$store.state.app.availableThemes[this.theme]
+      }
+
+      return null
+    },
+    themeLinks() {
+      if (this.themeData !== null) {
+        if (this.themeData.links) {
+          return Object.entries(this.themeData.links).map(([key, value]) => {
+            const icon = key === 'kofi' ? 'Ko-Fi' : `mdi-${key}`
+
+            let link = ''
+            let color = ''
+            if (key === 'twitter') {
+              link = `http://twitter.com/${value}`
+              color = 'light-blue darken-1'
+            } else if (key === 'kofi') {
+              link = `http://ko-fi.com/${value}`
+              color = 'blue darken-1'
+            }
+
+            return {
+              key,
+              value,
+              icon,
+              link,
+              color,
+            }
+          })
+        }
+      }
+
+      return []
+    },
+    themeLicense() {
+      if (this.themeData !== null && this.themeData.license) {
+        return this.themeData.license
+      }
+
+      return null
+    },
   },
   methods: {
+    openExternal(url) {
+      shell.openExternal(url)
+    },
     openDownload() {
       this.error = false
       this.downloadTheme = true
