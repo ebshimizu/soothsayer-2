@@ -487,6 +487,7 @@ function createWindow() {
     useContentSize: true,
     width: 1920,
     frame: false,
+    backgroundColor: '#031a1c',
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
