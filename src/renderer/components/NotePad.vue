@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined>
+  <v-card>
     <v-card-title>Notepad</v-card-title>
     <v-card-subtitle
       >Some themes provide space for extra notes and commentary about the

@@ -1,7 +1,7 @@
 <template>
   <v-row dense v-show="$store.getters.componentVisible('event-schedule')">
     <v-col cols="12">
-      <v-card outlined>
+      <v-card>
         <v-card-title>Event Information</v-card-title>
         <v-card-subtitle
           >A tournament is often made up of multiple events (like Day 1, Group

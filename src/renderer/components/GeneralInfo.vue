@@ -1,7 +1,7 @@
 <template>
   <v-row dense v-show="$store.getters.componentVisible('general-info')">
     <v-col cols="12">
-      <v-card outlined>
+      <v-card>
         <v-card-title>Primary Caster Info</v-card-title>
         <v-card-text>
           <v-row dense>

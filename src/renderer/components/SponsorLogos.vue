@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined>
+  <v-card>
     <v-card-title>Sponsor Logos</v-card-title>
     <v-card-subtitle
       >These logos will display in a slideshow-like format in some

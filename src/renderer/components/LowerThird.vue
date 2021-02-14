@@ -4,7 +4,7 @@
       <ticker-items></ticker-items>
     </v-col>
     <v-col cols="12">
-      <v-card outlined>
+      <v-card>
         <v-card-title>Lower Third</v-card-title>
         <v-card-subtitle>{{ status }}</v-card-subtitle>
         <v-card-text>

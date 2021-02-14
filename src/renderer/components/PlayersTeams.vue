@@ -1,7 +1,7 @@
 <template>
   <v-row dense>
     <v-col cols="12">
-      <v-card outlined>
+      <v-card>
         <v-card-title>Participants</v-card-title>
         <v-card-subtitle
           >A list of player names, listed one per line. Names entered here will

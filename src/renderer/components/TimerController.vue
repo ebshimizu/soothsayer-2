@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined>
+  <v-card>
     <v-card-title>Timer</v-card-title>
     <v-card-subtitle>Displays a countdown timer</v-card-subtitle>
     <v-card-text>

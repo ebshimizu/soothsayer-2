@@ -1,5 +1,25 @@
 <template>
   <v-app>
+    <v-overlay
+      :value="!appReady"
+      absolute
+      :opacity="1"
+      z-index="10000"
+      color="#031a1c"
+    >
+      <v-row>
+        <v-col cols="12" class="d-flex align-center justify-center">
+          <img src="~@/assets/soothsayer.png" />
+        </v-col>
+        <v-col cols="12" class="d-flex align-center justify-center">{{
+          loadStatus
+        }}</v-col>
+        <v-col cols="12" class="d-flex align-center justify-center">
+          <v-progress-circular indeterminate size="64"></v-progress-circular
+        ></v-col>
+      </v-row>
+    </v-overlay>
+
     <v-system-bar class="dark-bg system-bar" app window height="52">
       <span class="bar-title">{{ $route.name }}</span>
       <v-spacer></v-spacer>
@@ -201,6 +221,8 @@ export default {
   name: 'soothsayer-2',
   components: { FirstLaunch },
   beforeCreate() {
+    this.loadStatus = 'Registering Hooks'
+
     // add ipc hooks from main
     ipcRenderer.on('register-overlay', (event, data) => {
       this.$store.dispatch(ACTION.INIT_OVERLAY, data)
@@ -224,10 +246,16 @@ export default {
     // ipcRenderer.send('get-version');
   },
   beforeMount() {
+    this.loadStatus = 'Loading State'
+
     ipcRenderer.invoke('load-state').then((state) => {
       // action just in case some async stuff needs to happen later
       // images might need to be formatted, etc.
       this.$store.dispatch(ACTION.LOAD_STATE, state)
+      setTimeout(() => {
+        this.loadStatus = 'Load Complete'
+        this.appReady = true
+      }, 1000)
     })
   },
   data() {
@@ -236,6 +264,8 @@ export default {
       selectedProfile: null,
       loading: false,
       profileErrorMessages: [],
+      appReady: false,
+      loadStatus: 'Loading Soothsayer',
     }
   },
   methods: {
