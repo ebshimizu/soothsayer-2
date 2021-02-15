@@ -340,7 +340,12 @@ ipcMain.handle('delete-settings', () => {
 
 ipcMain.handle('download-theme', (event, url) => {
   const dest = path.join(localFiles, 'tmp-theme.zip')
-  fs.unlinkSync(dest)
+
+  try {
+    fs.unlinkSync(dest)
+  } catch (e) {
+    console.log('Tmp file doesn not exist, skipping deletion')
+  }
 
   return new Promise((resolve, reject) => {
     const file = fs.createWriteStream(dest)
@@ -533,11 +538,11 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-autoUpdater.on('checking-for-update', function() {
+autoUpdater.on('checking-for-update', function () {
   console.log('Checking for updates from GitHub...')
 })
 
-autoUpdater.on('update-available', function(info) {
+autoUpdater.on('update-available', function (info) {
   console.log(info)
   mainWindow.webContents.send('update-version', info.version)
 })
@@ -546,7 +551,7 @@ autoUpdater.on('update-downloaded', function (info) {
   mainWindow.webContents.send('update-ready')
 })
 
-ipcMain.on('install-and-relaunch', function() {
+ipcMain.on('install-and-relaunch', function () {
   autoUpdater.quitAndInstall(true, true)
 })
 
