@@ -6,7 +6,7 @@
     <v-col cols="12">
       <v-card>
         <v-card-title>Lower Third</v-card-title>
-        <v-card-subtitle>{{ status }}</v-card-subtitle>
+        <v-card-subtitle :class="{ error }">{{ status }}</v-card-subtitle>
         <v-card-text>
           <v-row>
             <v-col cols="3">
@@ -27,7 +27,7 @@
                 ><v-icon left>mdi-eye-off</v-icon> Hide</v-btn
               >
             </v-col>
-            <v-col cols="3" v-show="erbsPlayerStat">
+            <v-col cols="2" v-show="erbsPlayerStat">
               <v-combobox
                 label="Player Name"
                 :items="$store.getters.playerPoolItems"
@@ -35,7 +35,7 @@
                 @input="(v) => updateErbsPlayer('playerName', v)"
               ></v-combobox
             ></v-col>
-            <v-col cols="3" v-show="erbsPlayerStat">
+            <v-col cols="2" v-show="erbsPlayerStat">
               <v-select
                 label="Season"
                 v-model="season"
@@ -43,7 +43,7 @@
                 :disabled="noApiKey"
               ></v-select>
             </v-col>
-            <v-col cols="3" v-show="erbsPlayerStat">
+            <v-col cols="2" v-show="erbsPlayerStat">
               <v-select
                 label="Squad Size"
                 v-model="squadSize"
@@ -51,18 +51,7 @@
                 :disabled="noApiKey"
               ></v-select>
             </v-col>
-            <v-col cols="3" v-show="erbsPlayerStat" class="my-auto">
-              <v-btn
-                block
-                color="primary"
-                :disabled="noApiKey"
-                @click="loadFromApi"
-                >{{
-                  $store.state.app.erbsApiKey ? 'Load From API' : 'No API Key'
-                }}</v-btn
-              >
-            </v-col>
-            <v-col cols="3" v-show="erbsPlayerStat">
+            <v-col cols="2" v-show="erbsPlayerStat">
               <v-text-field
                 label="Player Twitter"
                 prepend-icon="mdi-twitter"
@@ -70,7 +59,7 @@
                 @input="(v) => updateErbsPlayer('playerTwitter', v)"
               ></v-text-field>
             </v-col>
-            <v-col cols="3" v-show="erbsPlayerStat">
+            <v-col cols="2" v-show="erbsPlayerStat">
               <v-text-field
                 label="Player Twitch"
                 prepend-icon="mdi-twitch"
@@ -78,7 +67,19 @@
                 @input="(v) => updateErbsPlayer('playerTwitch', v)"
               ></v-text-field>
             </v-col>
-            <v-col cols="2" v-show="erbsPlayerStat">
+            <v-col cols="2" v-show="erbsPlayerStat" class="my-auto">
+              <v-btn
+                block
+                color="primary"
+                :disabled="noApiKey || apiLoading"
+                :loading="apiLoading"
+                @click="loadFromApi"
+                >{{
+                  $store.state.app.erbsApiKey ? 'Load From API' : 'No API Key'
+                }}</v-btn
+              >
+            </v-col>
+            <v-col cols="2" v-if="!dashboard" v-show="erbsPlayerStat">
               <v-text-field
                 label="Win Rate"
                 :value="erbsPlayer.winRate"
@@ -86,7 +87,7 @@
                 @input="(v) => updateErbsPlayer('winRate', v)"
               ></v-text-field>
             </v-col>
-            <v-col cols="2" v-show="erbsPlayerStat">
+            <v-col cols="2" v-if="!dashboard" v-show="erbsPlayerStat">
               <v-text-field
                 label="Top 3 Rate"
                 :value="erbsPlayer.top3"
@@ -94,7 +95,7 @@
                 @input="(v) => updateErbsPlayer('top3', v)"
               ></v-text-field>
             </v-col>
-            <v-col cols="2" v-show="erbsPlayerStat">
+            <v-col cols="2" v-if="!dashboard" v-show="erbsPlayerStat">
               <v-text-field
                 label="Average Kills"
                 :value="erbsPlayer.avgKills"
@@ -102,7 +103,7 @@
                 @input="(v) => updateErbsPlayer('avgKills', v)"
               ></v-text-field>
             </v-col>
-            <v-col cols="2" v-show="erbsPlayerStat">
+            <v-col cols="2" v-if="!dashboard" v-show="erbsPlayerStat">
               <v-text-field
                 label="Avg. Hunts"
                 type="number"
@@ -110,7 +111,7 @@
                 @input="(v) => updateErbsPlayer('avgHunts', v)"
               ></v-text-field>
             </v-col>
-            <v-col cols="4" v-show="erbsPlayerStat">
+            <v-col cols="4" v-if="!dashboard" v-show="erbsPlayerStat">
               <v-autocomplete
                 multiple
                 label="Top 3 Characters"
@@ -124,14 +125,6 @@
                 @input="(v) => updateErbsPlayer('characters', v)"
               >
               </v-autocomplete>
-            </v-col>
-            <v-col cols="3" v-show="erbsPlayerStat">
-              <v-text-field
-                readonly
-                label="Player ID"
-                :value="erbsPlayer.playerId"
-                hint="Internal Player ID"
-              ></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
@@ -151,15 +144,21 @@ import {
 } from '../data/gameConfig/erbs/api'
 import characters from '../data/gameConfig/erbs/characters'
 import TickerItems from './TickerItems.vue'
+import { defaultLowerThirdData } from '../store/defaults'
 
 export default {
   name: 'lower-third',
   components: { TickerItems },
+  props: {
+    dashboard: Boolean,
+  },
   data() {
     return {
       season: 1,
       squadSize: 1,
       status: '',
+      error: false,
+      apiLoading: false,
     }
   },
   computed: {
@@ -243,6 +242,7 @@ export default {
     },
     async loadFromApi() {
       this.status = 'Loading from ERBS API...'
+      this.apiLoading = true
 
       const data = await getPlayerStats(
         this.erbsPlayer.playerName,
@@ -258,10 +258,26 @@ export default {
         })
 
         this.status = 'Data Loaded from API.'
+      } else {
+        this.resetErbsPlayer()
       }
+
+      this.apiLoading = false
     },
     setStatus(msg, error = false) {
       this.status = msg
+      this.error = error
+    },
+    resetErbsPlayer() {
+      const defaults = defaultLowerThirdData()
+      const modeData = defaults.modeData[LOWER_THIRD_MODES.ERBS_PLAYER_STATS]
+      delete modeData.playerName
+      delete modeData.playerTwitter
+      delete modeData.playerTwitch
+
+      Object.entries(modeData).forEach(([key, value]) => {
+        this.updateErbsPlayer(key, value)
+      })
     },
   },
 }
