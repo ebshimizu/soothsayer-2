@@ -16,7 +16,7 @@
       </v-avatar>
       <v-spacer></v-spacer>
       Selection
-      <v-btn @click="deleteSelected">
+      <v-btn @click="deleteSelected" class="ml-2">
         <v-icon>mdi-eraser</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
@@ -68,9 +68,6 @@ export default {
   name: 'white-board',
   data() {
     return {
-      drawingToolInternal: 'select',
-      colorInternal: '#FFFFFF',
-      strokeWidthInternal: 2,
       strokeOptions: [2, 5, 10, 20],
       colorPicker: false,
     }
@@ -97,6 +94,39 @@ export default {
     },
   },
   computed: {
+    drawingToolInternal: {
+      get() {
+        return this.$store.state.app.wbDrawingToolInternal
+      },
+      set(value) {
+        this.$store.commit(MUTATION.SET_APP_PROP, {
+          key: 'wbDrawingToolInternal',
+          value,
+        })
+      },
+    },
+    colorInternal: {
+      get() {
+        return this.$store.state.app.wbColorInternal
+      },
+      set(value) {
+        this.$store.commit(MUTATION.SET_APP_PROP, {
+          key: 'wbColorInternal',
+          value,
+        })
+      },
+    },
+    strokeWidthInternal: {
+      get() {
+        return this.$store.state.app.wbStrokeWidthInternal
+      },
+      set(value) {
+        this.$store.commit(MUTATION.SET_APP_PROP, {
+          key: 'wbStrokeWidthInternal',
+          value,
+        })
+      },
+    },
     color: {
       get() {
         return this.colorInternal
@@ -111,6 +141,7 @@ export default {
         return this.strokeWidthInternal
       },
       set(value) {
+        this.strokeWidthInternal = value
         this.canvas.freeDrawingBrush.width = value
       },
     },

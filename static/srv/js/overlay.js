@@ -272,7 +272,9 @@ const app = {
       // first, input tournament info
       const tickerItems = []
 
-      tickerItems.push(this.state.tournamentName)
+      if (this.state.tournamentName && this.state.tournamentName !== '') {
+        tickerItems.push(this.state.tournamentName)
+      }
 
       // upcoming events
       if (this.schedule.length > 0) {
@@ -304,7 +306,7 @@ const app = {
 
       // target duration is 30s for like 3900 px
       // estimate px per text? wait this is all relative hmmmm
-      const estDuration = 0.19 * textLength
+      const estDuration = Math.max(30, 0.19 * textLength)
       return `${estDuration}s`
     },
     sponsors() {

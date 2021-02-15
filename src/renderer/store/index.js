@@ -32,6 +32,9 @@ function initialState() {
       game: GAME.ERBS,
       erbsApiKey: '',
       firstLaunch: true,
+      wbDrawingToolInternal: 'select',
+      wbColorInternal: '#FFFFFF',
+      wbStrokeWidthInternal: 2,
     },
     keybinds: {}, // default keybinds are defined in the main process and forwarded
     availableOverlays: [],
