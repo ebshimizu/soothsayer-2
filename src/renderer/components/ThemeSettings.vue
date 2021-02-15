@@ -23,9 +23,19 @@
                 readonly
               >
                 <template v-slot:append-outer>
-                  <v-btn color="primary" @click="setThemeFolder">
+                  <v-btn color="primary" @click="setThemeFolder" class="mr-2">
                     <v-icon left>mdi-folder-open</v-icon>
-                    Set Theme Folder
+                    Set
+                  </v-btn>
+                  <v-btn
+                    @click="openThemeFolder"
+                    color="secondary"
+                    class="mr-2"
+                  >
+                    Open
+                  </v-btn>
+                  <v-btn @click="resetThemeFolder" color="secondary">
+                    Reset
                   </v-btn>
                 </template>
               </v-text-field>
@@ -38,7 +48,7 @@
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 import { MUTATION } from '../store/actions'
 import ThemeSelector from './ThemeSelector'
 
@@ -61,6 +71,16 @@ export default {
   methods: {
     setThemeFolder() {
       ipcRenderer.invoke('set-theme-folder').then((themes) => {
+        if (themes) {
+          this.$store.commit(MUTATION.UPDATE_THEME_DATA, themes)
+        }
+      })
+    },
+    openThemeFolder() {
+      shell.openPath(this.themeFolder)
+    },
+    resetThemeFolder() {
+      ipcRenderer.invoke('set-theme-folder', true).then((themes) => {
         if (themes) {
           this.$store.commit(MUTATION.UPDATE_THEME_DATA, themes)
         }
