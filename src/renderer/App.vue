@@ -299,7 +299,8 @@ export default {
   },
   methods: {
     about() {
-      this.$router.push('/about')
+      // this error doesn't matter
+      this.$router.push('/about').catch(() => {})
     },
     update() {
       this.$store.dispatch(ACTION.UPDATE)
