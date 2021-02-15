@@ -13,7 +13,7 @@ import { scanForThemes } from './themes'
 import { DEFAULT_SHORTCUTS } from './defaultKeyboardShortcuts'
 import _ from 'lodash'
 import AdmZip from 'adm-zip'
-// import { autoUpdater } from 'electron-updater'
+import { autoUpdater } from 'electron-updater'
 
 /**
  * Set `__static` path to static files in production
@@ -300,6 +300,9 @@ ipcMain.handle('load-state', async () => {
         })
     }
 
+    // run the autoupdater after retriving state data
+    autoUpdater.checkForUpdatesAndNotify()
+
     return data
   } catch (e) {
     console.log(e)
@@ -529,6 +532,23 @@ app.on('activate', () => {
  * support auto updating. Code Signing with a valid certificate is required.
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
+
+autoUpdater.on('checking-for-update', function() {
+  console.log('Checking for updates from GitHub...')
+})
+
+autoUpdater.on('update-available', function(info) {
+  console.log(info)
+  mainWindow.webContents.send('update-version', info.version)
+})
+
+autoUpdater.on('update-downloaded', function (info) {
+  mainWindow.webContents.send('update-ready')
+})
+
+ipcMain.on('install-and-relaunch', function() {
+  autoUpdater.quitAndInstall(true, true)
+})
 
 /**
 autoUpdater.on('update-downloaded', () => {

@@ -156,12 +156,24 @@
         </v-list-item>
       </v-list>
       <v-footer class="status" padless absolute @click.native="about">
-        v{{ $store.state.version }}
+        {{ showUpdateStatus ? 'Downloading Update' : `v${$store.state.version}` }}
       </v-footer>
     </v-navigation-drawer>
 
     <v-main>
       <v-container fluid>
+        <v-banner
+          single-line
+          sticky
+          class="mb-4"
+          v-show="updateAvailable"
+          color="green darken-3"
+        >
+          Update Available. Click the button to install and relaunch Soothsayer.
+          <template v-slot:actions>
+            <v-btn text color="yellow darken-2"> Update and Restart </v-btn>
+          </template>
+        </v-banner>
         <router-view></router-view>
       </v-container>
     </v-main>
@@ -237,6 +249,16 @@ export default {
       this.$store.commit(MUTATION.SET_LOCAL_FILES, localFiles)
     })
 
+    ipcRenderer.on('update-version', (event, version) => {
+      this.updateVersion = version
+      this.showUpdateStatus = true
+    })
+
+    ipcRenderer.on('update-donloaded', () => {
+      this.updateAvailble = true
+      this.showUpdateStatus = false
+    })
+
     // keyboard shortcuts
     // main process sends an action key (keyboard shortcuts cannot currently have arguments)
     ipcRenderer.on('keyboard', (event, { key }) => {
@@ -266,6 +288,9 @@ export default {
       profileErrorMessages: [],
       appReady: false,
       loadStatus: 'Loading Soothsayer',
+      updateAvailable: false,
+      showUpdateStatus: false,
+      updateVersion: undefined,
     }
   },
   methods: {
