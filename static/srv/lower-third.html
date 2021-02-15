@@ -26,8 +26,16 @@
       >
         <!-- outer elements (might be static for each lt) -->
         <div class="text-only ticker">
-          <div class="content" :style="{ animationDuration: textTickerDuration }">
-            <div v-for="(item, index) in textTicker" :key="index" class="item">
+          <div
+            class="content"
+            :style="{ animationDuration: textTickerDuration }"
+          >
+            <div
+              v-for="(item, index) in textTicker"
+              :key="index"
+              class="item"
+              :class="{ first: index === 0 }"
+            >
               {{ item }}
             </div>
           </div>
