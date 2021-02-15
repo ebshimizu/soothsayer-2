@@ -2,10 +2,10 @@
   <v-col cols="12">
     <v-select label="Available Themes" :items="availableThemes" v-model="theme">
       <template v-slot:append-outer>
+        <v-btn class="mx-1" color="primary" @click="openDownload">Add</v-btn>
         <v-btn class="mx-1" color="secondary" @click="scanThemeFolder"
           >Scan</v-btn
         >
-        <v-btn class="mx-1" color="secondary" @click="openDownload">Add</v-btn>
       </template>
     </v-select>
 
