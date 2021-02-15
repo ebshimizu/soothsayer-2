@@ -24,6 +24,8 @@ const OVERLAY_SUPPORT = {
   [OVERLAY_FILES.casterSingleFrame]: true,
   [OVERLAY_FILES.standby]: true,
   [OVERLAY_FILES.whiteboard]: true,
+  [OVERLAY_FILES.lobby]: true,
+  [OVERLAY_FILES.lowerThird]: true,
 }
 
 const WHITEBOARD_SETTINGS = {

@@ -14,8 +14,11 @@
     <div id="app" v-bind:class="{ lowerThird: lowerThirdVisible }">
       <div id="identifier" v-bind:class="{ active: identify }">
         This is a {{ overlayName }} overlay
+        <span class="id">id: {{ socketId }}</span>
       </div>
-      <div class="caster one" v-bind:class="casterOneTextSize">{{ casterOneName }}</div>
+      <div class="caster one" v-bind:class="casterOneTextSize">
+        {{ casterOneName }}
+      </div>
       <div class="caster-social-flex one">
         <div id="caster-1-twitter" class="social twitter">
           {{ casterOneTwitter }}

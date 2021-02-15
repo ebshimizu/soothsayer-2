@@ -76,8 +76,11 @@ export default new Vuex.Store({
       // only return overlays that are in the manifest
       // todo: and have support for the current game
       const overlays = state.availableOverlays.filter(
-        (o) => o in OVERLAY_MANIFEST,
+        (o) =>
+          o in OVERLAY_MANIFEST &&
+          o in GAME_SETTINGS[state.app.game].OVERLAY_SUPPORT,
       )
+
       return overlays.map((o) => {
         return {
           ...OVERLAY_MANIFEST[o],

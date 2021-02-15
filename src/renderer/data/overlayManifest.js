@@ -3,6 +3,7 @@ const OVERLAY_FILES = {
   standby: 'standby.html',
   whiteboard: 'whiteboard.html',
   lowerThird: 'lower-third.html',
+  lobby: 'lobby.html',
 }
 
 const OVERLAY_MANIFEST = {
@@ -23,6 +24,11 @@ const OVERLAY_MANIFEST = {
   },
   [OVERLAY_FILES.lowerThird]: {
     name: 'Lower Third',
+    width: 1920,
+    height: 1080,
+  },
+  [OVERLAY_FILES.lobby]: {
+    name: 'Lobby',
     width: 1920,
     height: 1080,
   },

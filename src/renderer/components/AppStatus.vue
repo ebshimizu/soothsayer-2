@@ -1,6 +1,12 @@
 <template>
   <v-container>
     <h2 class="mb-2">{{ gameName }} Overlays</h2>
+    <p>
+      Add each element as a Browser Source to OBS by copying its link from
+      Soothsayer and pasting it into OBS. Make sure the width and height in OBS
+      match the dimensions given for the element in Soothsayer, and that OBS's
+      CSS field is clear.
+    </p>
     <v-data-table
       :headers="availableHeaders"
       :items="availableOverlays"

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Soothsayer - Lobby</title>
+    <script src="/js/vue@2.js"></script>
+    <script src="/js/moment.min.js"></script>
+    <script src="/js/moment-timezone.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/overlay.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/overlay.css" />
+  </head>
+  <body id="lobby">
+    <div id="app">
+      <div id="identifier" v-bind:class="{ active: identify }">
+        This is a {{ overlayName }} overlay
+        <span class="id">id: {{ socketId }}</span>
+      </div>
+
+      <link
+        rel="stylesheet"
+        type="text/css"
+        v-bind:href="theme + '/css/theme.css'"
+      />
+    </div>
+
+    <script src="/js/lobby.js"></script>
+  </body>
+</html>
