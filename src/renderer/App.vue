@@ -23,13 +23,13 @@
     <v-system-bar class="dark-bg system-bar" app window height="52">
       <span class="bar-title">{{ $route.name }}</span>
       <v-spacer></v-spacer>
-      <div class="app button" @click="minimize">
+      <div class="app button" @click.native="minimize">
         <v-icon>mdi-minus</v-icon>
       </div>
-      <div class="app button" @click="maximize">
+      <div class="app button" @click.native="maximize">
         <v-icon>mdi-checkbox-blank-outline</v-icon>
       </div>
-      <div class="app button close" @click="close">
+      <div class="app button close" @click.native="close">
         <v-icon>mdi-close</v-icon>
       </div>
     </v-system-bar>
@@ -156,7 +156,9 @@
         </v-list-item>
       </v-list>
       <v-footer class="status" padless absolute @click.native="about">
-        {{ showUpdateStatus ? 'Downloading Update' : `v${$store.state.version}` }}
+        {{
+          showUpdateStatus ? 'Downloading Update' : `v${$store.state.version}`
+        }}
       </v-footer>
     </v-navigation-drawer>
 

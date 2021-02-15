@@ -23,6 +23,9 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = path.join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
+// don't update on quit, user is unaware of this behavior usually
+autoUpdater.autoInstallOnAppQuit = false
+
 let mainWindow
 const previewWindows = {}
 
