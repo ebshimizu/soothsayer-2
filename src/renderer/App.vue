@@ -23,13 +23,13 @@
     <v-system-bar class="dark-bg system-bar" app window height="52">
       <span class="bar-title">{{ $route.name }}</span>
       <v-spacer></v-spacer>
-      <div class="app button" @click.native="minimize">
+      <div class="app button" @click="minimize">
         <v-icon>mdi-minus</v-icon>
       </div>
-      <div class="app button" @click.native="maximize">
+      <div class="app button" @click="maximize">
         <v-icon>mdi-checkbox-blank-outline</v-icon>
       </div>
-      <div class="app button close" @click.native="close">
+      <div class="app button close" @click="close">
         <v-icon>mdi-close</v-icon>
       </div>
     </v-system-bar>
@@ -173,7 +173,9 @@
         >
           Update Available. Click the button to install and relaunch Soothsayer.
           <template v-slot:actions>
-            <v-btn text color="yellow darken-2"> Update and Restart </v-btn>
+            <v-btn text color="yellow darken-2" @click="updateApp">
+              Update and Restart
+            </v-btn>
           </template>
         </v-banner>
         <router-view></router-view>
@@ -256,8 +258,8 @@ export default {
       this.showUpdateStatus = true
     })
 
-    ipcRenderer.on('update-downloaded', () => {
-      this.updateAvailble = true
+    ipcRenderer.on('update-ready', () => {
+      this.updateAvailable = true
       this.showUpdateStatus = false
     })
 
@@ -362,6 +364,9 @@ export default {
 
       reader.readAsText(this.selectedProfile)
     },
+  },
+  updateApp() {
+    ipcRenderer.send('install-and-relaunch')
   },
 }
 </script>
