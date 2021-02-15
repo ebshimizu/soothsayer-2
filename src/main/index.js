@@ -37,11 +37,6 @@ if (process.env.NODE_ENV === 'development') {
     path.join(__static, 'srv', 'js', 'vue@2.dev.js'),
     path.join(__static, 'srv', 'js', 'vue@2.js'),
   )
-} else {
-  fs.copyFile(
-    path.join(__static, 'srv', 'js', 'vue@2.prod.js'),
-    path.join(__static, 'srv', 'js', 'vue@2.js'),
-  )
 }
 
 // Core overlay folder location
