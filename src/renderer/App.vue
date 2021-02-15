@@ -364,9 +364,9 @@ export default {
 
       reader.readAsText(this.selectedProfile)
     },
-  },
-  updateApp() {
-    ipcRenderer.send('install-and-relaunch')
+    updateApp() {
+      ipcRenderer.send('install-and-relaunch')
+    },
   },
 }
 </script>
