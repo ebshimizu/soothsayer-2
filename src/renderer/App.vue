@@ -254,7 +254,7 @@ export default {
       this.showUpdateStatus = true
     })
 
-    ipcRenderer.on('update-donloaded', () => {
+    ipcRenderer.on('update-downloaded', () => {
       this.updateAvailble = true
       this.showUpdateStatus = false
     })
