@@ -289,6 +289,7 @@ export default new Vuex.Store({
       reset.themeOverrides = state.show.themeOverrides
 
       Vue.set(state, 'show', reset)
+      Vue.set(state, 'graphics', defaultGraphicsData())
     },
   },
   actions: {

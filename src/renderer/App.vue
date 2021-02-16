@@ -20,7 +20,9 @@
       </v-row>
     </v-overlay>
 
-    <v-system-bar class="dark-bg system-bar" app window height="52">
+    <div class="top-border"></div>
+
+    <v-system-bar class="dark-bg system-bar" app window height="51">
       <span class="bar-title">{{ $route.name }}</span>
       <v-spacer></v-spacer>
       <div class="app button" @click="minimize">
@@ -60,7 +62,7 @@
                 <v-btn fab color="primary" class="nav-btn" to="/status"
                   ><v-icon large>mdi-file-find</v-icon></v-btn
                 >
-                <span class="mt-3 nav-dark">Preview</span>
+                <span class="mt-3 nav-dark">Overlays</span>
               </v-col>
               <v-col
                 cols="4"
@@ -425,7 +427,7 @@ $nav-link-dark: #487e84;
 .system-bar {
   position: fixed;
   left: 0;
-  top: 0;
+  top: 1px !important;
   z-index: 5;
   width: 100%;
   -webkit-user-select: none;
@@ -446,7 +448,7 @@ $nav-link-dark: #487e84;
     justify-content: center;
     justify-items: center;
     height: 100% !important;
-    width: 52px !important;
+    width: 51px !important;
   }
 
   .button:hover {
@@ -460,6 +462,18 @@ $nav-link-dark: #487e84;
   .close:hover {
     background-color: #e53935 !important;
   }
+}
+
+.top-border {
+  height: 1px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  -webkit-app-region: no-drag;
+  -webkit-user-select: auto;
+  z-index: 1000000;
+  background-color: $dark-bg !important;
 }
 
 .v-navigation-drawer {
