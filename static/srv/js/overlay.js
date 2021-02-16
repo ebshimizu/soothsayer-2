@@ -278,7 +278,9 @@ const app = {
 
       // upcoming events
       if (this.schedule.length > 0) {
-        for (const event of this.schedule) {
+        const schedule = this.schedule.slice(0, 3)
+
+        for (const event of schedule) {
           const zone = moment().tz(moment.tz.guess()).zoneAbbr()
 
           tickerItems.push(
