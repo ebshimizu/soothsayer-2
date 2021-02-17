@@ -34,7 +34,8 @@
       <v-card>
         <v-card-title>Keyboard Shortcuts</v-card-title>
         <v-card-subtitle
-          >Keyboard shortcuts use the
+          >Soothsayer's shortcuts are global, meaning that they'll work whether
+          or not the app is focused (clicked on). Keyboard shortcuts use the
           <a
             @click="
               openExternal('https://www.electronjs.org/docs/api/accelerator')

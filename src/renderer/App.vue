@@ -157,10 +157,33 @@
           <v-list-item-title>Map</v-list-item-title>
         </v-list-item>
       </v-list>
-      <v-footer class="status" padless absolute @click.native="about">
-        {{
-          showUpdateStatus ? 'Downloading Update' : `v${$store.state.version}`
-        }}
+      <v-footer class="status" padless absolute>
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <a v-bind="attrs" v-on="on" @click="about" class="mr-2">
+              {{
+                showUpdateStatus
+                  ? 'Downloading Update'
+                  : `v${$store.state.version}`
+              }}</a
+            ></template
+          >
+          <span>About the App</span>
+        </v-tooltip>
+        |
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              v-bind="attrs"
+              v-on="on"
+              class="ml-2"
+              color="#487e84"
+              @click="discord"
+              >mdi-discord</v-icon
+            >
+          </template>
+          <span>Join the Discord</span>
+        </v-tooltip>
       </v-footer>
     </v-navigation-drawer>
 
@@ -318,6 +341,9 @@ export default {
     },
     openIssue() {
       shell.openExternal('https://github.com/ebshimizu/soothsayer-2/issues')
+    },
+    discord() {
+      shell.openExternal('https://discord.gg/wzU3YtaT4t')
     },
     saveProfile() {
       const a = document.createElement('a')
@@ -542,11 +568,18 @@ html {
     height: 50px;
     background-color: rgba(0, 0, 0, 0) !important;
     color: $nav-link-dark !important;
-    cursor: pointer;
-  }
 
-  .status:hover {
-    background-color: rgba(255, 255, 255, 0.1) !important;
+    a {
+      color: $nav-link-dark !important;
+    }
+
+    a:hover {
+      color: $primary !important;
+    }
+
+    .v-icon:hover {
+      color: $primary !important;
+    }
   }
 }
 

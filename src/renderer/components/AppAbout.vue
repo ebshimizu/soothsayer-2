@@ -14,12 +14,22 @@
           </p>
           <p>
             Soothsayer was created by Falindrith
-            <v-icon color="cyan lighten-2" @click="openExternal('https://twitter.com/falindrith')"
+            <v-icon
+              color="cyan lighten-2"
+              @click="openExternal('https://twitter.com/falindrith')"
               >mdi-twitter</v-icon
             >
             with design assistance from Crow
-            <v-icon color="cyan lighten-2" @click="openExternal('https://twitter.com/watch_crow')"
+            <v-icon
+              color="cyan lighten-2"
+              @click="openExternal('https://twitter.com/watch_crow')"
               >mdi-twitter</v-icon
+            >
+          </p>
+          <p>
+            Need additional support? Join the
+            <a @click="openExternal('https://discord.gg/wzU3YtaT4t')"
+              >Soothsayer Discord <v-icon>mdi-discord</v-icon></a
             >
           </p>
         </v-card-text>
