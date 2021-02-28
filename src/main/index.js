@@ -37,8 +37,8 @@ const winURL =
 // automatic dev library switching for overlays
 if (process.env.NODE_ENV === 'development') {
   fs.copyFile(
-    path.join(__static, 'srv', 'js', 'vue@2.dev.js'),
-    path.join(__static, 'srv', 'js', 'vue@2.js'),
+    path.join(__static, 'srv', 'js', 'lib', 'vue@2.dev.js'),
+    path.join(__static, 'srv', 'js', 'lib', 'vue@2.js'),
   )
 }
 
@@ -152,6 +152,18 @@ ipcMain.on('update-all-graphics', (event, data) => {
   console.log('Updating all Graphics')
 
   socketIo.emit('update-graphics', data)
+})
+
+ipcMain.on('update-one-locale', (event, { id, locale }) => {
+  console.log(`Updating locale for ${id}`)
+  if (id in socketCache) {
+    socketCache[id].emit('locale', locale)
+  }
+})
+
+ipcMain.on('update-all-locale', (event, locale) => {
+  console.log('Updating all locales')
+  socketIo.emit('locale', locale)
 })
 
 ipcMain.on('identify', (event, id) => {

@@ -35,6 +35,7 @@ function initialState() {
       wbDrawingToolInternal: 'select',
       wbColorInternal: '#FFFFFF',
       wbStrokeWidthInternal: 2,
+      locale: 'en',
     },
     keybinds: {}, // default keybinds are defined in the main process and forwarded
     availableOverlays: [],
@@ -303,6 +304,10 @@ export default new Vuex.Store({
         id: socketData.id,
         data: state.graphics,
       })
+      ipcRenderer.send('update-one-locale', {
+        id: socketData.id,
+        locale: state.app.locale,
+      })
     },
     [ACTION.UPDATE_GRAPHICS]({ state }, socketData) {
       ipcRenderer.send('update-all-graphics', state.graphics)
@@ -313,6 +318,10 @@ export default new Vuex.Store({
     [ACTION.UPDATE]({ state }) {
       // this action triggers a show state snapshot in the persistence plugin
       ipcRenderer.send('update-all-state', state.show)
+    },
+    [ACTION.UPDATE_LOCALE]({ state, commit }, value) {
+      commit(MUTATION.SET_APP_PROP, { key: 'locale', value })
+      ipcRenderer.send('update-all-locale', state.app.locale)
     },
     [ACTION.LOAD_STATE]({ commit }, data) {
       // data should be pre-processed in main.

@@ -26,9 +26,18 @@ const sameMembers = (arr1, arr2) =>
 // const mapClassList =
 // 'doom boe dragon blackheart mines shrines garden tomb warhead cursed volskaya sky braxis hanamura alterac'
 
+// i18n init
+// loaded the locale data earlier in the html file
+const i18n = new VueI18n({
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: window.messages,
+})
+
 // individual overlays should stick required props into this object, then initialize the app
 const app = {
   el: '#app',
+  i18n,
   beforeCreate() {
     socket.on('requestID', () => {
       console.log('Connected')
@@ -89,6 +98,12 @@ const app = {
       setTimeout(() => {
         this.identify = false
       }, 5000)
+    })
+
+    // locale change
+    socket.on('locale', (locale) => {
+      this.$i18n.locale = locale
+      console.log(`Locale set to ${locale}`)
     })
   },
   beforeMount() {

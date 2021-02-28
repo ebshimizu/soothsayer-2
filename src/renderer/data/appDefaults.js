@@ -7,4 +7,7 @@ const LOG_LEVEL = {
 // caster frame variant options
 const FRAME_VARIANTS = [1, 2, 3, 4]
 
-export { FRAME_VARIANTS, LOG_LEVEL }
+// add new locale keys here
+const LOCALES = ['en']
+
+export { FRAME_VARIANTS, LOG_LEVEL, LOCALES }

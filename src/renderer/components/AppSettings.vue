@@ -5,13 +5,22 @@
         <v-card-title>Application Settings</v-card-title>
         <v-card-text>
           <v-row dense>
-            <v-col cols="12" class="mb-2">
+            <v-col cols="8">
               <v-select
                 v-model="game"
                 :items="games"
                 label="Selected Game Configuration"
                 hint="Each game supports a different set of overlays and functions."
                 persistent-hint
+              ></v-select>
+            </v-col>
+            <v-col cols="4">
+              <v-select
+                v-model="locale"
+                label="Locale"
+                hint="Set Application and Overlay Language"
+                persistent-hint
+                :items="locales"
               ></v-select>
             </v-col>
             <v-col cols="12" v-if="erbs">
@@ -98,6 +107,7 @@ import { ipcRenderer, shell } from 'electron'
 import { SHORTCUT_NAMES } from '../data/keyboardShortcuts'
 import { DEFAULT_SHORTCUTS } from '../../main/defaultKeyboardShortcuts'
 import { GAME } from '../data/supportedGames'
+import { LOCALES } from '../data/appDefaults'
 import ThemeSettings from './ThemeSettings'
 
 export default {
@@ -107,9 +117,22 @@ export default {
     return {
       // keybinds aren't dynamic. The state on load should be consistent.
       keybindStatus: {},
+      // add new locales here after adding proper files
+      locales: LOCALES,
     }
   },
   computed: {
+    locale: {
+      get() {
+        return this.$store.state.app.locale
+      },
+      set(value) {
+        this.$store.dispatch(ACTION.UPDATE_LOCALE, value)
+
+        // also update the actual i18n prop
+        this.$i18n.locale = value
+      },
+    },
     games() {
       return this.$store.getters.supportedGames
     },

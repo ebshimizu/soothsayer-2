@@ -10,6 +10,14 @@
           can come back and run this setup dialog again at any time from the
           Application Settings page.
         </p>
+        <v-select
+          label="Select a Language"
+          class="mb-2"
+          :items="locales"
+          v-model="locale"
+          hint="Set Application and Overlay Language"
+          persistent-hint
+        ></v-select>
         <v-btn color="primary" @click="step = 2">Continue</v-btn>
       </v-stepper-content>
       <v-stepper-step :complete="step > 2" step="2" editable>
@@ -129,7 +137,8 @@
 </template>
 
 <script>
-import { MUTATION } from '../store/actions'
+import { LOCALES } from '../data/appDefaults'
+import { MUTATION, ACTION } from '../store/actions'
 import ThemeSelector from './ThemeSelector.vue'
 
 export default {
@@ -142,9 +151,21 @@ export default {
       twitter: false,
       youtube: false,
       insta: false,
+      locales: LOCALES,
     }
   },
   computed: {
+    locale: {
+      get() {
+        return this.$store.state.app.locale
+      },
+      set(value) {
+        this.$store.dispatch(ACTION.UPDATE_LOCALE, value)
+
+        // also update the actual i18n prop
+        this.$i18n.locale = value
+      },
+    },
     firstLaunch() {
       return false || this.$store.state.app.firstLaunch
     },

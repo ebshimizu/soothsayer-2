@@ -35,6 +35,7 @@ const ACTION = {
   DISCONNECT_OVERLAY: 'Overlay Disconnected',
   UPDATE: 'Update All Overlays',
   UPDATE_GRAPHICS: 'Update Graphics',
+  UPDATE_LOCALE: 'Update Locale',
   LOAD_STATE: 'Load Local State',
   SET_THEME: 'Set Overlay Theme',
   START_TIMER: 'Start Timer',

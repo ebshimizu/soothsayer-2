@@ -53,7 +53,7 @@
                 <v-btn fab color="primary" class="nav-btn" @click="update"
                   ><v-icon large>mdi-update</v-icon></v-btn
                 >
-                <span class="mt-3 nav-dark">Update</span>
+                <span class="mt-3 nav-dark">{{ $t('leftNav.update') }}</span>
               </v-col>
               <v-col
                 cols="4"
@@ -62,7 +62,7 @@
                 <v-btn fab color="primary" class="nav-btn" to="/status"
                   ><v-icon large>mdi-file-find</v-icon></v-btn
                 >
-                <span class="mt-3 nav-dark">Overlays</span>
+                <span class="mt-3 nav-dark">{{ $t('leftNav.overlays') }}</span>
               </v-col>
               <v-col
                 cols="4"
@@ -71,7 +71,7 @@
                 <v-btn fab color="primary" class="nav-btn" to="/"
                   ><v-icon large>mdi-view-dashboard</v-icon></v-btn
                 >
-                <span class="mt-3 nav-dark">Dashboard</span>
+                <span class="mt-3 nav-dark">{{ $t('leftNav.dashboard') }}</span>
               </v-col>
             </v-row>
           </v-list-item-content>
@@ -303,6 +303,12 @@ export default {
       // action just in case some async stuff needs to happen later
       // images might need to be formatted, etc.
       this.$store.dispatch(ACTION.LOAD_STATE, state)
+
+      // if the loaded state has a locale key, set it (otherwise use default)
+      if (state.app.locale) {
+        this.$i18n.locale = state.app.locale
+      }
+
       setTimeout(() => {
         this.loadStatus = 'Load Complete'
         this.appReady = true

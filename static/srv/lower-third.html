@@ -3,9 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <title>Soothsayer - Lower Third</title>
-    <script src="/js/vue@2.js"></script>
-    <script src="/js/moment.min.js"></script>
-    <script src="/js/moment-timezone.js"></script>
+    <script src="/js/lib/vue@2.js"></script>
+    <script src="/js/lib/vue-i18n.js"></script>
+    <script src="/js/locales.js"></script>
+    <script src="/js/lib/moment.min.js"></script>
+    <script src="/js/lib/moment-timezone.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/overlay.js"></script>
     <link rel="stylesheet" type="text/css" href="css/overlay.css" />
@@ -96,7 +98,7 @@
               </div>
             </div>
             <div class="stat avg-kill">
-              <div class="name">Kills</div>
+              <div class="name">{{ $t('lowerThird.kills') }}</div>
               <div class="value">{{ ltErbsPlayerStats.avgKills }}</div>
             </div>
             <div class="stat win">
