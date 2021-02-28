@@ -15,7 +15,7 @@
   <body id="caster-frame" class="single">
     <div id="app" v-bind:class="{ lowerThird: lowerThirdVisible }">
       <div id="identifier" v-bind:class="{ active: identify }">
-        This is a {{ overlayName }} overlay
+        {{ $t('identify', { name: overlayName }) }}<br />
         <span class="id">id: {{ socketId }}</span>
       </div>
       <div class="caster one" v-bind:class="casterOneTextSize">

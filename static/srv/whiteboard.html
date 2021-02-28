@@ -16,7 +16,7 @@
     <div id="app">
       <!-- Identify overlay-->
       <div id="identifier" v-bind:class="{ active: identify }">
-        This is a {{ overlayName }} overlay<br />
+        {{ $t('identify', { name: overlayName }) }}<br />
         <span class="id">id: {{ socketId }}</span>
       </div>
 
