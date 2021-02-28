@@ -103,6 +103,7 @@ const app = {
     // locale change
     socket.on('locale', (locale) => {
       this.$i18n.locale = locale
+      moment.locale(locale)
       console.log(`Locale set to ${locale}`)
     })
   },
