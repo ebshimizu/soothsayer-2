@@ -1,6 +1,6 @@
 {
   "name": "soothsayer-2",
-  "version": "2.0.0-beta5",
+  "version": "2.0.0",
   "description": "A tool for generating overlays for streaming broadcasts",
   "author": "Falindrith <falindrith@gmail.com>",
   "scripts": {
