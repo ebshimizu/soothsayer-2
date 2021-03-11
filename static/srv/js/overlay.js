@@ -1,11 +1,9 @@
 const socket = io('http://localhost:3005/')
+const page = window.location.pathname.split('/')[1]
 
 // no reason to have a util file really
 function getTheme(state) {
   if (state && state.theme && state.themeOverrides) {
-    // get page name
-    const page = window.location.pathname.split('/')[1]
-
     if (page in state.themeOverrides) {
       return state.themeOverrides[page]
     }
@@ -137,6 +135,13 @@ const app = {
     theme() {
       // check overrides at some point
       return getTheme(this.state)
+    },
+    backgroundOff() {
+      if (!this.state.overlaySettings) return false
+
+      return page in this.state.overlaySettings
+        ? this.state.overlaySettings[page].backgroundOff
+        : false
     },
     lowerThirdVisible() {
       // this is the general visibility flag. The actual lower third might be animating or changing data,

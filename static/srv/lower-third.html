@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="css/overlay.css" />
   </head>
   <body id="lower-third">
-    <div id="app">
+    <div id="app" v-bind:class="{ noBg: backgroundOff }">
       <!-- Identify overlay-->
       <div id="identifier" v-bind:class="{ active: identify }">
         {{ $t('identify', { name: overlayName }) }}<br />

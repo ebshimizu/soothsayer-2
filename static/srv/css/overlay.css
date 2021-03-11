@@ -5,8 +5,10 @@ body {
   padding: 0;
   background-color: rgba(0, 0, 0, 0);
   overflow: hidden;
-  background-repeat: no-repeat;
-  background-size: contain;
+}
+
+#app.noBg {
+  background: none !important;
 }
 
 #app {
@@ -14,6 +16,8 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .debug {

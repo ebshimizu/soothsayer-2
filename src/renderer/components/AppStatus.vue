@@ -27,6 +27,20 @@
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" icon
+              ><v-icon
+                @click="toggleBackground(item)"
+                :color="
+                  item.settings.backgroundOff ? 'grey lighten-1' : 'primary'
+                "
+                >mdi-image</v-icon
+              ></v-btn
+            >
+          </template>
+          <span>Toggle Background</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" icon>
               <v-icon color="primary" @click="preview(item)"
                 >mdi-file-find</v-icon
@@ -64,6 +78,7 @@
 <script>
 import { ipcRenderer, clipboard } from 'electron'
 import { GAME_STRING } from '../data/supportedGames'
+import { ACTION } from '../store/actions'
 
 export default {
   name: 'app-status',
@@ -104,6 +119,13 @@ export default {
     identify(item) {
       // send an identify command to the overlay, which displays a full-screen overlay for a few seconds
       ipcRenderer.send('identify', item.socketId)
+    },
+    toggleBackground(item) {
+      this.$store.dispatch(ACTION.SET_OVERLAY_SETTING, {
+        overlay: item.page,
+        prop: 'backgroundOff',
+        value: !item.settings.backgroundOff,
+      })
     },
   },
 }

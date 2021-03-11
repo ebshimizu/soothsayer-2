@@ -66,6 +66,7 @@ const defaultShowData = () => {
       visible: true,
     },
     tickerItems: {},
+    overlaySettings: {},
   }
 }
 

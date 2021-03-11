@@ -13,7 +13,10 @@
     <link rel="stylesheet" type="text/css" href="css/overlay.css" />
   </head>
   <body id="lobby">
-    <div id="app">
+    <div
+      id="app"
+      v-bind:class="{ lowerThird: lowerThirdVisible, noBg: backgroundOff }"
+    >
       <div id="identifier" v-bind:class="{ active: identify }">
         {{ $t('identify', { name: overlayName }) }}<br />
         <span class="id">id: {{ socketId }}</span>

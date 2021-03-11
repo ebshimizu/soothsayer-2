@@ -28,6 +28,7 @@ const MUTATION = {
   DELETE_TICKER_ITEM: 'Delete Ticker Item',
   SET_TICKER_ITEM_PROP: 'Set Ticker Item Prop',
   RESET_SHOW_DATA: 'Reset Show Data',
+  SET_OVERLAY_SETTING: 'Set Overlay Setting',
 }
 
 const ACTION = {
@@ -43,6 +44,7 @@ const ACTION = {
   PAUSE_TIMER: 'Pause Timer',
   RESUME_TIMER: 'Resume Timer',
   DELETE_SETTINGS_CACHE: 'Delete Settings Cache',
+  SET_OVERLAY_SETTING: 'Set Overlay Setting and Notify',
 }
 
 export { MUTATION, ACTION }

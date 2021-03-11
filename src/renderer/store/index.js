@@ -83,10 +83,14 @@ export default new Vuex.Store({
       )
 
       return overlays.map((o) => {
+        const settings =
+          o in state.show.overlaySettings ? state.show.overlaySettings[o] : {}
+
         return {
           ...OVERLAY_MANIFEST[o],
           resolution: `${OVERLAY_MANIFEST[o].width} x ${OVERLAY_MANIFEST[o].height}`,
           page: o,
+          settings,
         }
       })
     },
@@ -292,6 +296,12 @@ export default new Vuex.Store({
       Vue.set(state, 'show', reset)
       Vue.set(state, 'graphics', defaultGraphicsData())
     },
+    [MUTATION.SET_OVERLAY_SETTING](state, { overlay, prop, value }) {
+      if (!(overlay in state.show.overlaySettings)) {
+        Vue.set(state.show.overlaySettings, overlay, {})
+      }
+      Vue.set(state.show.overlaySettings[overlay], prop, value)
+    },
   },
   actions: {
     [ACTION.INIT_OVERLAY]({ commit, state }, socketData) {
@@ -406,6 +416,13 @@ export default new Vuex.Store({
           dispatch(ACTION.LOAD_STATE, state)
         })
       })
+    },
+    [ACTION.SET_OVERLAY_SETTING](
+      { commit, dispatch },
+      { overlay, prop, value },
+    ) {
+      commit(MUTATION.SET_OVERLAY_SETTING, { overlay, prop, value })
+      dispatch(ACTION.UPDATE)
     },
   },
 })
