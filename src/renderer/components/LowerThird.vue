@@ -33,6 +33,7 @@
                 :items="$store.getters.playerPoolItems"
                 :value="erbsPlayer.playerName"
                 @input="(v) => updateErbsPlayer('playerName', v)"
+                @change="(v) => checkForExistingPlayer(v)"
               ></v-combobox
             ></v-col>
             <v-col cols="2" v-show="erbsPlayerStat">
@@ -232,6 +233,18 @@ export default {
       }
 
       this.$store.dispatch(ACTION.UPDATE_GRAPHICS)
+    },
+    checkForExistingPlayer(name) {
+      // search by name, it's all we got
+      // first match, case-sensitive
+      const player = Object.values(this.$store.state.show.playerPool).find(
+        (p) => p.name === name,
+      )
+
+      if (player) {
+        this.updateErbsPlayer('playerTwitter', player.twitter)
+        this.updateErbsPlayer('playerTwitch', player.twitch)
+      }
     },
     updateErbsPlayer(key, value) {
       this.$store.commit(MUTATION.SET_LT_MODE_DATA, {
