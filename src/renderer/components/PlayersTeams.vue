@@ -10,7 +10,7 @@
       <v-tabs-items v-model="tab">
         <v-tab-item key="player">
           <v-card>
-            <v-card-title>Participants</v-card-title>
+            <v-card-title>Players</v-card-title>
             <v-card-subtitle
               >Enter player names and social handles here. Player names are
               required for the scoreboard to function. If your game requires
@@ -125,6 +125,85 @@
             </v-card-actions>
           </v-card>
         </v-tab-item>
+        <v-tab-item key="team">
+          <v-card>
+            <v-card-title>Teams</v-card-title>
+            <v-card-subtitle
+              >Teams consist of players. You can add players to multiple teams,
+              however this might interfere with scoring calculations. Teams can
+              consist of zero players, if your game uses teams alone instead of
+              players. If your game uses team-based scoring, you must make teams
+              here before they will appear in the scoreboard.</v-card-subtitle
+            >
+            <v-card-text>
+              <v-simple-table dark>
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th>Team Name</th>
+                      <th>Players</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="(team, idx) in teams"
+                      :key="team.id"
+                      :class="{ even: idx % 2 === 0 }"
+                    >
+                      <td>
+                        <v-text-field
+                          single-line
+                          label="Name"
+                          :value="team.name"
+                          @input="(v) => updateTeam('name', v, team.id)"
+                        />
+                      </td>
+                      <td>
+                        <v-autocomplete
+                          :value="team.players"
+                          :items="teamPlayers()"
+                          @input="(v) => updateTeam('players', v, team.id)"
+                          chips
+                          multiple
+                          deletable-chips
+                          clearable
+                        >
+                          <template v-slot:item="data">
+                            <v-list-item-content>
+                              <v-list-item-title>{{
+                                data.item.text
+                              }}</v-list-item-title>
+                            </v-list-item-content>
+                          </template>
+                        </v-autocomplete>
+                      </td>
+                      <td>
+                        <v-tooltip bottom>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-icon
+                              color="red"
+                              v-bind="attrs"
+                              v-on="on"
+                              class="mx-auto"
+                              @click="deleteTeam(team.id)"
+                              >mdi-delete</v-icon
+                            >
+                          </template>
+                          <span>Delete</span>
+                        </v-tooltip>
+                      </td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn text color="primary" @click="addTeam">Add Team</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-tab-item>
       </v-tabs-items>
     </v-col>
   </v-row>
@@ -147,6 +226,9 @@ export default {
     players() {
       return Object.values(this.$store.state.show.playerPool)
     },
+    teams() {
+      return Object.values(this.$store.state.show.teams)
+    },
   },
   methods: {
     updateShowParam(key, value) {
@@ -154,6 +236,16 @@ export default {
         key,
         value,
       })
+    },
+    teamPlayers() {
+      // vue im pleading with you to not cache this
+      return Object.values(this.$store.state.show.playerPool)
+        .map((p) => {
+          return {
+            text: p.name,
+            value: p.id,
+          }
+        })
     },
     updatePlayer(key, value, id) {
       this.$store.commit(MUTATION.UPDATE_PLAYER, { key, value, id })
@@ -163,6 +255,15 @@ export default {
     },
     deletePlayer(id) {
       this.$store.commit(MUTATION.DELETE_PLAYER, id)
+    },
+    updateTeam(key, value, id) {
+      this.$store.commit(MUTATION.UPDATE_TEAM, { key, value, id })
+    },
+    addTeam() {
+      this.$store.commit(MUTATION.NEW_TEAM)
+    },
+    deleteTeam(id) {
+      this.$store.commit(MUTATION.DELETE_TEAM, id)
     },
     importPlayerData() {
       // do the import

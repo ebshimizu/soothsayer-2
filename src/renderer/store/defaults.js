@@ -119,6 +119,14 @@ const defaultPlayerItem = () => {
   }
 }
 
+const defaultTeamItem = () => {
+  return {
+    id: uuidv4(),
+    name: '',
+    players: [], // this is a list of ids
+  }
+}
+
 const scheduleItem = () => {
   return {
     date: new Date().toISOString().substr(0, 10),
@@ -134,5 +142,6 @@ export {
   defaultGraphicsData,
   defaultTickerItem,
   defaultPlayerItem,
+  defaultTeamItem,
   scheduleItem,
 }

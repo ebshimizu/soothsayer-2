@@ -33,6 +33,9 @@ const MUTATION = {
   SET_PLAYER: 'Set Player',
   UPDATE_PLAYER: 'Update Player Field',
   DELETE_PLAYER: 'Delete Player',
+  NEW_TEAM: 'Add Team',
+  DELETE_TEAM: 'Delete Team',
+  UPDATE_TEAM: 'Update Team Prop',
 }
 
 const ACTION = {
