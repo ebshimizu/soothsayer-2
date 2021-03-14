@@ -17,6 +17,7 @@ import {
   scheduleItem,
   defaultTickerItem,
   defaultPlayerItem,
+  defaultTeamItem,
 } from './defaults'
 import moment from 'moment'
 
@@ -315,6 +316,17 @@ export default new Vuex.Store({
     },
     [MUTATION.DELETE_PLAYER](state, id) {
       Vue.delete(state.show.playerPool, id)
+    },
+    [MUTATION.NEW_TEAM](state) {
+      const team = defaultTeamItem()
+      Vue.set(state.show.teams, team.id, team)
+    },
+    [MUTATION.DELETE_TEAM](state, id) {
+      // deletions will eventually have to adjust the scoreboard to remove deleted teams
+      Vue.delete(state.show.teams, id)
+    },
+    [MUTATION.UPDATE_TEAM](state, { key, value, id }) {
+      Vue.set(state.show.teams[id], key, value)
     },
   },
   actions: {
