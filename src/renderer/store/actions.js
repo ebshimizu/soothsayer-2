@@ -29,6 +29,10 @@ const MUTATION = {
   SET_TICKER_ITEM_PROP: 'Set Ticker Item Prop',
   RESET_SHOW_DATA: 'Reset Show Data',
   SET_OVERLAY_SETTING: 'Set Overlay Setting',
+  NEW_PLAYER: 'Add Player',
+  SET_PLAYER: 'Set Player',
+  UPDATE_PLAYER: 'Update Player Field',
+  DELETE_PLAYER: 'Delete Player',
 }
 
 const ACTION = {

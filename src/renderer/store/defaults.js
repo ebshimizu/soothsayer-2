@@ -1,6 +1,31 @@
 import { v4 as uuidv4 } from 'uuid'
 import { LOWER_THIRD_MODES, TICKER_TYPES } from '../data/overlayManifest'
 
+const defaultErbsScoreData = () => {
+  return {
+    points: {
+      rank: {
+        1: 16,
+        2: 12,
+        3: 10,
+        5: 8,
+        8: 5,
+        12: 3,
+        16: 1,
+        18: 0,
+      },
+      kill: 3,
+    },
+    rounds: {
+      round1: {},
+      round2: {},
+      round3: {},
+      round4: {},
+      round5: {},
+    },
+  }
+}
+
 const defaultLowerThirdData = () => {
   return {
     activeMode: LOWER_THIRD_MODES.CASTER_INFO,
@@ -54,7 +79,8 @@ const defaultShowData = () => {
     notepadTitle: '',
     schedule: {},
     mapImage: '',
-    playerPool: '',
+    playerPool: {},
+    teams: {},
     timer: {
       minutes: 0,
       seconds: 0,
@@ -67,6 +93,7 @@ const defaultShowData = () => {
     },
     tickerItems: {},
     overlaySettings: {},
+    erbsStandings: defaultErbsScoreData(),
   }
 }
 
@@ -80,6 +107,15 @@ const defaultTickerItem = () => {
 const defaultGraphicsData = () => {
   return {
     lowerThird: defaultLowerThirdData(),
+  }
+}
+
+const defaultPlayerItem = () => {
+  return {
+    id: uuidv4(),
+    name: '',
+    twitter: '',
+    twitch: '',
   }
 }
 
@@ -97,5 +133,6 @@ export {
   defaultLowerThirdData,
   defaultGraphicsData,
   defaultTickerItem,
+  defaultPlayerItem,
   scheduleItem,
 }

@@ -67,7 +67,7 @@
           >
         </v-col>
         <v-col cols="12">
-          <h2 class="mt-2">Active Logos</h2>
+          <h2 class="my-2">Active Logos</h2>
           <v-list>
             <v-list-item v-for="item in logos" :key="item">
               <v-list-item-content>

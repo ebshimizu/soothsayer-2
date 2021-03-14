@@ -409,13 +409,14 @@ export default {
 <style lang="scss">
 $body-font-family: 'Muli', sans-serif;
 $title-font: 'Muli', sans-serif;
+$bg: #0d2629;
 $dark-bg: #031a1c;
 $primary: #5ee2ea;
 $nav-link-dark: #487e84;
 
 .v-application {
   font-family: $body-font-family, sans-serif !important;
-  background: #0d2629 !important;
+  background: $bg !important;
 
   .title {
     // To pin point specific classes of some components
@@ -594,5 +595,23 @@ html {
   right: 24px;
   bottom: 24px;
   z-index: 10;
+}
+
+.theme--dark.v-tabs>.v-tabs-bar,
+.theme--dark.v-tabs-items {
+  background-color: $bg !important;
+}
+
+.v-card.theme--dark {
+  background-color: $dark-bg !important;
+}
+
+.v-data-table.theme--dark thead,
+.v-data-table.theme--dark tr {
+  background-color: $dark-bg;
+}
+
+.v-data-table.theme--dark tr.even {
+  background-color: $bg;
 }
 </style>

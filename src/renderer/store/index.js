@@ -16,6 +16,7 @@ import {
   defaultGraphicsData,
   scheduleItem,
   defaultTickerItem,
+  defaultPlayerItem,
 } from './defaults'
 import moment from 'moment'
 
@@ -112,7 +113,7 @@ export default new Vuex.Store({
       return Object.values(state.show.schedule)
     },
     playerPoolItems(state) {
-      return state.show.playerPool.split('\n')
+      return Object.values(state.show.playerPool).map((p) => p.name)
     },
     castProfile(state) {
       const showData = _.cloneDeep(state.show)
@@ -301,6 +302,19 @@ export default new Vuex.Store({
         Vue.set(state.show.overlaySettings, overlay, {})
       }
       Vue.set(state.show.overlaySettings[overlay], prop, value)
+    },
+    [MUTATION.NEW_PLAYER](state) {
+      const player = defaultPlayerItem()
+      Vue.set(state.show.playerPool, player.id, player)
+    },
+    [MUTATION.SET_PLAYER](state, data) {
+      Vue.set(state.show.playerPool, data.id, data)
+    },
+    [MUTATION.UPDATE_PLAYER](state, { key, value, id }) {
+      Vue.set(state.show.playerPool[id], key, value)
+    },
+    [MUTATION.DELETE_PLAYER](state, id) {
+      Vue.delete(state.show.playerPool, id)
     },
   },
   actions: {
