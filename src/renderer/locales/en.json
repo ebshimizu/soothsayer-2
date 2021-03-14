@@ -6,17 +6,27 @@
   },
   "teams": {
     "description": "Teams consist of players. Each player can be assigned to one team. Players cannot be assigned to multiple teams. Teams can consist of zero players, if your game uses teams alone instead of players. If your game uses team-based scoring, you must make teams here before they will appear in the scoreboard.",
-    "title": "Teams"
+    "title": "Teams",
+    "add": "Add Team"
   },
   "players": {
     "description": "Enter player names and social handles here. Player names are required for the scoreboard to function. If your game requires team data, enter that on the Teams tab.",
-    "title": "Players"
+    "title": "Players",
+    "mass-import": "Bulk Import",
+    "mass-import-instructions": "Paste player data, one per row with tabs separating columns.",
+    "mass-import-field": "Player Data",
+    "add-player": "Add Player"
   },
   "label": {
     "team-name": "Team Name",
     "players": "Players",
     "actions": "Actions",
     "name": "Name",
-    "delete": "Delete"
+    "delete": "Delete",
+    "player-name": "Player Name",
+    "twitter": "Twitter",
+    "twitch": "Twitch",
+    "import": "Import",
+    "cancel": "Cancel"
   }
 }

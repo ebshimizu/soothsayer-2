@@ -1,7 +1,7 @@
 <template>
   <v-row dense>
     <v-col cols="12">
-      <v-tabs v-model="tab">
+      <v-tabs v-model="tab" @change="updateTeamPlayers">
         <v-tab key="player">{{ $t('players.title') }}</v-tab>
         <v-tab key="team">{{ $t('teams.title') }}</v-tab>
       </v-tabs>
@@ -17,9 +17,9 @@
                 <template v-slot:default>
                   <thead>
                     <tr>
-                      <th>Player Name</th>
-                      <th>Twitter</th>
-                      <th>Twitch</th>
+                      <th>{{ $t('label.player-name') }}</th>
+                      <th>{{ $t('label.twitter') }}</th>
+                      <th>{{ $t('label.twitch') }}Teams</th>
                       <th>{{ $t('label.actions') }}</th>
                     </tr>
                   </thead>
@@ -32,7 +32,7 @@
                       <td>
                         <v-text-field
                           single-line
-                          label="Name"
+                          :label="$t('label.name')"
                           :value="player.name"
                           @input="(v) => updatePlayer('name', v, player.id)"
                         />
@@ -40,7 +40,7 @@
                       <td>
                         <v-text-field
                           single-line
-                          label="Twitter"
+                          :label="$t('label.twitter')"
                           :value="player.twitter"
                           @input="(v) => updatePlayer('twitter', v, player.id)"
                           prepend-icon="mdi-twitter"
@@ -49,7 +49,7 @@
                       <td>
                         <v-text-field
                           single-line
-                          label="Twitch"
+                          :label="$t('label.twitch')"
                           :value="player.twitch"
                           @input="(v) => updatePlayer('twitch', v, player.id)"
                           prepend-icon="mdi-twitch"
@@ -67,7 +67,7 @@
                               >mdi-delete</v-icon
                             >
                           </template>
-                          <span>Delete</span>
+                          <span>{{ $t('label.delete') }}</span>
                         </v-tooltip>
                       </td>
                     </tr>
@@ -89,35 +89,36 @@
                         importDialog = true
                       }
                     "
-                    >Mass Import</v-btn
+                    >{{ $t('players.mass-import') }}</v-btn
                   >
                 </template>
                 <v-card>
-                  <v-card-title>Mass Import</v-card-title>
+                  <v-card-title>{{ $t('players.mass-import') }}</v-card-title>
                   <v-card-text
                     ><p>
-                      Paste player data, one per row with tabs separating
-                      columns.
+                      {{ $t('players.mass-import-instructions') }}
                     </p>
                     <v-textarea
                       outlined
-                      label="Player Import"
+                      :label="$t('players.mass-import-field')"
                       v-model="importData"
                     >
                     </v-textarea>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="green" @click="importPlayerData"
-                      >Import</v-btn
-                    >
-                    <v-btn outlined color="red" @click="importDialog = false"
-                      >Cancel</v-btn
-                    >
+                    <v-btn color="green" @click="importPlayerData">{{
+                      $t('label.import')
+                    }}</v-btn>
+                    <v-btn outlined color="red" @click="importDialog = false">{{
+                      $t('label.cancel')
+                    }}</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <v-btn text color="primary" @click="addPlayer">Add Player</v-btn>
+              <v-btn text color="primary" @click="addPlayer">{{
+                $t('players.add-player')
+              }}</v-btn>
             </v-card-actions>
           </v-card>
         </v-tab-item>
@@ -180,7 +181,7 @@
                               >mdi-delete</v-icon
                             >
                           </template>
-                          <span>{{ $t('labels.delete') }}</span>
+                          <span>{{ $t('label.delete') }}</span>
                         </v-tooltip>
                       </td>
                     </tr>
@@ -190,7 +191,9 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn text color="primary" @click="addTeam">Add Team</v-btn>
+              <v-btn text color="primary" @click="addTeam">{{
+                $t('teams.add')
+              }}</v-btn>
             </v-card-actions>
           </v-card>
         </v-tab-item>
@@ -225,6 +228,10 @@ export default {
       this.localTeams = val
       this.updateTeamPlayers()
     },
+  },
+  beforeMount() {
+    this.localTeams = this.$store.state.show.teams
+    this.localPlayers = this.$store.state.show.playerPool
   },
   computed: {
     players() {
