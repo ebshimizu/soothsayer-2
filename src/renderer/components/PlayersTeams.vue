@@ -2,20 +2,16 @@
   <v-row dense>
     <v-col cols="12">
       <v-tabs v-model="tab">
-        <v-tab key="player">Players</v-tab>
-        <v-tab key="team">Teams</v-tab>
+        <v-tab key="player">{{ $t('players.title') }}</v-tab>
+        <v-tab key="team">{{ $t('teams.title') }}</v-tab>
       </v-tabs>
     </v-col>
     <v-col cols="12">
       <v-tabs-items v-model="tab">
         <v-tab-item key="player">
           <v-card>
-            <v-card-title>Players</v-card-title>
-            <v-card-subtitle
-              >Enter player names and social handles here. Player names are
-              required for the scoreboard to function. If your game requires
-              team data, enter that on the Teams tab.</v-card-subtitle
-            >
+            <v-card-title>{{ $t('players.title') }}</v-card-title>
+            <v-card-subtitle>{{ $t('players.description') }}</v-card-subtitle>
             <v-card-text>
               <v-simple-table dark>
                 <template v-slot:default>
@@ -24,7 +20,7 @@
                       <th>Player Name</th>
                       <th>Twitter</th>
                       <th>Twitch</th>
-                      <th>Actions</th>
+                      <th>{{ $t('label.actions') }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -127,22 +123,16 @@
         </v-tab-item>
         <v-tab-item key="team">
           <v-card>
-            <v-card-title>Teams</v-card-title>
-            <v-card-subtitle
-              >Teams consist of players. Each player can be assigned to one
-              team. Players cannot be assigned to multiple teams. Teams can
-              consist of zero players, if your game uses teams alone instead of
-              players. If your game uses team-based scoring, you must make teams
-              here before they will appear in the scoreboard.</v-card-subtitle
-            >
+            <v-card-title>{{ $t('teams.title') }}</v-card-title>
+            <v-card-subtitle>{{ $t('teams.description') }}</v-card-subtitle>
             <v-card-text>
               <v-simple-table dark>
                 <template v-slot:default>
                   <thead>
                     <tr>
-                      <th>Team Name</th>
-                      <th>Players</th>
-                      <th>Actions</th>
+                      <th>{{ $t('label.team-name') }}</th>
+                      <th>{{ $t('label.players') }}</th>
+                      <th>{{ $t('label.actions') }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -154,7 +144,7 @@
                       <td>
                         <v-text-field
                           single-line
-                          label="Name"
+                          :label="$t('label.name')"
                           :value="team.name"
                           @input="(v) => updateTeam('name', v, team.id)"
                         />
@@ -190,7 +180,7 @@
                               >mdi-delete</v-icon
                             >
                           </template>
-                          <span>Delete</span>
+                          <span>{{ $t('labels.delete') }}</span>
                         </v-tooltip>
                       </td>
                     </tr>
