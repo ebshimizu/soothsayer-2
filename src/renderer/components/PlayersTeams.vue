@@ -162,7 +162,7 @@
                       <td>
                         <v-autocomplete
                           :value="team.players"
-                          :items="teamPlayers()"
+                          :items="filteredTeamPlayers(team.id)"
                           @input="(v) => updateTeam('players', v, team.id)"
                           chips
                           multiple
@@ -220,7 +220,21 @@ export default {
       importData: '',
       importDialog: false,
       tab: 'players',
+      teamPlayers: [],
+      localPlayers: {},
+      localTeams: {},
+      assigned: {},
     }
+  },
+  watch: {
+    players(val) {
+      this.localPlayers = val
+      this.updateTeamPlayers()
+    },
+    teams(val) {
+      this.localTeams = val
+      this.updateTeamPlayers()
+    },
   },
   computed: {
     players() {
@@ -237,18 +251,31 @@ export default {
         value,
       })
     },
-    teamPlayers() {
+    updateTeamPlayers() {
+      console.log('updating')
+      this.assigned = {}
+      Object.values(this.localTeams).forEach((t) => {
+        t.players.forEach((p) => (this.assigned[p] = t.id))
+      })
+
       // vue im pleading with you to not cache this
-      return Object.values(this.$store.state.show.playerPool)
-        .map((p) => {
-          return {
-            text: p.name,
-            value: p.id,
-          }
-        })
+      this.teamPlayers = Object.values(this.localPlayers).map((p) => {
+        return {
+          text: p.name,
+          value: p.id,
+          assignedTo: p.id in this.assigned ? this.assigned[p.id] : null,
+        }
+      })
+    },
+    filteredTeamPlayers(id) {
+      const filtered = this.teamPlayers.filter(
+        (item) => item.assignedTo === id || item.assignedTo === null,
+      )
+      return filtered
     },
     updatePlayer(key, value, id) {
       this.$store.commit(MUTATION.UPDATE_PLAYER, { key, value, id })
+      this.updateTeamPlayers()
     },
     addPlayer() {
       this.$store.commit(MUTATION.NEW_PLAYER)
@@ -258,6 +285,7 @@ export default {
     },
     updateTeam(key, value, id) {
       this.$store.commit(MUTATION.UPDATE_TEAM, { key, value, id })
+      this.updateTeamPlayers()
     },
     addTeam() {
       this.$store.commit(MUTATION.NEW_TEAM)
