@@ -129,8 +129,8 @@
           <v-card>
             <v-card-title>Teams</v-card-title>
             <v-card-subtitle
-              >Teams consist of players. You can add players to multiple teams,
-              however this might interfere with scoring calculations. Teams can
+              >Teams consist of players. Each player can be assigned to one
+              team. Players cannot be assigned to multiple teams. Teams can
               consist of zero players, if your game uses teams alone instead of
               players. If your game uses team-based scoring, you must make teams
               here before they will appear in the scoreboard.</v-card-subtitle
