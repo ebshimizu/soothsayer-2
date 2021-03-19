@@ -5,7 +5,7 @@
     "dashboard": "Dashboard"
   },
   "teams": {
-    "description": "Teams consist of players. Each player can be assigned to one team. Players cannot be assigned to multiple teams. Teams can consist of zero players, if your game uses teams alone instead of players. If your game uses team-based scoring, you must make teams here before they will appear in the scoreboard.",
+    "description": "Teams consist of players. Each player can be assigned to one team. Players cannot be assigned to multiple teams. Teams can consist of zero players, if your game uses teams alone instead of players. If your game uses team-based scoring, you must make teams here before they will appear in the scoreboard. Unnamed teams with players assigned will use the player names as the team name in other parts of the app.",
     "title": "Teams",
     "add": "Add Team"
   },
@@ -16,6 +16,12 @@
     "mass-import-instructions": "Paste player data, one per row with tabs separating columns.",
     "mass-import-field": "Player Data",
     "add-player": "Add Player"
+  },
+  "scoreboard": {
+    "erbs": {
+      "computed": "The ERBS Scoreboard is computed automatically from the round scores. You cannot edit this scoreboard directly, and instead must edit the results reported in each round.",
+      "entry": "Enter results by round here."
+    }
   },
   "label": {
     "team-name": "Team Name",

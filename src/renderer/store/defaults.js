@@ -3,6 +3,7 @@ import { LOWER_THIRD_MODES, TICKER_TYPES } from '../data/overlayManifest'
 
 const defaultErbsScoreData = () => {
   return {
+    mode: 'solo',
     points: {
       rank: {
         1: 16,
@@ -17,11 +18,26 @@ const defaultErbsScoreData = () => {
       kill: 3,
     },
     rounds: {
-      round1: {},
-      round2: {},
-      round3: {},
-      round4: {},
-      round5: {},
+      round1: {
+        solo: {},
+        team: {},
+      },
+      round2: {
+        solo: {},
+        team: {},
+      },
+      round3: {
+        solo: {},
+        team: {},
+      },
+      round4: {
+        solo: {},
+        team: {},
+      },
+      round5: {
+        solo: {},
+        team: {},
+      },
     },
   }
 }
@@ -143,5 +159,6 @@ export {
   defaultTickerItem,
   defaultPlayerItem,
   defaultTeamItem,
+  defaultErbsScoreData,
   scheduleItem,
 }

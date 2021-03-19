@@ -18,6 +18,7 @@ import {
   defaultTickerItem,
   defaultPlayerItem,
   defaultTeamItem,
+  defaultErbsScoreData,
 } from './defaults'
 import moment from 'moment'
 
@@ -327,6 +328,33 @@ export default new Vuex.Store({
     },
     [MUTATION.UPDATE_TEAM](state, { key, value, id }) {
       Vue.set(state.show.teams[id], key, value)
+    },
+    [MUTATION.ERBS_SET_SCOREBOARD_PROP](state, { key, value }) {
+      Vue.set(state.show.erbsStandings, key, value)
+    },
+    [MUTATION.ERBS_SET_SCOREBOARD_POINTS](state, { key, value }) {
+      if (key === 'kill') {
+        Vue.set(state.show.erbsStandings.points, 'kill', value)
+      } else {
+        Vue.set(state.show.erbsStandings.points.rank, key, value)
+      }
+    },
+    [MUTATION.ERBS_SET_ALL_ROUND_DATA](state, { round, mode, data }) {
+      Vue.set(state.show.erbsStandings.rounds[round], mode, data)
+    },
+    [MUTATION.ERBS_SET_ROUND_DATA](state, { round, mode, id, data }) {
+      Vue.set(state.show.erbsStandings.rounds[round][mode], id, data)
+    },
+    [MUTATION.ERBS_RESET_SCOREBOARD_POINTS](state) {
+      const defaults = defaultErbsScoreData()
+      Vue.set(state.show.erbsStandings, 'points', defaults.points)
+    },
+    [MUTATION.ERBS_RESET_SCOREBOARD_ROUND](state, round) {
+      Vue.set(state.show.erbsStandings.rounds, round, { solo: {}, team: {} })
+    },
+    [MUTATION.ERBS_RESET_ALL_ROUNDS](state) {
+      const defaults = defaultErbsScoreData()
+      Vue.set(state.show.erbsStandings, 'rounds', defaults.rounds)
     },
   },
   actions: {

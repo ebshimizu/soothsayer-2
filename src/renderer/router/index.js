@@ -60,5 +60,10 @@ export default new Router({
       name: 'About Soothsayer',
       component: require('@/components/AppAbout').default,
     },
+    {
+      path: '/scoreboard',
+      name: 'Scoreboard',
+      component: require('@/components/ScoreBoard').default,
+    },
   ],
 })

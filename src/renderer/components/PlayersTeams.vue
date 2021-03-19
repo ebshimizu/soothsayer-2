@@ -249,7 +249,6 @@ export default {
       })
     },
     updateTeamPlayers() {
-      console.log('updating')
       this.assigned = {}
       Object.values(this.localTeams).forEach((t) => {
         t.players.forEach((p) => (this.assigned[p] = t.id))

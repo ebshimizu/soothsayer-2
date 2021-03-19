@@ -108,6 +108,13 @@
           >
         </v-subheader>
         <v-list-item
+          to="/co-caster"
+          v-show="$store.getters.menuVisible('coCaster')"
+        >
+          <v-list-item-icon><v-icon>mdi-microphone</v-icon></v-list-item-icon>
+          <v-list-item-title>Co-Caster Information</v-list-item-title>
+        </v-list-item>
+        <v-list-item
           to="/tournament"
           v-show="$store.getters.menuVisible('tournament')"
         >
@@ -124,11 +131,11 @@
           <v-list-item-title>Players &amp; Teams</v-list-item-title>
         </v-list-item>
         <v-list-item
-          to="/co-caster"
-          v-show="$store.getters.menuVisible('coCaster')"
+          to="/scoreboard"
+          v-show="$store.getters.menuVisible('scoreboard')"
         >
-          <v-list-item-icon><v-icon>mdi-microphone</v-icon></v-list-item-icon>
-          <v-list-item-title>Co-Caster Information</v-list-item-title>
+          <v-list-item-icon><v-icon>mdi-scoreboard</v-icon></v-list-item-icon
+          ><v-list-item-title>Scoreboard</v-list-item-title>
         </v-list-item>
         <v-list-item
           to="/notepad"
@@ -597,7 +604,7 @@ html {
   z-index: 10;
 }
 
-.theme--dark.v-tabs>.v-tabs-bar,
+.theme--dark.v-tabs > .v-tabs-bar,
 .theme--dark.v-tabs-items {
   background-color: $bg !important;
 }

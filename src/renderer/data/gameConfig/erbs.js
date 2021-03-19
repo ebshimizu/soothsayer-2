@@ -7,6 +7,7 @@ const COMPONENT_VISIBLE = {
   'lower-third': true,
   'note-pad': true,
   'event-schedule': true,
+  'erbs-scoreboard': true,
 }
 
 const MENU_VISIBLE = {
@@ -18,6 +19,7 @@ const MENU_VISIBLE = {
   notepad: true,
   playersTeams: true,
   coCaster: false,
+  scoreboard: true,
 }
 
 const OVERLAY_SUPPORT = {
