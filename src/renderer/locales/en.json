@@ -19,7 +19,10 @@
   },
   "scoreboard": {
     "erbs": {
+      "mode": "Scoreboard Mode",
+      "computed-title": "Computed Scoreboard",
       "computed": "The ERBS Scoreboard is computed automatically from the round scores. You cannot edit this scoreboard directly, and instead must edit the results reported in each round.",
+      "entry-title": "Score Entry",
       "entry": "Enter results by round here."
     }
   },
@@ -33,6 +36,8 @@
     "twitter": "Twitter",
     "twitch": "Twitch",
     "import": "Import",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "solo": "Solo",
+    "erbs-teams": "Duos+"
   }
 }

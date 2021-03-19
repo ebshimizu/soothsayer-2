@@ -3,14 +3,14 @@
     <div
       class="d-flex justify-center align-center align-content-center flex-column"
     >
-      <span class="mb-2">Scoreboard Mode</span>
+      <span class="mb-2">{{ $t('scoreboard.erbs.mode') }}</span>
       <v-btn-toggle rounded mandatory>
         <v-btn value="solo" class="pl-4">
           <v-icon left>mdi-account</v-icon>
-          <span class="hidden-sm-and-down">Solo</span>
+          <span class="hidden-sm-and-down">{{ $t('label.solo') }}</span>
         </v-btn>
         <v-btn value="team" class="pr-4">
-          <span class="hidden-sm-and-down">Duos+</span>
+          <span class="hidden-sm-and-down">{{ $t('label.erbs-teams') }}</span>
           <v-icon right>mdi-account-group</v-icon>
         </v-btn>
       </v-btn-toggle>
@@ -18,7 +18,9 @@
     <v-row dense class="mt-2">
       <v-col cols="6">
         <v-card outlined>
-          <v-card-title>Computed Scoreboard</v-card-title>
+          <v-card-title>{{
+            $t('scoreboard.erbs.computed-title')
+          }}</v-card-title>
           <v-card-subtitle>{{
             $t('scoreboard.erbs.computed')
           }}</v-card-subtitle>
@@ -26,7 +28,7 @@
       </v-col>
       <v-col cols="6">
         <v-card outlined>
-          <v-card-title>Score Entry</v-card-title>
+          <v-card-title>{{ $t('scoreboard.erbs.entry-title') }}</v-card-title>
           <v-card-subtitle>{{ $t('scoreboard.erbs.entry') }}</v-card-subtitle>
           <v-card-text>
             <v-expansion-panels>
