@@ -44,6 +44,7 @@
     "erbs-teams": "Duos+",
     "erbs-kill": "Kill",
     "erbs-rank": "Rank",
+    "erbs-rank-ordinal": "Rank {0}",
     "points": "Points",
     "place": "Place"
   }

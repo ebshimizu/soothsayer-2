@@ -68,7 +68,27 @@
           <v-card-subtitle>{{
             $t('scoreboard.erbs.point-description')
           }}</v-card-subtitle>
-          <v-card-text> editable fields or somethin idk </v-card-text>
+          <v-card-text>
+            <v-row dense>
+              <v-col cols="2">
+                <v-text-field
+                  type="number"
+                  min="0"
+                  :label="$t('label.erbs-kill')"
+                  v-model="kill"
+                />
+              </v-col>
+              <v-col cols="2" v-for="rank in ranks" :key="rank.rank">
+                <v-text-field
+                  type="number"
+                  min="0"
+                  :label="$t('label.erbs-rank-ordinal', [rank.rank])"
+                  :value="rank.points"
+                  @input="(v) => updateRankPoints(rank.rank, parseInt(v))"
+                />
+              </v-col>
+            </v-row>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -90,12 +110,26 @@ export default {
     rounds() {
       return Object.keys(this.$store.state.show.erbsStandings.rounds)
     },
+    ranks() {
+      return this.$store.state.show.erbsStandings.points.rank
+    },
     title() {
       if (this.mode === 'solo') {
         return this.$t('label.player-name')
       } else if (this.mode === 'team') {
         return this.$t('label.team-name')
       }
+    },
+    kill: {
+      get() {
+        return this.$store.state.show.erbsStandings.points.kill
+      },
+      set(val) {
+        this.$store.commit(MUTATION.ERBS_SET_SCOREBOARD_POINTS, {
+          key: 'kill',
+          value: val,
+        })
+      },
     },
     mode: {
       get() {
@@ -107,6 +141,14 @@ export default {
           value,
         })
       },
+    },
+  },
+  methods: {
+    updateRankPoints(rank, points) {
+      this.$store.commit(MUTATION.ERBS_SET_SCOREBOARD_POINTS, {
+        key: rank,
+        value: points,
+      })
     },
   },
 }
