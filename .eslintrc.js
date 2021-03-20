@@ -23,5 +23,6 @@ module.exports = {
     'space-before-function-paren': 0,
     'comma-dangle': ['error', 'always-multiline'],
     'eol-last': 0,
+    'standard/computed-property-even-spacing': 0,
   },
-};
+}

@@ -353,7 +353,7 @@ export default {
       ipcRenderer.send('quit')
     },
     openIssue() {
-      shell.openExternal('https://github.com/ebshimizu/soothsayer-2/issues')
+      shell.openExternal('https://github.com/ebshimizu/soothsayer-2/issues/new')
     },
     discord() {
       shell.openExternal('https://discord.gg/wzU3YtaT4t')

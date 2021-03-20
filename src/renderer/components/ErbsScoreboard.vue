@@ -4,7 +4,7 @@
       class="d-flex justify-center align-center align-content-center flex-column"
     >
       <span class="mb-2">{{ $t('scoreboard.erbs.mode') }}</span>
-      <v-btn-toggle rounded mandatory>
+      <v-btn-toggle rounded mandatory v-model="mode">
         <v-btn value="solo" class="pl-4">
           <v-icon left>mdi-account</v-icon>
           <span class="hidden-sm-and-down">{{ $t('label.solo') }}</span>
@@ -31,13 +31,15 @@
           <v-card-title>{{ $t('scoreboard.erbs.entry-title') }}</v-card-title>
           <v-card-subtitle>{{ $t('scoreboard.erbs.entry') }}</v-card-subtitle>
           <v-card-text>
-            <v-expansion-panels>
-              <v-expansion-panel>
-                <v-expansion-panel-header>Round 1</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  there's gonna be a table here
-                </v-expansion-panel-content>
-              </v-expansion-panel>
+            <v-expansion-panels focusable>
+              <erbs-scoreboard-round
+                v-for="(round, idx) in rounds"
+                :key="round"
+                v-bind:roundId="round"
+                v-bind:displayName="$t('scoreboard.erbs.round', [idx + 1])"
+                v-bind:players="players"
+                v-bind:teams="teams"
+              />
             </v-expansion-panels>
           </v-card-text>
         </v-card>
@@ -47,9 +49,28 @@
 </template>
 
 <script>
+import { MUTATION } from '../store/actions'
+import ErbsScoreboardRound from './ErbsScoreboardRound.vue'
+
 export default {
+  components: { ErbsScoreboardRound },
   name: 'erbs-scoreboard',
   props: ['players', 'teams'],
-  computed: {},
+  computed: {
+    rounds() {
+      return Object.keys(this.$store.state.show.erbsStandings.rounds)
+    },
+    mode: {
+      get() {
+        return this.$store.state.show.erbsStandings.mode
+      },
+      set(value) {
+        this.$store.commit(MUTATION.ERBS_SET_SCOREBOARD_PROP, {
+          key: 'mode',
+          value,
+        })
+      },
+    },
+  },
 }
 </script>
