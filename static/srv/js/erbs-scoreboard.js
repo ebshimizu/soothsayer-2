@@ -7,6 +7,12 @@ window.overlayId = 'ERBS Scoreboard'
 // cycle function
 // this is for the ERBS formatted scoreboard
 app.methods.rotateScoreboard = function () {
+  // if we have less than the page count just uhhhhhhh don't
+  if (this.state.erbsComputedScoreboard.length <= this.scoreboardDisplayCount) {
+    this.scoreboardPage = 0
+    return
+  }
+
   // turn it off
   this.scoreboardVisible = false
   setTimeout(() => {

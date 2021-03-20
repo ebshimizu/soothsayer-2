@@ -27,6 +27,26 @@
       <div class="scoreboard" v-bind:class="{ visible: scoreboardVisible }">
         <div class="row" v-for="row in currentErbsScoreboardPage" v-bind:key="row.id">
           <div class="name">{{ row.name }}</div>
+          <div class="round round-1">
+            <div class="rank">{{ row.roundsData.round1.rank }}</div>
+            <div class="rank">{{ row.roundsData.round1.kill }}</div>
+          </div>
+          <div class="round round-2">
+            <div class="rank">{{ row.roundsData.round2.rank }}</div>
+            <div class="rank">{{ row.roundsData.round2.kill }}</div>
+          </div>
+          <div class="round round-3">
+            <div class="rank">{{ row.roundsData.round3.rank }}</div>
+            <div class="rank">{{ row.roundsData.round3.kill }}</div>
+          </div>
+          <div class="round round-4">
+            <div class="rank">{{ row.roundsData.round4.rank }}</div>
+            <div class="rank">{{ row.roundsData.round4.kill }}</div>
+          </div>
+          <div class="round round-5">
+            <div class="rank">{{ row.roundsData.round5.rank }}</div>
+            <div class="rank">{{ row.roundsData.round5.kill }}</div>
+          </div>
           <div class="total">{{ row.total }}</div>
         </div>
       </div>
