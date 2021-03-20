@@ -110,6 +110,8 @@ const app = {
     this.timerId = setInterval(this.updateRemaining, 500)
     // sponsor rotation every 10s
     this.sponsorCycleId = setInterval(this.rotateSponsors, 10000)
+    // scoreboard rotation every 6s by default, watch for changes
+    this.scoreboardCycleId = setInterval(this.rotateScoreboard, 6000)
   },
   data() {
     return {
@@ -125,12 +127,25 @@ const app = {
         index: 0,
         slot1Active: true,
       },
+      scoreboardPage: 0,
+      scoreboardVisible: true,
       lowerThirdModified: null,
       lowerThirdChangingData: false, // combined with regular lower third visibility
       lowerThird: null, // local copy of the lower third data that actually gets shown
     }
   },
-  watch: {},
+  watch: {
+    scoreboardCycleTime(val, newVal) {
+      if (newVal && val !== newVal) {
+        // reset the timer
+        clearInterval(this.scoreboardCycleId)
+        this.scoreboardCycleId = setInterval(
+          this.rotateScoreboard,
+          newVal * 1000,
+        )
+      }
+    },
+  },
   computed: {
     theme() {
       // check overrides at some point
@@ -337,6 +352,26 @@ const app = {
         ? Object.values(this.state.sponsorLogos)
         : {}
     },
+    scoreboardCycleTime() {
+      return this.state.scoreboardDisplayTime
+        ? this.state.scoreboardDisplayTime
+        : 6
+    },
+    scoreboardDisplayCount() {
+      return this.state.scoreboardDisplayCount
+        ? this.state.scoreboardDisplayCount
+        : 6
+    },
+    currentErbsScoreboardPage() {
+      if (this.state.erbsComputedScoreboard) {
+        // slice starting at page * count
+        const start = this.scoreboardPage * this.scoreboardDisplayCount
+        const end = start + this.scoreboardDisplayCount
+        return this.state.erbsComputedScoreboard.slice(start, end)
+      }
+
+      return []
+    },
   },
   methods: {
     updateRemaining() {
@@ -418,6 +453,9 @@ const app = {
           this.sponsorLogos.slot1 = `url(${nextLogo})`
         }
       }, 525)
+    },
+    rotateScoreboard() {
+      // actually this is a dummy function for individual scoreboards to override
     },
   },
 }

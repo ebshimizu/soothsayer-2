@@ -432,11 +432,15 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    [ACTION.INIT_OVERLAY]({ commit, state }, socketData) {
+    [ACTION.INIT_OVERLAY]({ commit, state, getters }, socketData) {
       commit(MUTATION.REGISTER_OVERLAY, socketData)
+
+      const updateState = { ...state.show }
+      updateState.erbsComputedScoreboard = getters.erbsComputedScoreboard
+
       ipcRenderer.send('update-one-state', {
         id: socketData.id,
-        data: state.show,
+        data: updateState,
       })
       ipcRenderer.send('update-one-graphics', {
         id: socketData.id,

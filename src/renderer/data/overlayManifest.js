@@ -4,6 +4,7 @@ const OVERLAY_FILES = {
   whiteboard: 'whiteboard.html',
   lowerThird: 'lower-third.html',
   lobby: 'lobby.html',
+  erbsScoreboard: 'erbs-scoreboard.html',
 }
 
 const OVERLAY_MANIFEST = {
@@ -29,6 +30,11 @@ const OVERLAY_MANIFEST = {
   },
   [OVERLAY_FILES.lobby]: {
     name: 'Lobby',
+    width: 1920,
+    height: 1080,
+  },
+  [OVERLAY_FILES.erbsScoreboard]: {
+    name: 'Scoreboard',
     width: 1920,
     height: 1080,
   },

@@ -28,6 +28,7 @@ const OVERLAY_SUPPORT = {
   [OVERLAY_FILES.whiteboard]: true,
   [OVERLAY_FILES.lobby]: true,
   [OVERLAY_FILES.lowerThird]: true,
+  [OVERLAY_FILES.erbsScoreboard]: true,
 }
 
 const WHITEBOARD_SETTINGS = {

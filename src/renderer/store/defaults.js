@@ -110,6 +110,9 @@ const defaultShowData = () => {
     tickerItems: {},
     overlaySettings: {},
     erbsStandings: defaultErbsScoreData(),
+    scoreboardDisplayMode: 'cycle',
+    scoreboardDisplayTime: 10,
+    scoreboardDisplayCount: 6,
   }
 }
 
