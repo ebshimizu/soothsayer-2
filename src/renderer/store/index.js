@@ -453,9 +453,13 @@ export default new Vuex.Store({
     [ACTION.DISCONNECT_OVERLAY]({ commit }, socketId) {
       commit(MUTATION.UNREGISTER_OVERLAY, socketId)
     },
-    [ACTION.UPDATE]({ state }) {
+    [ACTION.UPDATE]({ state, getters }) {
       // this action triggers a show state snapshot in the persistence plugin
-      ipcRenderer.send('update-all-state', state.show)
+      // uhhhhhhh inject computed props???
+      const updateState = { ...state.show }
+      updateState.erbsComputedScoreboard = getters.erbsComputedScoreboard
+
+      ipcRenderer.send('update-all-state', updateState)
     },
     [ACTION.UPDATE_LOCALE]({ state, commit }, value) {
       commit(MUTATION.SET_APP_PROP, { key: 'locale', value })
