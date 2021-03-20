@@ -24,6 +24,26 @@
           <v-card-subtitle>{{
             $t('scoreboard.erbs.computed')
           }}</v-card-subtitle>
+          <v-card-text>
+            <v-simple-table>
+              <template v-slot:default>
+                <thead>
+                  <tr>
+                    <th>{{ $t('label.place') }}</th>
+                    <th>{{ title }}</th>
+                    <th>{{ $t('label.points') }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(row, index) in computedScoreboard" :key="row.id">
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.total }}</td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+          </v-card-text>
         </v-card>
       </v-col>
       <v-col cols="6">
@@ -43,6 +63,13 @@
             </v-expansion-panels>
           </v-card-text>
         </v-card>
+        <v-card outlined>
+          <v-card-title>{{ $t('scoreboard.erbs.point-title') }}</v-card-title>
+          <v-card-subtitle>{{
+            $t('scoreboard.erbs.point-description')
+          }}</v-card-subtitle>
+          <v-card-text> editable fields or somethin idk </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-col>
@@ -57,8 +84,18 @@ export default {
   name: 'erbs-scoreboard',
   props: ['players', 'teams'],
   computed: {
+    computedScoreboard() {
+      return this.$store.getters.erbsComputedScoreboard
+    },
     rounds() {
       return Object.keys(this.$store.state.show.erbsStandings.rounds)
+    },
+    title() {
+      if (this.mode === 'solo') {
+        return this.$t('label.player-name')
+      } else if (this.mode === 'team') {
+        return this.$t('label.team-name')
+      }
     },
     mode: {
       get() {

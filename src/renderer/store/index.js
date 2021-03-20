@@ -127,6 +127,71 @@ export default new Vuex.Store({
 
       return { show: showData }
     },
+    erbsComputedScoreboard(state) {
+      // first, collect all the players/teams
+      const mode = state.show.erbsStandings.mode
+      const rows =
+        mode === 'solo'
+          ? Object.values(state.show.playerPool)
+          : Object.values(state.show.teams)
+
+      // next, collect all of that data in the rounds
+      const scoreData = state.show.erbsStandings.points
+      const rankData = Object.entries(scoreData.rank)
+        .map(([k, v]) => {
+          return [parseInt(k), v]
+        })
+        .sort((a, b) => b[0] - a[0])
+      const rounds = state.show.erbsStandings.rounds
+
+      const collectedData = rows.map((r) => {
+        // iterate through rows
+        let total = 0
+        const roundsData = {}
+
+        for (const roundId in rounds) {
+          const score = rounds[roundId][mode][r.id]
+          const roundData = {
+            kill: 0,
+            rank: 18,
+            points: 0,
+          }
+
+          if (score) {
+            roundData.kill = score.kill
+            roundData.rank = score.rank
+          }
+
+          // compute the points for the round
+          // assumes descending sort order for rankData
+          let rankPts = 0
+          rankData.forEach(
+            (rd) => (rankPts = roundData.rank <= rd[0] ? rd[1] : rankPts),
+          )
+          roundData.points = roundData.kill * scoreData.kill + rankPts
+          total += roundData.points
+
+          roundsData[roundId] = roundData
+        }
+
+        let name = r.name
+
+        if (mode === 'team' && r.name === '') {
+          name = r.players
+            .map((id) => state.show.playerPool[id].name)
+            .join(', ')
+        }
+
+        return {
+          id: r.id,
+          name,
+          roundsData,
+          total,
+        }
+      })
+
+      return collectedData.sort((a, b) => b.total - a.total)
+    },
   },
   mutations: {
     [MUTATION.REGISTER_OVERLAY](state, { id, name, page }) {
@@ -343,7 +408,9 @@ export default new Vuex.Store({
       Vue.set(state.show.erbsStandings.rounds[round], mode, data)
     },
     [MUTATION.ERBS_SET_ROUND_DATA](state, { round, mode, id, data }) {
-      Vue.set(state.show.erbsStandings.rounds[round][mode], id, data)
+      const newRoundData = Object.assign({}, state.show.erbsStandings.rounds)
+      newRoundData[round][mode][id] = data
+      Vue.set(state.show.erbsStandings, 'rounds', newRoundData)
     },
     [MUTATION.ERBS_RESET_SCOREBOARD_POINTS](state) {
       const defaults = defaultErbsScoreData()

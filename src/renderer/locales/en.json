@@ -24,7 +24,9 @@
       "computed-title": "Computed Scoreboard",
       "computed": "The ERBS Scoreboard is computed automatically from the round scores. You cannot edit this scoreboard directly, and instead must edit the results reported in each round.",
       "entry-title": "Score Entry",
-      "entry": "Enter results by round here."
+      "entry": "Enter results by round here.",
+      "point-title": "Scoring System",
+      "point-description": "You can adjust the points per placement rank and kill here."
     }
   },
   "label": {
@@ -41,6 +43,8 @@
     "solo": "Solo",
     "erbs-teams": "Duos+",
     "erbs-kill": "Kill",
-    "erbs-rank": "Rank"
+    "erbs-rank": "Rank",
+    "points": "Points",
+    "place": "Place"
   }
 }

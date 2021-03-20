@@ -9,6 +9,7 @@
               <th>{{ title }}</th>
               <th>{{ $t('label.erbs-kill') }}</th>
               <th>{{ $t('label.erbs-rank') }}</th>
+              <th>{{ $t('label.points') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -29,7 +30,7 @@
               <td>
                 <v-text-field
                   type="number"
-                  min="0"
+                  min="1"
                   :label="$t('label.erbs-rank')"
                   single-line
                   :value="row.rank"
@@ -38,6 +39,7 @@
                   "
                 />
               </td>
+              <td>{{ rowPoints(row.id) }}</td>
             </tr>
           </tbody>
         </template>
@@ -52,6 +54,12 @@ export default {
   name: 'erbs-scoreboard-round',
   props: ['roundId', 'displayName', 'players', 'teams'],
   computed: {
+    pointsByPlayer() {
+      const data = {}
+      const scoreboard = this.$store.getters.erbsComputedScoreboard
+      scoreboard.forEach((p) => (data[p.id] = p.roundsData[this.roundId].points))
+      return data
+    },
     mode() {
       return this.$store.state.show.erbsStandings.mode
     },
@@ -69,7 +77,7 @@ export default {
           id: r.value,
           name: r.text,
           kill: roundEntry ? roundEntry.kill : 0,
-          rank: roundEntry ? roundEntry.rank : 0,
+          rank: roundEntry ? roundEntry.rank : 18,
         }
       })
     },
@@ -84,6 +92,13 @@ export default {
   methods: {
     playerName(id) {
       return this.$store.state.show.playerPool[id]
+    },
+    rowPoints(id) {
+      const entry = this.pointsByPlayer[id]
+
+      if (entry) return entry
+
+      return 0
     },
     updateRoundEntry(id, data, key, value) {
       const updatedData = {

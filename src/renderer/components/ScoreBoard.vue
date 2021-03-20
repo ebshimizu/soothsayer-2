@@ -58,8 +58,14 @@ export default {
     },
     updateTeamMenus() {
       this.teamSelect = Object.values(this.localTeams).map((p) => {
+        let text = p.name
+
+        if (text === '') {
+          text = p.players.map(id => this.localPlayers[id].name).join(', ')
+        }
+
         return {
-          text: p.name,
+          text,
           value: p.id,
         }
       })
