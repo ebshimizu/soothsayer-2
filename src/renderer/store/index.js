@@ -137,11 +137,9 @@ export default new Vuex.Store({
 
       // next, collect all of that data in the rounds
       const scoreData = state.show.erbsStandings.points
-      const rankData = Object.entries(scoreData.rank)
-        .map(([k, v]) => {
-          return [parseInt(k), v]
-        })
-        .sort((a, b) => b[0] - a[0])
+      const rankData = Array.from(scoreData.rank).sort(
+        (a, b) => b.rank - a.rank,
+      )
       const rounds = state.show.erbsStandings.rounds
 
       const collectedData = rows.map((r) => {
@@ -166,7 +164,7 @@ export default new Vuex.Store({
           // assumes descending sort order for rankData
           let rankPts = 0
           rankData.forEach(
-            (rd) => (rankPts = roundData.rank <= rd[0] ? rd[1] : rankPts),
+            (rd) => (rankPts = roundData.rank <= rd.rank ? rd.points : rankPts),
           )
           roundData.points = roundData.kill * scoreData.kill + rankPts
           total += roundData.points
@@ -401,7 +399,16 @@ export default new Vuex.Store({
       if (key === 'kill') {
         Vue.set(state.show.erbsStandings.points, 'kill', value)
       } else {
-        Vue.set(state.show.erbsStandings.points.rank, key, value)
+        let rankArray = state.show.erbsStandings.points.rank
+        const idx = rankArray.findIndex((r) => r.rank === key)
+
+        if (idx === -1) {
+          rankArray.push({ rank: key, points: value })
+        } else {
+          Vue.set(rankArray, idx, { rank: key, points: value })
+        }
+
+        Vue.set(state.show.erbsStandings.points, 'rank', rankArray)
       }
     },
     [MUTATION.ERBS_SET_ALL_ROUND_DATA](state, { round, mode, data }) {

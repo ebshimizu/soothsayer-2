@@ -5,16 +5,16 @@ const defaultErbsScoreData = () => {
   return {
     mode: 'solo',
     points: {
-      rank: {
-        1: 16,
-        2: 12,
-        3: 10,
-        5: 8,
-        8: 5,
-        12: 3,
-        16: 1,
-        18: 0,
-      },
+      rank: [
+        { rank: 1, points: 16 },
+        { rank: 2, points: 12 },
+        { rank: 3, points: 10 },
+        { rank: 5, points: 8 },
+        { rank: 8, points: 5 },
+        { rank: 12, points: 3 },
+        { rank: 16, points: 1 },
+        { rank: 18, points: 0 },
+      ],
       kill: 3,
     },
     rounds: {
