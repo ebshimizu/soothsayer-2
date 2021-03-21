@@ -354,7 +354,7 @@ ipcMain.handle('download-theme', (event, url) => {
   try {
     fs.unlinkSync(dest)
   } catch (e) {
-    console.log('Tmp file doesn not exist, skipping deletion')
+    console.log('Tmp file does not exist, skipping deletion')
   }
 
   return new Promise((resolve, reject) => {
