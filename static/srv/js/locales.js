@@ -10,6 +10,9 @@ const messages = {
       top3: 'Top 3',
       hunts: 'Hunts',
     },
+    erbsScoreboard: {
+      points: 'Points',
+    },
   },
 }
 

@@ -281,7 +281,6 @@ export default {
     },
     updateTeam(key, value, id) {
       this.$store.commit(MUTATION.UPDATE_TEAM, { key, value, id })
-      this.updateTeamPlayers()
     },
     addTeam() {
       this.$store.commit(MUTATION.NEW_TEAM)

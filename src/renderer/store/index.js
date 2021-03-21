@@ -149,9 +149,11 @@ export default new Vuex.Store({
 
         for (const roundId in rounds) {
           const score = rounds[roundId][mode][r.id]
+
+          // set undefined to not display in scoreboard if no data exists
           const roundData = {
-            kill: 0,
-            rank: 18,
+            kill: undefined,
+            rank: undefined,
             points: 0,
           }
 
@@ -163,10 +165,16 @@ export default new Vuex.Store({
           // compute the points for the round
           // assumes descending sort order for rankData
           let rankPts = 0
-          rankData.forEach(
-            (rd) => (rankPts = roundData.rank <= rd.rank ? rd.points : rankPts),
-          )
-          roundData.points = roundData.kill * scoreData.kill + rankPts
+
+          if (roundData.rank) {
+            rankData.forEach(
+              (rd) => (rankPts = roundData.rank <= rd.rank ? rd.points : rankPts),
+            )
+          }
+
+          const killPts = (roundData.kill ? roundData.kill : 0) * scoreData.kill
+          roundData.points = killPts + rankPts
+
           total += roundData.points
 
           roundsData[roundId] = roundData
@@ -390,7 +398,9 @@ export default new Vuex.Store({
       Vue.delete(state.show.teams, id)
     },
     [MUTATION.UPDATE_TEAM](state, { key, value, id }) {
-      Vue.set(state.show.teams[id], key, value)
+      const newTeamData = Object.assign({}, state.show.teams)
+      newTeamData[id][key] = value
+      Vue.set(state.show, 'teams', newTeamData)
     },
     [MUTATION.ERBS_SET_SCOREBOARD_PROP](state, { key, value }) {
       Vue.set(state.show.erbsStandings, key, value)

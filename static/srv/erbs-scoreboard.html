@@ -25,32 +25,76 @@
 
       <!-- Put Theme Specific Things After This Comment -->
       <div class="scoreboard" v-bind:class="{ visible: scoreboardVisible }">
-        <div class="row" v-for="row in currentErbsScoreboardPage" v-bind:key="row.id">
-          <div class="name">{{ row.name }}</div>
-          <div class="round round-1">
-            <div class="rank">{{ row.roundsData.round1.rank }}</div>
-            <div class="rank">{{ row.roundsData.round1.kill }}</div>
+        <div class="rows">
+          <div
+            class="row"
+            v-for="(row, idx) in currentErbsScoreboardPage"
+            v-bind:key="row.id"
+          >
+            <div class="place">
+              {{ scoreboardPage * scoreboardDisplayCount + idx + 1 }}
+            </div>
+            <div class="name">{{ row.name }}</div>
+            <div class="round round-1">
+              <div class="rank">{{ row.roundsData.round1.rank }}</div>
+              <div class="kill">{{ row.roundsData.round1.kill }}</div>
+            </div>
+            <div class="round round-2">
+              <div class="rank">{{ row.roundsData.round2.rank }}</div>
+              <div class="kill">{{ row.roundsData.round2.kill }}</div>
+            </div>
+            <div class="round round-3">
+              <div class="rank">{{ row.roundsData.round3.rank }}</div>
+              <div class="kill">{{ row.roundsData.round3.kill }}</div>
+            </div>
+            <div class="round round-4">
+              <div class="rank">{{ row.roundsData.round4.rank }}</div>
+              <div class="kill">{{ row.roundsData.round4.kill }}</div>
+            </div>
+            <div class="round round-5">
+              <div class="rank">{{ row.roundsData.round5.rank }}</div>
+              <div class="kill">{{ row.roundsData.round5.kill }}</div>
+            </div>
+            <div class="total">{{ row.total }}</div>
           </div>
-          <div class="round round-2">
-            <div class="rank">{{ row.roundsData.round2.rank }}</div>
-            <div class="rank">{{ row.roundsData.round2.kill }}</div>
-          </div>
-          <div class="round round-3">
-            <div class="rank">{{ row.roundsData.round3.rank }}</div>
-            <div class="rank">{{ row.roundsData.round3.kill }}</div>
-          </div>
-          <div class="round round-4">
-            <div class="rank">{{ row.roundsData.round4.rank }}</div>
-            <div class="rank">{{ row.roundsData.round4.kill }}</div>
-          </div>
-          <div class="round round-5">
-            <div class="rank">{{ row.roundsData.round5.rank }}</div>
-            <div class="rank">{{ row.roundsData.round5.kill }}</div>
-          </div>
-          <div class="total">{{ row.total }}</div>
         </div>
       </div>
 
+      <div
+        class="scoreboard-banner"
+        v-bind:class="{visible: !lowerThirdVisible}"
+      >
+        <div class="rank-scores">
+          <div class="place place-0">
+            {{ state.erbsStandings.points.rank[0].points }}
+          </div>
+          <div class="place place-1">
+            {{ state.erbsStandings.points.rank[1].points }}
+          </div>
+          <div class="place place-2">
+            {{ state.erbsStandings.points.rank[2].points }}
+          </div>
+          <div class="place place-3">
+            {{ state.erbsStandings.points.rank[3].points }}
+          </div>
+          <div class="place place-4">
+            {{ state.erbsStandings.points.rank[4].points }}
+          </div>
+          <div class="place place-5">
+            {{ state.erbsStandings.points.rank[5].points }}
+          </div>
+          <div class="place place-6">
+            {{ state.erbsStandings.points.rank[6].points }}
+          </div>
+          <div class="place place-7">
+            {{ state.erbsStandings.points.rank[7].points }}
+          </div>
+        </div>
+        <div class="kill-score">
+          <span class="kill-points">{{ state.erbsStandings.points.kill }}</span
+          ><span class="kill-label">{{ $t('erbsScoreboard.points') }}</span>
+        </div>
+      </div>
 
       <div class="ref"></div>
       <!-- Stop putting theme things after this comment -->
