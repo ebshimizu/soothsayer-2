@@ -168,7 +168,8 @@ export default new Vuex.Store({
 
           if (roundData.rank) {
             rankData.forEach(
-              (rd) => (rankPts = roundData.rank <= rd.rank ? rd.points : rankPts),
+              (rd) =>
+                (rankPts = roundData.rank <= rd.rank ? rd.points : rankPts),
             )
           }
 
@@ -388,6 +389,16 @@ export default new Vuex.Store({
     },
     [MUTATION.DELETE_PLAYER](state, id) {
       Vue.delete(state.show.playerPool, id)
+
+      // also remove from teams!
+      const teamData = Object.assign({}, state.show.teams)
+      for (const tid in teamData) {
+        teamData[tid].players = teamData[tid].players.filter(
+          (pid) => pid !== id,
+        )
+      }
+      Vue.set(state.show, 'teams', teamData)
+      console.log(teamData)
     },
     [MUTATION.NEW_TEAM](state) {
       const team = defaultTeamItem()
@@ -422,7 +433,9 @@ export default new Vuex.Store({
       }
     },
     [MUTATION.ERBS_SET_ALL_ROUND_DATA](state, { round, mode, data }) {
-      Vue.set(state.show.erbsStandings.rounds[round], mode, data)
+      const newRoundData = Object.assign({}, state.show.erbsStandings.rounds)
+      newRoundData[round][mode] = data
+      Vue.set(state.show.erbsStandings, 'rounds', newRoundData)
     },
     [MUTATION.ERBS_SET_ROUND_DATA](state, { round, mode, id, data }) {
       const newRoundData = Object.assign({}, state.show.erbsStandings.rounds)
@@ -434,7 +447,9 @@ export default new Vuex.Store({
       Vue.set(state.show.erbsStandings, 'points', defaults.points)
     },
     [MUTATION.ERBS_RESET_SCOREBOARD_ROUND](state, round) {
-      Vue.set(state.show.erbsStandings.rounds, round, { solo: {}, team: {} })
+      const newRoundData = Object.assign({}, state.show.erbsStandings.rounds)
+      newRoundData[round] = { solo: {}, team: {} }
+      Vue.set(state.show.erbsStandings, 'rounds', newRoundData)
     },
     [MUTATION.ERBS_RESET_ALL_ROUNDS](state) {
       const defaults = defaultErbsScoreData()

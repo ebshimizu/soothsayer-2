@@ -19,7 +19,7 @@ app.methods.rotateScoreboard = function () {
     // turn it back on
     this.scoreboardPage += 1
     if (
-      this.scoreboardPage * this.scoreboardDisplayCount >
+      this.scoreboardPage * this.scoreboardDisplayCount >=
       this.state.erbsComputedScoreboard.length
     ) {
       this.scoreboardPage = 0

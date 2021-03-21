@@ -2,6 +2,47 @@
   <v-expansion-panel>
     <v-expansion-panel-header>{{ displayName }}</v-expansion-panel-header>
     <v-expansion-panel-content>
+      <v-row dense class="mt-4">
+        <v-col cols="6">
+          <v-dialog v-model="importDialog" max-width="800">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn block color="primary" @click="openImportDialog">
+                <v-icon class="mr-2">mdi-application-import</v-icon> Import
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>{{
+                $t('scoreboard.erbs.import-title', [displayName])
+              }}</v-card-title>
+              <v-card-subtitle>{{
+                $t('scoreboard.erbs.import-help')
+              }}</v-card-subtitle>
+              <v-card-text>
+                <v-textarea
+                  :label="$t('label.import-data-field')"
+                  v-model="importData"
+                  :error-messages="importErrorMessage"
+                  outlined
+                />
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn text color="red" @click="closeImportDialog"
+                  >Cancel</v-btn
+                >
+                <v-btn text color="primary" @click="parseImportData"
+                  >Import</v-btn
+                >
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-col>
+        <v-col cols="6">
+          <v-btn block color="red" @click="resetRound"
+            ><v-icon class="mr-2">mdi-eraser-variant</v-icon> Reset</v-btn
+          >
+        </v-col>
+      </v-row>
       <v-simple-table dark class="mt-4">
         <template v-slot:default>
           <thead>
@@ -53,11 +94,20 @@ import { MUTATION } from '../store/actions'
 export default {
   name: 'erbs-scoreboard-round',
   props: ['roundId', 'displayName', 'players', 'teams'],
+  data() {
+    return {
+      importData: '',
+      importDialog: false,
+      importErrorMessage: null,
+    }
+  },
   computed: {
     pointsByPlayer() {
       const data = {}
       const scoreboard = this.$store.getters.erbsComputedScoreboard
-      scoreboard.forEach((p) => (data[p.id] = p.roundsData[this.roundId].points))
+      scoreboard.forEach(
+        (p) => (data[p.id] = p.roundsData[this.roundId].points),
+      )
       return data
     },
     mode() {
@@ -112,6 +162,80 @@ export default {
         id,
         data: updatedData,
       })
+    },
+    resetRound() {
+      this.$store.commit(MUTATION.ERBS_RESET_SCOREBOARD_ROUND, this.roundId)
+    },
+    openImportDialog() {
+      this.importData = ''
+      this.importErrorMessage = null
+      this.importDialog = true
+    },
+    parseImportData() {
+      // some string parsing wheeeee
+      try {
+        // split into rows
+        const rows = this.importData.split('\n')
+
+        // no data? no run
+        if (rows.length === 0) {
+          return
+        }
+
+        const splitRows = rows.map((r) => r.split('\t'))
+
+        // determine import mode
+        const matchName = splitRows[0].length > 2
+
+        // players and teams are in vuetify dropdown mode, so
+        // entityList.value is the uuid
+        const entityList = this.mode === 'solo' ? this.players : this.teams
+
+        // clear
+        this.resetRound()
+
+        const roundData = {}
+        // iterate
+        for (let i = 0; i < splitRows.length; i++) {
+          const row = splitRows[i]
+
+          // collect data
+          let name, rank, kill
+          let id = null
+
+          if (matchName) {
+            name = row[0]
+            rank = row[1]
+            kill = row[2]
+
+            id = entityList.find((e) => e.text === name).value
+          } else {
+            rank = row[0]
+            kill = row[1]
+
+            id = i < entityList.length ? entityList[i].value : null
+          }
+
+          if (id) {
+            roundData[id] = { rank: parseInt(rank), kill: parseInt(kill) }
+          }
+        }
+
+        // execute
+        this.$store.commit(MUTATION.ERBS_SET_ALL_ROUND_DATA, {
+          round: this.roundId,
+          mode: this.mode,
+          data: roundData,
+        })
+
+        this.closeImportDialog()
+      } catch (e) {
+        console.log(e)
+        this.importErrorMessage = `${e}`
+      }
+    },
+    closeImportDialog() {
+      this.importDialog = false
     },
   },
 }
