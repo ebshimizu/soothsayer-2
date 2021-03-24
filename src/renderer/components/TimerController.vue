@@ -19,6 +19,9 @@
           </v-btn>
         </v-col>
         <v-col cols="2">
+          <v-text-field :label="$t('label.label')" v-model="label" />
+        </v-col>
+        <v-col cols="1">
           <v-text-field
             label="Minutes"
             v-model.number="minutes"
@@ -27,7 +30,7 @@
             min="0"
           ></v-text-field>
         </v-col>
-        <v-col cols="2">
+        <v-col cols="1">
           <v-text-field
             label="Seconds"
             v-model.number="seconds"
@@ -86,6 +89,14 @@ export default {
       set(value) {
         this.$store.commit(MUTATION.SET_TIMER_PROP, { key: 'visible', value })
         this.$store.dispatch(ACTION.UPDATE)
+      },
+    },
+    label: {
+      get() {
+        return this.$store.state.show.timerLabel
+      },
+      set(value) {
+        this.$store.commit(MUTATION.SET_SHOW_PROP, { key: 'timerLabel', value })
       },
     },
     running() {

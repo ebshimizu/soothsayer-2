@@ -24,6 +24,13 @@
       </div>
 
       <!-- Put Theme Specific Things After This Comment -->
+      <div class="timer-label" v-show="timerVisible">
+        {{ state.timerLabel }}
+      </div>
+      <div class="timer" v-show="timerVisible">
+        {{ timer }}
+      </div>
+
       <div class="scoreboard" v-bind:class="{ visible: scoreboardVisible }">
         <div class="rows">
           <div

@@ -26,8 +26,10 @@
       <!-- Put Theme Specific Things After This Comment -->
       <div class="tournament-name primary">{{ tournamentName }}</div>
       <div class="tournament-name secondary">{{ tournamentName }}</div>
+      <div class="timer-label" v-show="timerVisible">
+        {{ state.timerLabel }}
+      </div>
       <div class="timer" v-show="timerVisible">
-        <div class="timer-aux"></div>
         {{ timer }}
       </div>
 

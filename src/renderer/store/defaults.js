@@ -107,6 +107,7 @@ const defaultShowData = () => {
       isPaused: false,
       visible: true,
     },
+    timerLabel: 'Live In',
     tickerItems: {},
     overlaySettings: {},
     erbsStandings: defaultErbsScoreData(),

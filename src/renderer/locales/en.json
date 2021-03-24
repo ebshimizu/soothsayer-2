@@ -55,6 +55,7 @@
     "scoreboard-mode": "Display Mode",
     "clear-all": "Clear All Data",
     "reset-scoring": "Reset Scoring",
-    "reset": "Reset"
+    "reset": "Reset",
+    "label": "Label"
   }
 }
