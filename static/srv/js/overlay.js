@@ -135,7 +135,7 @@ const app = {
     }
   },
   watch: {
-    scoreboardCycleTime(val, newVal) {
+    scoreboardCycleTime(newVal, val) {
       if (newVal && val !== newVal) {
         // reset the timer
         clearInterval(this.scoreboardCycleId)
