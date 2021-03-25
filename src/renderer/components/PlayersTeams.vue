@@ -19,7 +19,7 @@
                     <tr>
                       <th>{{ $t('label.player-name') }}</th>
                       <th>{{ $t('label.twitter') }}</th>
-                      <th>{{ $t('label.twitch') }}Teams</th>
+                      <th>{{ $t('label.twitch') }}</th>
                       <th>{{ $t('label.actions') }}</th>
                     </tr>
                   </thead>
