@@ -8,6 +8,10 @@
 
 The most recent version of the app can be downloaded from the [Releases](https://github.com/ebshimizu/soothsayer-2/releases) page. Once installed, you should visit the Overlays section to get the links and setup information for putting the overlays into OBS.
 
+Need more help? Drop by the [Soothsayer Discord](https://discord.gg/wzU3YtaT4t).
+
+Find a bug? [Open an Issue](https://github.com/ebshimizu/soothsayer-2/issues/new).
+
 ### Supported Games
 Each game has a different set of overlay requirements for their casts. While some of Soothsayer's overlays can be used anywhere, others are designed to compliment specific games. Soothsayer 2 provides support for the following games.
 
