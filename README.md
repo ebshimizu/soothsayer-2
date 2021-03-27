@@ -32,3 +32,7 @@ npm install
 npm run dev
 
 ```
+
+### i18n
+
+Soothsayer 2 has been built with support for i18n in both the main application and the overlays. However, the repository maintainer is not fluent in multiple languages. If you'd like to help out with translations, drop by the [Discord](https://discord.gg/wzU3YtaT4t) and say hi!
