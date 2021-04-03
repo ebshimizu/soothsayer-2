@@ -28,7 +28,7 @@
       "point-title": "Scoring System",
       "point-description": "You can adjust the points per placement rank and kill here.",
       "import-title": "Import {0} Data",
-      "import-help": "Round data is expected to be in a tab-separated format (such as a section of a table copied from Google Sheets). Rows will be imported in one of two ways. If you place the player name at the start of each line, the importer will try to match the player names with the players known to Soothsayer. This operation is case-sensitive. If you do not place player names at the start of each line, Soothsayer will assign scores to each player in the order shown on the Players & Teams page. Empty lines will be discarded."
+      "import-help": "Round data is expected to be in a tab-separated format (such as a section of a table copied from Google Sheets). Rows will be imported in one of two ways. If you place the player name at the start of each line, the importer will try to match the player names with the players known to Soothsayer. This operation is case-sensitive. If you do not place player names at the start of each line, Soothsayer will assign scores to each player in the order shown on the Players & Teams page. Empty lines will be discarded. The colum order is expected to be Player (optional), Rank, Kill."
     }
   },
   "label": {

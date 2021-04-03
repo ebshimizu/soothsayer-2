@@ -48,8 +48,8 @@
           <thead>
             <tr>
               <th>{{ title }}</th>
-              <th>{{ $t('label.erbs-kill') }}</th>
               <th>{{ $t('label.erbs-rank') }}</th>
+              <th>{{ $t('label.erbs-kill') }}</th>
               <th>{{ $t('label.points') }}</th>
             </tr>
           </thead>
@@ -59,24 +59,24 @@
               <td>
                 <v-text-field
                   type="number"
-                  min="0"
-                  :label="$t('label.erbs-kill')"
-                  single-line
-                  :value="row.kill"
-                  @input="
-                    (v) => updateRoundEntry(row.id, row, 'kill', parseFloat(v))
-                  "
-                />
-              </td>
-              <td>
-                <v-text-field
-                  type="number"
                   min="1"
                   :label="$t('label.erbs-rank')"
                   single-line
                   :value="row.rank"
                   @input="
                     (v) => updateRoundEntry(row.id, row, 'rank', parseFloat(v))
+                  "
+                />
+              </td>
+              <td>
+                <v-text-field
+                  type="number"
+                  min="0"
+                  :label="$t('label.erbs-kill')"
+                  single-line
+                  :value="row.kill"
+                  @input="
+                    (v) => updateRoundEntry(row.id, row, 'kill', parseFloat(v))
                   "
                 />
               </td>
