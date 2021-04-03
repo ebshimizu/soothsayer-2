@@ -585,5 +585,10 @@ export default new Vuex.Store({
       commit(MUTATION.SET_OVERLAY_SETTING, { overlay, prop, value })
       dispatch(ACTION.UPDATE)
     },
+    [ACTION.TOGGLE_LOWER_THIRD]({ state, commit, dispatch }) {
+      const visible = state.graphics.lowerThird.visible
+      commit(MUTATION.SET_LT_PROP, { key: 'visible', value: !visible })
+      dispatch(ACTION.UPDATE_GRAPHICS)
+    },
   },
 })

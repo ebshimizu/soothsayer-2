@@ -69,6 +69,7 @@
           </v-row>
         </v-card-text>
         <v-card-actions>
+          <v-spacer></v-spacer>
           <v-btn class="green" @click="updateShortcuts">Update Shortcuts</v-btn>
           <v-btn class="secondary" @click="resetShortcuts"
             >Reset Shortcuts</v-btn

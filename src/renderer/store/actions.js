@@ -59,6 +59,7 @@ const ACTION = {
   RESUME_TIMER: 'Resume Timer',
   DELETE_SETTINGS_CACHE: 'Delete Settings Cache',
   SET_OVERLAY_SETTING: 'Set Overlay Setting and Notify',
+  TOGGLE_LOWER_THIRD: 'Toggle Lower Third',
 }
 
 export { MUTATION, ACTION }
