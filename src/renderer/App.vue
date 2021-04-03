@@ -381,7 +381,9 @@ export default {
           // uh, validate i guess
           // just make sure show exists
           if ('show' in profile) {
+            this.$store.commit(MUTATION.PREPARE_CAST_PROFILE)
             this.$store.commit(MUTATION.LOAD_STATE, profile)
+
             this.castProfileDialog = false
             this.loading = false
             this.profileErrorMessages = []

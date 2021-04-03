@@ -36,6 +36,7 @@ const MUTATION = {
   NEW_TEAM: 'Add Team',
   DELETE_TEAM: 'Delete Team',
   UPDATE_TEAM: 'Update Team Prop',
+  PREPARE_CAST_PROFILE: 'Prepare Cast Profile Load',
   ERBS_SET_SCOREBOARD_PROP: 'ERBS: Set Scoreboard Prop',
   ERBS_SET_SCOREBOARD_POINTS: 'ERBS: Set Scoreboard Points Value',
   ERBS_SET_ALL_ROUND_DATA: 'ERBS: Set All Round Data',

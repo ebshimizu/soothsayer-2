@@ -77,6 +77,9 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
+              <v-btn text color="red" @click="deleteAllPlayers">{{
+                $t('label.delete-all')
+              }}</v-btn>
               <v-dialog v-model="importDialog" max-width="800px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -191,6 +194,9 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
+              <v-btn text color="red" @click="deleteAllTeams">{{
+                $t('label.delete-all')
+              }}</v-btn>
               <v-btn text color="primary" @click="addTeam">{{
                 $t('teams.add')
               }}</v-btn>
@@ -278,6 +284,15 @@ export default {
     },
     deletePlayer(id) {
       this.$store.commit(MUTATION.DELETE_PLAYER, id)
+    },
+    deleteAllPlayers() {
+      const ids = Object.keys(this.$store.state.show.playerPool)
+      for (const id of ids) {
+        this.$store.commit(MUTATION.DELETE_PLAYER, id)
+      }
+    },
+    deleteAllTeams() {
+      this.$store.commit(MUTATION.SET_SHOW_PROP, { key: 'teams', value: {} })
     },
     updateTeam(key, value, id) {
       this.$store.commit(MUTATION.UPDATE_TEAM, { key, value, id })

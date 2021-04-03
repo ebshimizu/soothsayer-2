@@ -385,7 +385,9 @@ export default new Vuex.Store({
       Vue.set(state.show.playerPool, data.id, data)
     },
     [MUTATION.UPDATE_PLAYER](state, { key, value, id }) {
-      Vue.set(state.show.playerPool[id], key, value)
+      const newPlayerData = Object.assign({}, state.show.playerPool)
+      newPlayerData[id][key] = value
+      Vue.set(state.show, 'playerPool', newPlayerData)
     },
     [MUTATION.DELETE_PLAYER](state, id) {
       Vue.delete(state.show.playerPool, id)
@@ -454,6 +456,10 @@ export default new Vuex.Store({
     [MUTATION.ERBS_RESET_ALL_ROUNDS](state) {
       const defaults = defaultErbsScoreData()
       Vue.set(state.show.erbsStandings, 'rounds', defaults.rounds)
+    },
+    [MUTATION.PREPARE_CAST_PROFILE](state) {
+      state.show.playerPool = {}
+      state.show.teams = {}
     },
   },
   actions: {

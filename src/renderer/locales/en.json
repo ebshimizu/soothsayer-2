@@ -37,6 +37,7 @@
     "actions": "Actions",
     "name": "Name",
     "delete": "Delete",
+    "delete-all": "Delete All",
     "player-name": "Player Name",
     "twitter": "Twitter",
     "twitch": "Twitch",
