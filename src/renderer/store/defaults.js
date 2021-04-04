@@ -55,7 +55,7 @@ const defaultErbsGroupRanks = () => {
     { rank: 4, points: 9 },
     { rank: 5, points: 7 },
     { rank: 6, points: 5 },
-    { rank: 7, points: 2 },
+    { rank: 7, points: 3 },
     { rank: 8, points: 2 },
     { rank: 9, points: 1 },
   ]
