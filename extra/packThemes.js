@@ -2,6 +2,7 @@ const fs = require('fs-extra')
 const AdmZip = require('adm-zip')
 const path = require('path')
 const { zip } = require('lodash')
+const md5 = require('md5-file')
 
 // relative to base soothsayer 2 dir (local to dev's machine)
 const dir = '../soothsayer-2-themes'
@@ -34,10 +35,16 @@ for (const file of files) {
       // create a zip of the folder
       const themeZip = new AdmZip()
       themeZip.addLocalFolder(themeFolderPath)
-      themeZip.writeZip(path.join('./docs/themes/', `${file}.zip`))
+      const outPath = path.join('./docs/themes/', `${file}.zip`)
+      themeZip.writeZip(outPath)
+
+      // hash it
+      const hash = md5.sync(path.join('./docs/themes/', `${file}.zip`))
+
       themes[file] = {
         name: themeDataParsed.name,
         version: themeDataParsed.version,
+        checksum: hash,
         url: `https://ebshimizu.github.io/soothsayer-2/themes/${file}.zip`,
       }
     } catch (e) {
