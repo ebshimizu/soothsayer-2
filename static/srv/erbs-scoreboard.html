@@ -27,9 +27,7 @@
       <div class="timer-label" v-show="timerVisible">
         {{ state.timerLabel }}
       </div>
-      <div class="timer" v-show="timerVisible">
-        {{ timer }}
-      </div>
+      <div class="timer" v-show="timerVisible">{{ timer }}</div>
 
       <div class="scoreboard" v-bind:class="{ visible: scoreboardVisible }">
         <div class="rows">
@@ -71,30 +69,15 @@
         class="scoreboard-banner"
         v-bind:class="{visible: !lowerThirdVisible}"
       >
-        <div class="rank-scores">
-          <div class="place place-0">
-            {{ erbsRankData[0].points }}
-          </div>
-          <div class="place place-1">
-            {{ erbsRankData[1].points }}
-          </div>
-          <div class="place place-2">
-            {{ erbsRankData[2].points }}
-          </div>
-          <div class="place place-3">
-            {{ erbsRankData[3].points }}
-          </div>
-          <div class="place place-4">
-            {{ erbsRankData[4].points }}
-          </div>
-          <div class="place place-5">
-            {{ erbsRankData[5].points }}
-          </div>
-          <div class="place place-6">
-            {{ erbsRankData[6].points }}
-          </div>
-          <div class="place place-7">
-            {{ erbsRankData[7].points }}
+        <div class="rank-scores" v-bind:class="[`ranks-${erbsRankData.length}`]">
+          <div
+            class="place"
+            v-bind:class="[`place-${rank.rank}`]"
+            v-for="rank in erbsRankData"
+            v-bind:key="rank.rank"
+          >
+            <div class="rank">{{ rank.rank }}</div>
+            <div class="points">{{ rank.points }}</div>
           </div>
         </div>
         <div class="kill-score">
