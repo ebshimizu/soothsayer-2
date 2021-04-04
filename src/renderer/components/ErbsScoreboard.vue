@@ -155,7 +155,9 @@ export default {
       return Object.keys(this.$store.state.show.erbsStandings.rounds)
     },
     ranks() {
-      return this.$store.state.show.erbsStandings.points.rank
+      return this.mode === 'solo'
+        ? this.$store.state.show.erbsStandings.points.soloRank
+        : this.$store.state.show.erbsStandings.points.groupRank
     },
     title() {
       if (this.mode === 'solo') {
@@ -200,6 +202,7 @@ export default {
         value: points,
       })
     },
+
     updateProp(key, value) {
       this.$store.commit(MUTATION.SET_SHOW_PROP, { key, value })
     },

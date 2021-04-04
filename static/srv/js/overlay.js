@@ -372,6 +372,13 @@ const app = {
 
       return []
     },
+    erbsRankData() {
+      if (this.state.erbsStandings) {
+        return this.state.erbsStandings.mode === 'solo'
+          ? this.state.erbsStandings.points.soloRank
+          : this.state.erbsStandings.points.groupRank
+      }
+    },
   },
   methods: {
     updateRemaining() {

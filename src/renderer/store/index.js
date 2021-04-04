@@ -137,9 +137,8 @@ export default new Vuex.Store({
 
       // next, collect all of that data in the rounds
       const scoreData = state.show.erbsStandings.points
-      const rankData = Array.from(scoreData.rank).sort(
-        (a, b) => b.rank - a.rank,
-      )
+      const rankArray = mode === 'solo' ? scoreData.soloRank : scoreData.groupRank
+      const rankData = Array.from(rankArray).sort((a, b) => b.rank - a.rank)
       const rounds = state.show.erbsStandings.rounds
 
       const collectedData = rows.map((r) => {
@@ -418,11 +417,18 @@ export default new Vuex.Store({
     [MUTATION.ERBS_SET_SCOREBOARD_PROP](state, { key, value }) {
       Vue.set(state.show.erbsStandings, key, value)
     },
-    [MUTATION.ERBS_SET_SCOREBOARD_POINTS](state, { key, value }) {
+    [MUTATION.ERBS_SET_SCOREBOARD_RANK_DATA](state, ranks) {
+      const newRanks = Object.assign({}, state.show.erbsStandings)
+      newRanks.points.rank = ranks
+      Vue.set(state.show, 'erbsStandings', newRanks)
+    },
+    [MUTATION.ERBS_SET_SCOREBOARD_POINTS](state, { key, value, mode }) {
       if (key === 'kill') {
         Vue.set(state.show.erbsStandings.points, 'kill', value)
       } else {
-        let rankArray = state.show.erbsStandings.points.rank
+        const rankKey = mode === 'solo' ? 'soloRank' : 'groupRank'
+
+        let rankArray = state.show.erbsStandings.points[rankKey]
         const idx = rankArray.findIndex((r) => r.rank === key)
 
         if (idx === -1) {
@@ -431,7 +437,7 @@ export default new Vuex.Store({
           Vue.set(rankArray, idx, { rank: key, points: value })
         }
 
-        Vue.set(state.show.erbsStandings.points, 'rank', rankArray)
+        Vue.set(state.show.erbsStandings.points, rankKey, rankArray)
       }
     },
     [MUTATION.ERBS_SET_ALL_ROUND_DATA](state, { round, mode, data }) {

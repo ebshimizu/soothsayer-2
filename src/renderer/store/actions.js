@@ -40,6 +40,7 @@ const MUTATION = {
   ERBS_SET_SCOREBOARD_PROP: 'ERBS: Set Scoreboard Prop',
   ERBS_SET_SCOREBOARD_POINTS: 'ERBS: Set Scoreboard Points Value',
   ERBS_SET_ALL_ROUND_DATA: 'ERBS: Set All Round Data',
+  ERBS_SET_SCOREBOARD_RANK_DATA: 'ERBS: Change Scoreboard Rank Keys',
   ERBS_SET_ROUND_DATA: 'ERBS: Set Round Data',
   ERBS_RESET_SCOREBOARD_ROUND: 'ERBS: Reset Scoreboard for Round',
   ERBS_RESET_SCOREBOARD_POINTS: 'ERBS: Restore Default Scoring Method',

@@ -5,16 +5,8 @@ const defaultErbsScoreData = () => {
   return {
     mode: 'solo',
     points: {
-      rank: [
-        { rank: 1, points: 16 },
-        { rank: 2, points: 12 },
-        { rank: 3, points: 10 },
-        { rank: 5, points: 8 },
-        { rank: 8, points: 5 },
-        { rank: 12, points: 3 },
-        { rank: 16, points: 1 },
-        { rank: 18, points: 0 },
-      ],
+      soloRank: defaultErbsSoloRanks(),
+      groupRank: defaultErbsGroupRanks(),
       kill: 3,
     },
     rounds: {
@@ -40,6 +32,33 @@ const defaultErbsScoreData = () => {
       },
     },
   }
+}
+
+const defaultErbsSoloRanks = () => {
+  return [
+    { rank: 1, points: 16 },
+    { rank: 2, points: 12 },
+    { rank: 3, points: 10 },
+    { rank: 5, points: 8 },
+    { rank: 8, points: 5 },
+    { rank: 12, points: 3 },
+    { rank: 16, points: 1 },
+    { rank: 18, points: 0 },
+  ]
+}
+
+const defaultErbsGroupRanks = () => {
+  return [
+    { rank: 1, points: 18 },
+    { rank: 2, points: 14 },
+    { rank: 3, points: 11 },
+    { rank: 4, points: 9 },
+    { rank: 5, points: 7 },
+    { rank: 6, points: 5 },
+    { rank: 7, points: 2 },
+    { rank: 8, points: 2 },
+    { rank: 9, points: 1 },
+  ]
 }
 
 const defaultLowerThirdData = () => {
@@ -164,5 +183,7 @@ export {
   defaultPlayerItem,
   defaultTeamItem,
   defaultErbsScoreData,
+  defaultErbsSoloRanks,
+  defaultErbsGroupRanks,
   scheduleItem,
 }
