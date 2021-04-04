@@ -47,6 +47,29 @@ const defaultErbsSoloRanks = () => {
   ]
 }
 
+const defaultErbsExtendedSoloRanks = () => {
+  return [
+    { rank: 1, points: 16 },
+    { rank: 2, points: 12 },
+    { rank: 3, points: 10 },
+    { rank: 4, points: 10 },
+    { rank: 5, points: 8 },
+    { rank: 6, points: 8 },
+    { rank: 7, points: 8 },
+    { rank: 8, points: 5 },
+    { rank: 9, points: 5 },
+    { rank: 10, points: 5 },
+    { rank: 11, points: 5 },
+    { rank: 12, points: 3 },
+    { rank: 13, points: 3 },
+    { rank: 14, points: 3 },
+    { rank: 15, points: 3 },
+    { rank: 16, points: 1 },
+    { rank: 17, points: 1 },
+    { rank: 18, points: 0 },
+  ]
+}
+
 const defaultErbsGroupRanks = () => {
   return [
     { rank: 1, points: 18 },
@@ -185,5 +208,6 @@ export {
   defaultErbsScoreData,
   defaultErbsSoloRanks,
   defaultErbsGroupRanks,
+  defaultErbsExtendedSoloRanks,
   scheduleItem,
 }
