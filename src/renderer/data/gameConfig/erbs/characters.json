@@ -154,5 +154,11 @@
     "name": "Barbara",
     "classname": "Barbara",
     "ltImgSrc": "/img/erbs/sm-portrait/26-Barbara.png"
+  },
+  "27": {
+    "code": 27,
+    "name": "Alex",
+    "classname": "Alex",
+    "ltImgSrc": "/img/erbs/sm-portrait/27-Alex.png"
   }
 }

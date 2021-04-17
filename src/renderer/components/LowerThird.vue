@@ -30,7 +30,7 @@
             <v-col cols="2" v-show="erbsPlayerStat">
               <v-combobox
                 label="Player Name"
-                :items="$store.getters.playerPoolItems"
+                :items="playerSelect"
                 :value="erbsPlayer.playerName"
                 @input="(v) => updateErbsPlayer('playerName', v)"
                 @change="(v) => checkForExistingPlayer(v)"
@@ -160,13 +160,27 @@ export default {
       status: '',
       error: false,
       apiLoading: false,
+      playerSelect: [],
     }
+  },
+  watch: {
+    players(val) {
+      this.playerSelect = val.map((p) => p.name)
+    },
+  },
+  beforeMount() {
+    this.playerSelect = Object.values(this.$store.state.show.playerPool).map(
+      (p) => p.name,
+    )
   },
   computed: {
     seasons() {
       return Object.entries(SEASONS).map(([text, value]) => {
         return { text, value }
       })
+    },
+    players() {
+      return Object.values(this.$store.state.show.playerPool)
     },
     squadSizes() {
       return Object.entries(SQUAD_SIZES).map(([text, value]) => {

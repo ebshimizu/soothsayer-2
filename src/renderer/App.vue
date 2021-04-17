@@ -210,7 +210,7 @@
             </v-btn>
           </template>
         </v-banner>
-        <router-view></router-view>
+        <router-view v-if="stateReady"></router-view>
       </v-container>
     </v-main>
 
@@ -316,6 +316,8 @@ export default {
         this.$i18n.locale = state.app.locale
       }
 
+      this.stateReady = true
+      this.loadStatus = 'Mounting Components'
       setTimeout(() => {
         this.loadStatus = 'Load Complete'
         this.appReady = true
@@ -333,6 +335,7 @@ export default {
       updateAvailable: false,
       showUpdateStatus: false,
       updateVersion: undefined,
+      stateReady: false,
     }
   },
   methods: {
