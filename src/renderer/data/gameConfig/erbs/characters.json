@@ -172,5 +172,29 @@
     "name": "Leon",
     "classname": "Leon",
     "ltImgSrc": "/img/erbs/sm-portrait/29-Leon.png"
+  },
+  "30": {
+    "code": 30,
+    "name": "Eleven",
+    "classname": "Eleven",
+    "ltImgSrc": "/img/erbs/sm-portrait/30-Eleven.png"
+  },
+  "31": {
+    "code": 31,
+    "name": "Rio",
+    "classname": "Rio",
+    "ltImgSrc": "/img/erbs/sm-portrait/31-Rio.png"
+  },
+  "32": {
+    "code": 32,
+    "name": "William",
+    "classname": "William",
+    "ltImgSrc": "/img/erbs/sm-portrait/32-William.png"
+  },
+  "33": {
+    "code": 33,
+    "name": "Nicky",
+    "classname": "Nicky",
+    "ltImgSrc": "/img/erbs/sm-portrait/33-Nicky.png"
   }
 }
