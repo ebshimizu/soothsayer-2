@@ -5,6 +5,8 @@ const erbsApiBase = 'https://open-api.bser.io/v1'
 const SEASONS = {
   Unranked: 0,
   'Ranked Season 1': 1,
+  'Pre-Season 2': 2,
+  'Season 2': 3,
 }
 
 const SQUAD_SIZES = {

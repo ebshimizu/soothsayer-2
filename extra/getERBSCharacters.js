@@ -7,6 +7,18 @@ const apiPrefix = 'https://open-api.bser.io/v1'
 
 // ping the character data point
 async function main() {
+  // quick debug
+  const sresp = await fetch(`${apiPrefix}/data/Season`, {
+    method: 'get',
+    headers: {
+      'x-api-key': apiKey,
+      accept: 'application/json',
+    },
+  })
+
+  const seasonData = await sresp.json()
+  console.log(seasonData)
+
   const resp = await fetch(`${apiPrefix}/data/Character`, {
     method: 'get',
     headers: {
