@@ -7,6 +7,9 @@ const SEASONS = {
   'Ranked Season 1': 1,
   'Pre-Season 2': 2,
   'Season 2': 3,
+  'Pre-Season 3': 4,
+  'Season 3': 5,
+  'Pre-season 4': 6,
 }
 
 const SQUAD_SIZES = {

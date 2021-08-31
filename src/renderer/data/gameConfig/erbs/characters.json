@@ -196,5 +196,23 @@
     "name": "Nicky",
     "classname": "Nicky",
     "ltImgSrc": "/img/erbs/sm-portrait/33-Nicky.png"
+  },
+  "34": {
+    "code": 34,
+    "name": "Nathapon",
+    "classname": "Nathapon",
+    "ltImgSrc": "/img/erbs/sm-portrait/34-Nathapon.png"
+  },
+  "35": {
+    "code": 35,
+    "name": "Jan",
+    "classname": "Jan",
+    "ltImgSrc": "/img/erbs/sm-portrait/35-Jan.png"
+  },
+  "36": {
+    "code": 36,
+    "name": "Eva",
+    "classname": "Eva",
+    "ltImgSrc": "/img/erbs/sm-portrait/36-Eva.png"
   }
 }
