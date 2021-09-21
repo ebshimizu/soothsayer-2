@@ -214,5 +214,17 @@
     "name": "Eva",
     "classname": "Eva",
     "ltImgSrc": "/img/erbs/sm-portrait/36-Eva.png"
+  },
+  "37": {
+    "code": 37,
+    "name": "Daniel",
+    "classname": "Daniel",
+    "ltImgSrc": "/img/erbs/sm-portrait/37-Daniel.png"
+  },
+  "38": {
+    "code": 38,
+    "name": "Jenny",
+    "classname": "Jenny",
+    "ltImgSrc": "/img/erbs/sm-portrait/38-Jenny.png"
   }
 }
